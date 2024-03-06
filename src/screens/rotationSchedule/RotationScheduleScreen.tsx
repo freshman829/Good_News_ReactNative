@@ -133,9 +133,28 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         }
 
         for (const time of times) {
+            let isSpecial = false;
+            switch (userInfo.plan) {
+                case 2:
+                    if ((time as Date).getHours() === 2) isSpecial = true;
+                    else if ((time as Date).getHours() === 7) isSpecial = true;
+                    break;
+                case 3:
+                    if ((time as Date).getHours() === 3) isSpecial = true;
+                    else if ((time as Date).getHours() === 7) isSpecial = true;
+                    break;
+                case 4:
+                    if ((time as Date).getHours() === 4) isSpecial = true;
+                    else if ((time as Date).getHours() === 7) isSpecial = true;
+                    break;
+
+                default:
+                    break;
+            }
             const newAlarm = {
                 time: formatDate(time as Date),
-                timeDate: time
+                timeDate: time,
+                isSpecial
             };
             alarmStatesSet.add(newAlarm);
 
@@ -144,7 +163,8 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 confirmationTime.setMinutes(confirmationTime.getMinutes() + 5);
                 const confirmationAlarm = {
                     time: formatDate(confirmationTime),
-                    timeDate: confirmationTime
+                    timeDate: confirmationTime,
+                    isSpecial
                 };
                 alarmStatesSet.add(confirmationAlarm);
             }
@@ -170,7 +190,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 py="$2"
             >
                 <HStack justifyContent="space-between">
-                    <Text size="md" color="$secondary800">{item.item.time}</Text>
+                    <Text size="md" color="$secondary800" bold={item.item.isSpecial}>{item.item.time}</Text>
                     <Switch value={true} />
                 </HStack>
             </Box>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import SelectDropdown from "react-native-select-dropdown";
+import { convertTo24HourFormat } from '../utils/numberUtil';
 
 type TimePickerProps = {
     isWake: boolean,
@@ -57,17 +58,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, limitTime, setTi
             return time24 <= end24 && time24 >= start24;
         });
     };
-    function convertTo24HourFormat(time12: string) {
-        let [time, modifier] = time12.split(' ');
-        let [hours, minutes] = time.split(':');
-        if (hours === '12') {
-            hours = '00';
-        }
-        if (modifier === 'PM') {
-            hours = (parseInt(hours, 10) + 12).toString();
-        }
-        return `${hours}:${minutes}`;
-    }
+    
 
     return (
         <View style={styles.container}>
@@ -78,7 +69,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, limitTime, setTi
                 dropdownStyle={styles.dropdownDropdownStyle}
                 onSelect={(selectedItem, index) => {
                     setSelectedTime(selectedItem);
-                    setTime(selectedItem);
+                    setTime(convertTo24HourFormat(selectedItem));
                 }}
                 defaultValue={selectedTime}
                 buttonTextAfterSelection={(item, index) => {
