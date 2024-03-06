@@ -136,16 +136,16 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             let isSpecial = false;
             switch (userInfo.plan) {
                 case 2:
-                    if ((time as Date).getHours() === 2) isSpecial = true;
-                    else if ((time as Date).getHours() === 7) isSpecial = true;
+                    if ((time as Date).getHours() === 14) isSpecial = true;
+                    else if ((time as Date).getHours() === 19) isSpecial = true;
                     break;
                 case 3:
-                    if ((time as Date).getHours() === 3) isSpecial = true;
-                    else if ((time as Date).getHours() === 7) isSpecial = true;
+                    if ((time as Date).getHours() === 15) isSpecial = true;
+                    else if ((time as Date).getHours() === 19) isSpecial = true;
                     break;
                 case 4:
-                    if ((time as Date).getHours() === 4) isSpecial = true;
-                    else if ((time as Date).getHours() === 7) isSpecial = true;
+                    if ((time as Date).getHours() === 16) isSpecial = true;
+                    else if ((time as Date).getHours() === 19) isSpecial = true;
                     break;
 
                 default:
