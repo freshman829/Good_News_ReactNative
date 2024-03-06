@@ -1,4 +1,4 @@
-import { Box, Button, ButtonText, ChevronDownIcon, ChevronLeftIcon, Divider, FlatList, HStack, Heading, Icon, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, Switch, Text, VStack, View } from "@gluestack-ui/themed";
+import { Box, ChevronLeftIcon, Divider, FlatList, HStack, Heading, Icon, Switch, Text, VStack, View } from "@gluestack-ui/themed";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
 import SelectDropdown from "react-native-select-dropdown";
@@ -180,7 +180,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
     return (
         <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full">
-            <Text onPress={() => navigation.goBack()}><Icon as={ChevronLeftIcon} m="$2" w="$4" h="$4" />Back</Text>
+            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
             <VStack flex={1} overflow="scroll">
                 <Heading textAlign="center" my="$10">Rotation Schedule</Heading>
                 <HStack pb="$2">
