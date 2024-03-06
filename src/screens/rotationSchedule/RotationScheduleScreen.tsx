@@ -7,6 +7,8 @@ import TimePicker from "../../components/TimePicker";
 import { useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { UserInterface, useUserInfoStore } from "../../store/UserStore";
+import PushNotification from "react-native-push-notification";
+import { createAlarm } from "react-native-simple-alarm";
 
 type RotationScheduleProps = NativeStackScreenProps<
     RootStackParamList,
@@ -157,6 +159,23 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 isSpecial
             };
             alarmStatesSet.add(newAlarm);
+            let i = 0;
+            if (i < 1) {
+                createAlarm({
+                    active: true,
+                    date: `${time}`,
+                    message: "alarm!!!",
+                    snooze: 1
+                });
+                i++;
+            }
+            // push notification
+            // PushNotification.localNotificationSchedule({
+            //     id: alarmStatesSet.size - 1,
+            //     message: `Time to Rotate`,
+            //     date: newAlarm.timeDate as Date,
+            //     allowWhileIdle: true
+            // })
 
             if (userInfo.isConfirm) {
                 const confirmationTime = new Date(time as Date);
