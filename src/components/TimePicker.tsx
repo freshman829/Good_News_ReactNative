@@ -25,6 +25,11 @@ const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime
             setSelectedTime('11:00 PM');
         }
     }, []);
+    useEffect(() => {
+        if (value !== selectedTime) {
+            setTime(selectedTime);
+        }
+    }, [selectedTime]);
     // Generate time options
     const generateTimeOptions = () => {
         const times = [];
@@ -75,7 +80,6 @@ const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime
                 setValue={setSelectedTime}
                 style={{ width: 150 }}
                 containerStyle={{ width: 150 }}
-                onChangeValue={setTime}
             />
         </View>
     );

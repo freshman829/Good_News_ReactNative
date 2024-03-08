@@ -9,6 +9,7 @@ import { useUserInfoStore } from "../../store/UserStore";
 
 const LandingPage: React.FC<{navigation: any}> = ({navigation}) => {
     const { userInfo } = useUserInfoStore();
+    console.log(userInfo);
     return (
         <Box p="$3" h="$full">
             <VStack space="md" display="flex" justifyContent="space-between">

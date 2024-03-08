@@ -53,7 +53,6 @@ class Notifications {
         const settings = await notifee.requestPermission();
 
         if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
-            console.log('Permission settings:', settings);
             return true;
         } else {
             console.log('User declined permissions');

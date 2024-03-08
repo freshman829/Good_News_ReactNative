@@ -43,30 +43,29 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     const [openMode, setOpenMode] = useState(false);
     const [mode, setMode] = useState(0);
     const [openSpecial, setOpenSpecial] = useState(false);
-    const [special, setSpecial] = useState<number | undefined>();
-    console.log(mode);
-    console.log(userInfo);
+    const [special, setSpecial] = useState<number>(0);
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
         } else {
-            const updates: Partial<UserInterface> = {};
             let hasUpdated = false;
             if (mode !== userInfo.rotationPlan.mode) {
-                userInfo.rotationPlan.mode = mode;
                 hasUpdated = true;
             }
             if (special !== userInfo.rotationPlan.plan) {
-                userInfo.rotationPlan.plan = special || 0;
                 hasUpdated = true;
             }
-
-            if (hasUpdated && special) {
-                setUserInfo(({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special } }));
-                refreshAlarms();
+            if (hasUpdated) {
+                setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special || 0 } });
             }
         }
-    }, [mode, special, userInfo.rotationPlan.isConfirm, userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime]);
+    }, [mode, special]);
+
+    useEffect(() => {
+        if (!isInitialMount.current && userInfo.rotationPlan.mode > 0 && userInfo.rotationPlan.plan >= 2) {
+            refreshAlarms();
+        }
+    }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime]);
 
     useEffect(() => {
         const updateInfo = async () => {
@@ -75,15 +74,16 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         if (!isInitialMount.current) {
             updateInfo();
         }
-    }, [userInfo]);
+    }, [userInfo.rotationPlan]);
 
     const refreshAlarms = async () => {
         await Notification.cancelAllNotifications();
         const today = new Date();
         let programEndDate = userInfo.rotationPlan.programStartDate || today;
-        programEndDate.setDate(today.getDate() + userInfo.rotationPlan.programDays);
-
+        programEndDate.setDate(today.getDate() + userInfo.rotationPlan.programDays || 14);
+        if (userInfo.rotationPlan.programStartDate && userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length) return;
         if (today > programEndDate) {
+            
             // No alarms to generate if the end date is in the past
             setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: [] } });
             return;
@@ -94,12 +94,12 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         // Logic to generate alarms from today until the end date, inclusive
         let currentDate = new Date();
         while (currentDate <= programEndDate) {
-            generatedAlarms = generatedAlarms.concat(generateAlarms(currentDate));
+            let temp = await generateAlarms(currentDate);
+            generatedAlarms = generatedAlarms.concat(temp);
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        // Update user alarm states with the generated alarms
-        setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: generatedAlarms } });
+        setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: new Date(), programDays: 14, alarms: generatedAlarms } });
     };
     const generateAlarms = async (day: Date) => {
         const times = new Set();
@@ -146,7 +146,6 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 nextAlarm.setMinutes(nextAlarm.getMinutes() + 120);
             }
         }
-
         for (const time of times) {
             let isSpecial = false;
             switch (userInfo.rotationPlan.plan) {
@@ -181,7 +180,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                     date: (newAlarm.timeDate) as Date
                 });
             } catch (error) {
-                console.log(error);
+                console.log(error, "123123");
             }
 
             if (userInfo.rotationPlan.isConfirm) {
@@ -206,8 +205,8 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 alarmStatesSet.add(confirmationAlarm);
             }
         }
-
-        return Array.from(alarmStatesSet).sort((a: any, b: any) => a.timeDate - b.timeDate);
+        let alrms = Array.from(alarmStatesSet).sort((a: any, b: any) => a.timeDate - b.timeDate);
+        return alrms;
     }
 
     function formatDate(date: Date) {
@@ -297,10 +296,12 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                 <TimePicker isWake={true}
                                     value={userInfo.rotationPlan.wakeTime}
                                     setTime={(time) =>
-                                        time && setUserInfo({
-                                            ...userInfo,
-                                            rotationPlan: { ...userInfo.rotationPlan, wakeTime: time }
-                                        })
+                                        {
+                                            time && setUserInfo({
+                                                ...userInfo,
+                                                rotationPlan: { ...userInfo.rotationPlan, wakeTime: time }
+                                            })
+                                        }
                                     }
                                 />
                             </Box>
@@ -308,11 +309,12 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                 <Text maxWidth="$32">When do you go to sleep?</Text>
                                 <TimePicker isWake={false}
                                     value={userInfo.rotationPlan.sleepTime}
-                                    setTime={(time) =>
+                                    setTime={(time) => {
                                         time && setUserInfo({
                                             ...userInfo,
                                             rotationPlan: { ...userInfo.rotationPlan, sleepTime: time }
                                         })
+                                    }
                                     }
                                 />
                             </Box>

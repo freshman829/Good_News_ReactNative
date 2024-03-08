@@ -11,15 +11,18 @@ export async function loginUserWithApple(user: { email: string, fullName: string
         const result = await Axios.post(`/users/loginWithApple`, user);
         return result.data;
     } catch (error) {
+        console.log(error);
         throw error;
     }
 }
 
 export async function saveRotationSchedule(data: UserInterface) {
     try {
+        console.log(`/users/${data._id}/updateSchedule`);
         const result = await Axios.post(`/users/${data._id}/updateSchedule`, data.rotationPlan);
         return result.data;
     } catch (error) {
+        console.log(error);
         throw error;
     }
 }
