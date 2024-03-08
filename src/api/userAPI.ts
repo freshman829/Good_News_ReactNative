@@ -17,16 +17,7 @@ export async function loginUserWithApple(user: { email: string, fullName: string
 
 export async function saveRotationSchedule(data: UserInterface) {
     try {
-        const result = await Axios.post(`/users/${data._id}/updateSchedule`, {
-            plan: data.plan,
-            mode: data.mode,
-            wakeTime: data.wakeTime,
-            sleepTime: data.sleepTime,
-            isConfirm: data.isConfirm,
-            alarms: data.alarms,
-            programStartDate: data.programStartDate,
-            programDays: data.programDays
-        });
+        const result = await Axios.post(`/users/${data._id}/updateSchedule`, data.rotationPlan);
         return result.data;
     } catch (error) {
         throw error;

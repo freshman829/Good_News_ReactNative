@@ -7,14 +7,16 @@ const initUserInfo: UserInterface = {
     fullName: "",
     firstTimeRun: true,
     isLoggedIn: false,
-    mode: 0,
-    wakeTime: "07:00 AM",
-    sleepTime: "11:00 PM",
-    isConfirm: false,
-    alarms: [],
-    plan: 0,
-    programStartDate: new Date(),
-    programDays: 14
+    rotationPlan: {
+        mode: 0,
+        wakeTime: "07:00 AM",
+        sleepTime: "11:00 PM",
+        isConfirm: false,
+        alarms: [],
+        plan: 0,
+        programStartDate: new Date(),
+        programDays: 14
+    }
 };
 
 export interface UserInterface {
@@ -24,14 +26,16 @@ export interface UserInterface {
     fullName: string;
     firstTimeRun: boolean;
     isLoggedIn: boolean;
-    plan: number;
-    mode: number;
-    wakeTime: string;
-    sleepTime: string;
-    isConfirm: boolean;
-    alarms: any[],
-    programStartDate: Date;
-    programDays: number;
+    rotationPlan: {
+        plan: number;
+        mode: number;
+        wakeTime: string;
+        sleepTime: string;
+        isConfirm: boolean;
+        alarms: any[],
+        programStartDate: Date;
+        programDays: number;
+    }
 }
 
 interface UserState {
