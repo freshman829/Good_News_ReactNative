@@ -5,7 +5,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { StyleSheet, Platform } from "react-native";
 import TimePicker from "../../components/TimePicker";
 import { useEffect, useRef, useState } from "react";
-import { useUserInfoStore } from "../../store/UserStore";
+import { UserInterface, useUserInfoStore } from "../../store/UserStore";
 import Notification from "../../utils/Notification";
 import { saveRotationSchedule } from "../../api/userAPI";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -49,21 +49,24 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         if (isInitialMount.current) {
             isInitialMount.current = false;
         } else {
-            if (userInfo.mode !== 0 && userInfo.plan >= 2) {
+            const updates: Partial<UserInterface> = {};
+            let hasUpdated = false;
+            if (mode !== userInfo.mode) {
+                updates.mode = mode;
+                hasUpdated = true;
+            }
+            if (special !== userInfo.plan) {
+                updates.plan = special;
+                hasUpdated = true;
+            }
+
+            if (hasUpdated) {
+                setUserInfo(prev => ({...prev, mode, plan: special }));
                 refreshAlarms();
             }
         }
-    }, [userInfo.mode, userInfo.plan, userInfo.isConfirm, userInfo.wakeTime, userInfo.sleepTime]);
-    useEffect(() => {
-        if (mode) {
-            setUserInfo({ ...userInfo, mode });
-        }
-    }, [mode]);
-    useEffect(() => {
-        if (special) {
-            setUserInfo({ ...userInfo, mode });
-        }
-    }, [special]);
+    }, [mode, special, userInfo.isConfirm, userInfo.wakeTime, userInfo.sleepTime]);
+
     useEffect(() => {
         const updateInfo = async () => {
             const result = await saveRotationSchedule(userInfo);
@@ -269,8 +272,8 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                         items={maintenanceMode}
                         setOpen={setOpenMode}
                         setValue={setMode}
-                        style={{ width: 150 }}
-                        containerStyle={{ width: 150 }}
+                        style={{ width: 100 }}
+                        containerStyle={{ width: 100 }}
                     />
                 </HStack>
                 {(userInfo.mode > 0) ? (
@@ -283,8 +286,8 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                 items={specialRotations}
                                 setOpen={setOpenSpecial}
                                 setValue={setSpecial}
-                                style={{ width: 150 }}
-                                containerStyle={{ width: 150 }}
+                                style={{ width: 100 }}
+                                containerStyle={{ width: 100 }}
                             />
                         </HStack>
                         <HStack>
@@ -327,7 +330,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                         />
                     </VStack>
                 ) : (
-                    <Text>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
+                    <Text zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
                 )}
             </VStack>
             <Box p="$2">
