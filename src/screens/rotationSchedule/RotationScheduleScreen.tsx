@@ -60,8 +60,8 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 hasUpdated = true;
             }
 
-            if (hasUpdated) {
-                setUserInfo(prev => ({...prev, mode, plan: special }));
+            if (hasUpdated && special) {
+                setUserInfo(({...userInfo, mode, plan: special }));
                 refreshAlarms();
             }
         }
@@ -252,7 +252,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             >
                 <HStack justifyContent="space-between">
                     <Text size="md" color="$secondary800" bold={item.item.isSpecial}>{item.item.time}</Text>
-                    <Switch value={true} onChange={() => updateAlarm(item.item)} />
+                    <Switch value={item.item.isActive} onChange={() => updateAlarm(item.item)} />
                 </HStack>
             </Box>
         )
