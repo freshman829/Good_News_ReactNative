@@ -9,6 +9,7 @@ import { Picker } from "@react-native-picker/picker";
 import { UserInterface, useUserInfoStore } from "../../store/UserStore";
 import PushNotification from "react-native-push-notification";
 import { createAlarm } from "react-native-simple-alarm";
+import Notification from "../../utils/Notification";
 
 type RotationScheduleProps = NativeStackScreenProps<
     RootStackParamList,
@@ -39,13 +40,27 @@ interface AlarmPlan {
 const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     useEffect(() => {
+
         if (userInfo.mode !== 0 && userInfo.plan >= 2) {
             refreshAlarms();
         }
     }, [userInfo.mode, userInfo.plan, userInfo.isConfirm, userInfo.wakeTime, userInfo.sleepTime]);
 
+    const saveAlarmTest = async () => {
+        try {
+            let now = new Date();
+            const reminderObject = {
+                reminder: "test +++",
+                date: (new Date(now.getTime() + 1000 * 30)) as Date,
+              };
+            Notification.scheduleNotification(reminderObject);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    saveAlarmTest();
 
-    const refreshAlarms = () => {
+    const refreshAlarms = async () => {
         const today = new Date();
         let programEndDate = today;
         programEndDate.setDate(today.getDate() + userInfo.programDays);
@@ -65,29 +80,10 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        // Schedule new notifications
-        // generatedAlarms.forEach((alarm) => {
-        //   if (alarm.isOn) {
-        //     const dateComponents = {
-        //       year: alarm.timeDate.getFullYear(),
-        //       month: alarm.timeDate.getMonth(),
-        //       day: alarm.timeDate.getDate(),
-        //       hour: alarm.timeDate.getHours(),
-        //       minute: alarm.timeDate.getMinutes(),
-        //     };
-
-        //     PushNotification.localNotificationSchedule({
-        //       date: new Date(Date.UTC(dateComponents.year, dateComponents.month, dateComponents.day, dateComponents.hour, dateComponents.minute)),
-        //       title: 'Rotation Alarm',
-        //       message: "It's time to rotate!",
-        //     });
-        //   }
-        // });
-
         // Update user alarm states with the generated alarms
         setUserInfo({ ...userInfo, alarms: generatedAlarms });
     };
-    const generateAlarms = (day: Date) => {
+    const generateAlarms = async (day: Date) => {
         const times = new Set();
         const calender = new Date();
         const alarmStatesSet = new Set();
