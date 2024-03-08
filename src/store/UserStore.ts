@@ -1,14 +1,15 @@
 import { create } from "zustand";
 
 const initUserInfo: UserInterface = {
+    _id: "",
     appleId: "",
     email: "",
     fullName: "",
     firstTimeRun: true,
     isLoggedIn: false,
     mode: 0,
-    wakeTime: new Date((new Date()).getFullYear(), (new Date()).getMonth(), (new Date()).getDate(), 7, 0, 0),
-    sleepTime: new Date((new Date()).getFullYear(), (new Date()).getMonth(), (new Date()).getDate(), 22, 0, 0),
+    wakeTime: "07:00 AM",
+    sleepTime: "11:00 PM",
     isConfirm: false,
     alarms: [],
     plan: 0,
@@ -17,6 +18,7 @@ const initUserInfo: UserInterface = {
 };
 
 export interface UserInterface {
+    _id: string;
     appleId: string;
     email: string;
     fullName: string;
@@ -24,8 +26,8 @@ export interface UserInterface {
     isLoggedIn: boolean;
     plan: number;
     mode: number;
-    wakeTime: Date;
-    sleepTime: Date;
+    wakeTime: string;
+    sleepTime: string;
     isConfirm: boolean;
     alarms: any[],
     programStartDate: Date;

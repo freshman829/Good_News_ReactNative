@@ -62,9 +62,11 @@ class Notifications {
     }
 
     public async scheduleNotification({
+        id,
         reminder,
         date,
     }: {
+        id: string;
         reminder: string;
         date: Date;
     }) {
@@ -81,9 +83,9 @@ class Notifications {
 
             // Create the notification details
             const notificationDetails = {
-                id: '1',
+                id: id,
                 title: `🔔 You asked for this reminder -  ${reminder}`,
-                body: 'Tap on it to check',
+                body: 'It\'s time to rotate ',
                 android: {
                     channelId: 'reminder',
                     pressAction: {
@@ -91,7 +93,7 @@ class Notifications {
                     },
                 },
                 data: {
-                    id: '1',
+                    id: id,
                     action: 'reminder',
                     details: {
                         name: reminder,
@@ -100,10 +102,37 @@ class Notifications {
                 },
             }
 
-            await notifee.createTriggerNotification(notificationDetails, trigger,);
+            await notifee.createTriggerNotification(notificationDetails, trigger);
+        }
+    }
 
-            // Schedule the notification
+    public async toggleNotification({
+        id,
+        reminder,
+        date
+    } : {
+        id: string,
+        reminder?: string,
+        date?: Date
+    }) {
+        const hasPermissions = await this.checkPermissions();
 
+        // If the user has granted the permission, schedule the notification
+        if (hasPermissions) {
+            let alarms = await notifee.getTriggerNotificationIds();
+            if (alarms.includes(id))
+                await notifee.cancelNotification(id);
+            else if (reminder && date)
+                this.scheduleNotification({id, reminder, date})
+        }
+    }
+
+    public async cancelAllNotifications() {
+        const hasPermissions = await this.checkPermissions();
+
+        // If the user has granted the permission, schedule the notification
+        if (hasPermissions) {
+            await notifee.cancelAllNotifications();
         }
     }
 }

@@ -3,18 +3,23 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import SelectDropdown from "react-native-select-dropdown";
 import { convertTo24HourFormat } from '../utils/numberUtil';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 type TimePickerProps = {
     isWake: boolean,
+    value?: string,
     limitTime?: string,
-    setTime: (time: string) => void
+    setTime: (time: string | null) => void
 }
 
-const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, limitTime, setTime }) => {
+const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime, setTime }) => {
     const [selectedTime, setSelectedTime] = useState('05:00 AM');
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (isWake) {
+        if (value) {
+            setSelectedTime(value);
+        } else if (isWake) {
             setSelectedTime('05:00 AM');
         } else {
             setSelectedTime('11:00 PM');
@@ -58,63 +63,29 @@ const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, limitTime, setTi
             return time24 <= end24 && time24 >= start24;
         });
     };
-    
+
 
     return (
         <View style={styles.container}>
-            <SelectDropdown
-                data={generateTimeOptions()}
-                buttonStyle={styles.dropwdownBtnStyle}
-                buttonTextStyle={styles.dropdownBtnTxtStyle}
-                dropdownStyle={styles.dropdownDropdownStyle}
-                onSelect={(selectedItem, index) => {
-                    setSelectedTime(selectedItem);
-                    setTime(convertTo24HourFormat(selectedItem));
-                }}
-                defaultValue={selectedTime}
-                buttonTextAfterSelection={(item, index) => {
-                    return item;
-                }}
-                rowTextForSelection={(item, index) => {
-                    return item;
-                }}
+            <DropDownPicker
+                open={open}
+                value={selectedTime}
+                items={generateTimeOptions().map((value, index) => { return {label: value, value} })}
+                setOpen={setOpen}
+                setValue={setSelectedTime}
+                style={{ width: 150 }}
+                containerStyle={{ width: 150 }}
+                onChangeValue={setTime}
             />
-            {/* <Picker
-                selectedValue={selectedTime}
-                style={styles.picker}
-                onValueChange={(itemValue) => {
-                    setSelectedTime(itemValue)
-                    setTime(itemValue)
-                }
-                }>
-                {generateTimeOptions().map((time) => (
-                    <Picker.Item key={time} label={time} value={time} />
-                ))}
-            </Picker> */}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        width: 200
-    },
-    dropwdownBtnStyle: {
-        height: 50,
-        width: 140,
-        backgroundColor: '#FFF',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#444',
-    },
-    dropdownBtnTxtStyle: { color: '#444', textAlign: 'left' },
-    dropdownDropdownStyle: { backgroundColor: '#EFEFEF' },
-    dropdownRowStyle: { backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5' },
-    dropdownRowTxtStyle: { color: '#444', textAlign: 'left' },
-    picker: {
-        height: 50,
-        width: 120,
-    },
+        width: 200,
+        padding: 10
+    }
 });
 
 export default TimePicker;
