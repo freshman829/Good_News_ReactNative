@@ -21,7 +21,7 @@ const features = [
     {
         title: "MY GOAL WEIGHT",
         src: require("../../../assets/my_goal.png"),
-        target: ""
+        target: "GoalWeightScreen"
     },
     {
         title: "HOW CAN WE HELP?",

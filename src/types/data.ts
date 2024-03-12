@@ -3,7 +3,15 @@ export type RootStackParamList = {
     RotationSchedule: undefined,
     ComeSeeUs: undefined,
     TimeToEat: undefined,
-    MyGoalWeight: undefined,
+    GoalWeightScreen: undefined,
     HowCanWeHelp: undefined,
     KidsCorner: undefined
+};
+
+export interface CreateNewTargetProps {
+    id: string,
+    value: {
+        target: number,
+        log: { weight: number, date: Date }
+    }
 };

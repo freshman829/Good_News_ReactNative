@@ -5,7 +5,6 @@
  * @format
  */
 
-import { config } from '@gluestack-ui/config';
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import React from 'react';
 import {
@@ -19,6 +18,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/navigation/Navigator';
+import { config } from './config/gluestack-ui.config';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

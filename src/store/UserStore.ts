@@ -16,6 +16,10 @@ const initUserInfo: UserInterface = {
         plan: 0,
         programStartDate: new Date(),
         programDays: 14
+    },
+    weightLogs: {
+        target: 0,
+        logs: []
     }
 };
 
@@ -35,6 +39,10 @@ export interface UserInterface {
         alarms: any[],
         programStartDate: Date;
         programDays: number;
+    },
+    weightLogs: {
+        target: Number,
+        logs: any[]
     }
 }
 
