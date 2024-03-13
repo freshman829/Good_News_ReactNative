@@ -44,6 +44,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     const [mode, setMode] = useState(0);
     const [openSpecial, setOpenSpecial] = useState(false);
     const [special, setSpecial] = useState<number>(0);
+
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;

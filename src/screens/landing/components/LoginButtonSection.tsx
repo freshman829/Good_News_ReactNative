@@ -23,7 +23,7 @@ const LoginButtonSection: React.FC = () => {
         });
         const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
         if (credentialState === appleAuth.State.AUTHORIZED) {
-            login(appleAuthRequestResponse.user, `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}` appleAuthRequestResponse.identityToken)
+            login(appleAuthRequestResponse.user, `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}`, appleAuthRequestResponse.identityToken)
         }
     }
     return (

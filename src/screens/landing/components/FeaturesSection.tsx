@@ -1,12 +1,13 @@
-import { Box, Card, Heading, Icon, Image } from "@gluestack-ui/themed";
+import { Box, Card, Heading, Icon, Image, Toast, ToastDescription, ToastTitle, VStack, useToast } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
+import { useUserInfoStore } from "../../../store/UserStore";
 const features = [
     {
         title: "WHEN TO ROTATE",
         src: require("../../../assets/when_to.png"),
         target: "RotationSchedule"
-        
+
     },
     {
         title: "COME SEE US",
@@ -34,15 +35,39 @@ const features = [
         target: ""
     },
 ]
-const FeaturesSection: React.FC<{navigation: any}> = ({navigation}) => {
+const FeaturesSection: React.FC<{ navigation: any }> = ({ navigation }) => {
+    const { userInfo, setUserInfo } = useUserInfoStore();
+    const toast = useToast();
+
     return (
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap="$2" alignItems="center" justifyContent="center">
             {features.map((feature, index) => (
-                <TouchableOpacity key={index} onPress={() => navigation.navigate(feature.target)}>
-                    <Card 
-                        size="sm" variant="elevated" 
+                <TouchableOpacity key={index} onPress={() => {
+                    if (userInfo.isLoggedIn)
+                        navigation.navigate(feature.target);
+                    else {
+                        toast.show({
+                            placement: "top",
+                            render: ({ id }) => {
+                                const toastId = "toast-" + id;
+                                return (
+                                    <Toast nativeID={toastId} action="attention" variant="solid">
+                                        <VStack space="xs">
+                                            <ToastTitle>Alert!</ToastTitle>
+                                            <ToastDescription>
+                                                Please Login!
+                                            </ToastDescription>
+                                        </VStack>
+                                    </Toast>
+                                )
+                            }
+                        })
+                    }
+                }}>
+                    <Card
+                        size="sm" variant="elevated"
                         w="$40" p="$2" h="$40"
-                        display="flex" flexDirection="column" 
+                        display="flex" flexDirection="column"
                         alignItems="center" justifyContent="space-around"
                     >
                         <Image source={feature.src} alt={feature.title} />
