@@ -3,11 +3,11 @@ import { UserInterface } from "../store/UserStore";
 import { CreateNewTargetProps } from "../types/data";
 
 const Axios = axios.create({
-    // baseURL: "https://goodnews2023.herokuapp.com/api"
-    baseURL: "http://10.0.2.2:3000/api"
+    baseURL: "https://goodnews2023.herokuapp.com/api"
+    // baseURL: "http://10.0.2.2:3000/api"
 });
 
-export async function loginUserWithApple(user: {userId:string,identityToken:string }) {
+export async function loginUserWithApple(user: {userId:string, userName: string, identityToken:string }) {
     try {
         const result = await Axios.post(`/users/loginWithApple`, user);
         return result.data;

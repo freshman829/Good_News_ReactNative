@@ -13,9 +13,9 @@ const LoginButtonSection: React.FC = () => {
     const [appleID, setAppleId] = useState<string>("");
     const [isLoading, setLoading] = useState<boolean>(false);
 
-    const login = async (userId:string, identityToken:any) => {
+    const login = async (userId:string, userName: string, identityToken:any) => {
         setLoading(true);
-        const result = await loginUserWithApple({ userId, identityToken });
+        const result = await loginUserWithApple({ userId, userName, identityToken });
         console.log('AAA', result)
         setLoading(false);
         setUserInfo({ ...result, isLoggedIn: true });
@@ -29,7 +29,7 @@ const LoginButtonSection: React.FC = () => {
         console.log('USER', appleAuthRequestResponse)
         const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
         if (credentialState === appleAuth.State.AUTHORIZED) {
-            login(appleAuthRequestResponse.user, appleAuthRequestResponse.identityToken)
+            login(appleAuthRequestResponse.user, `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}` appleAuthRequestResponse.identityToken)
         }
     }
     return (
