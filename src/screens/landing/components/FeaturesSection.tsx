@@ -35,7 +35,7 @@ const features = [
         target: ""
     },
 ]
-const FeaturesSection: React.FC<{ navigation: any }> = ({ navigation }) => {
+const FeaturesSection: React.FC<{ navigation: any,onLogin: () => void }> = ({ navigation,onLogin }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const toast = useToast();
 
@@ -46,22 +46,7 @@ const FeaturesSection: React.FC<{ navigation: any }> = ({ navigation }) => {
                     if (userInfo._id)
                         navigation.navigate(feature.target);
                     else {
-                        toast.show({
-                            placement: "top",
-                            render: ({ id }) => {
-                                const toastId = "toast-" + id;
-                                return (
-                                    <Toast nativeID={toastId} action="attention" variant="solid">
-                                        <VStack space="xs">
-                                            <ToastTitle>Alert!</ToastTitle>
-                                            <ToastDescription>
-                                                Please Login!
-                                            </ToastDescription>
-                                        </VStack>
-                                    </Toast>
-                                )
-                            }
-                        })
+                        onLogin()
                     }
                 }}>
                     <Card
