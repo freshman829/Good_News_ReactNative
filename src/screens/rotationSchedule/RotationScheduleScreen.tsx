@@ -83,7 +83,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         programEndDate.setDate(today.getDate() + userInfo.rotationPlan.programDays || 14);
         if (userInfo.rotationPlan.programStartDate && userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length) return;
         if (today > programEndDate) {
-            
+
             // No alarms to generate if the end date is in the past
             setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: [] } });
             return;
@@ -261,70 +261,75 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
     return (
         <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full">
-            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <HStack alignItems="center"><Icon style={{color:'black'}} as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{color:'black'}} onPress={() => navigation.goBack()}>Back</Text></HStack>
             <VStack flex={1} overflow="scroll">
-                <Heading textAlign="center" my="$10">Rotation Schedule</Heading>
-                <HStack pb="$2">
-                    <Heading size="sm" maxWidth="$4/5">Are you on maintenance / post maintenance mode?</Heading>
-                    <DropDownPicker
-                        open={openMode}
-                        value={userInfo.rotationPlan.mode}
-                        items={maintenanceMode}
-                        setOpen={setOpenMode}
-                        setValue={setMode}
-                        style={{ width: 100 }}
-                        containerStyle={{ width: 100 }}
-                    />
-                </HStack>
+                <Heading color="#000000" textAlign="center" my="$10">Rotation Schedule</Heading>
+                <View style={{ zIndex: 8888 }}>
+                    <HStack justifyContent="space-between" pb="$2">
+                        <Heading color="#000000" size="sm" maxWidth="$3/5">Are you on maintenance / post maintenance mode?</Heading>
+                        <DropDownPicker
+                            open={openMode}
+                            value={userInfo.rotationPlan.mode}
+                            items={maintenanceMode}
+                            setOpen={setOpenMode}
+                            setValue={setMode}
+                            style={{ width: 100, zIndex: 9999 }}
+                            containerStyle={{ width: 100, zIndex: 9999 }}
+                        />
+                    </HStack>
+                </View>
                 {(userInfo.rotationPlan.mode > 0) ? (
                     <VStack h="$full" gap="$3">
-                        <HStack alignItems="center">
-                            <Text maxWidth="$3/5">What are your special rotation times?</Text>
-                            <DropDownPicker
-                                open={openSpecial}
-                                value={userInfo.rotationPlan.plan}
-                                items={specialRotations}
-                                setOpen={setOpenSpecial}
-                                setValue={setSpecial}
-                                style={{ width: 100 }}
-                                containerStyle={{ width: 100 }}
-                            />
-                        </HStack>
-                        <HStack>
-                            <Box flex={1}>
-                                <Text maxWidth="$32">When do you wake up?</Text>
-                                <TimePicker isWake={true}
-                                    value={userInfo.rotationPlan.wakeTime}
-                                    setTime={(time) =>
-                                        {
+                        <View style={{ zIndex: 8888 }}>
+                            <HStack justifyContent="space-between" alignItems="center">
+                                <Heading color="#000000" size="sm" maxWidth="$3/5">What are your special rotation times?</Heading>
+                                <DropDownPicker
+                                    open={openSpecial}
+                                    value={userInfo.rotationPlan.plan}
+                                    items={specialRotations}
+                                    setOpen={setOpenSpecial}
+                                    setValue={setSpecial}
+                                    style={{ width: 100 }}
+                                    containerStyle={{ width: 100 }}
+                                />
+                            </HStack>
+                        </View>
+                        <View style={{ zIndex: 7777 }}>
+                            <HStack>
+                                <Box flex={1}>
+                                    <Heading color="#000000" size="sm">When do you wake up?</Heading>
+                                    <TimePicker isWake={true}
+                                        value={userInfo.rotationPlan.wakeTime}
+                                        setTime={(time) => {
                                             time && setUserInfo({
                                                 ...userInfo,
                                                 rotationPlan: { ...userInfo.rotationPlan, wakeTime: time }
                                             })
                                         }
-                                    }
-                                />
-                            </Box>
-                            <Box flex={1}>
-                                <Text maxWidth="$32">When do you go to sleep?</Text>
-                                <TimePicker isWake={false}
-                                    value={userInfo.rotationPlan.sleepTime}
-                                    setTime={(time) => {
-                                        time && setUserInfo({
-                                            ...userInfo,
-                                            rotationPlan: { ...userInfo.rotationPlan, sleepTime: time }
-                                        })
-                                    }
-                                    }
-                                />
-                            </Box>
-                        </HStack>
+                                        }
+                                    />
+                                </Box>
+                                <Box flex={1}>
+                                    <Heading color="#000000" size="sm">When do you go to sleep?</Heading>
+                                    <TimePicker isWake={false}
+                                        value={userInfo.rotationPlan.sleepTime}
+                                        setTime={(time) => {
+                                            time && setUserInfo({
+                                                ...userInfo,
+                                                rotationPlan: { ...userInfo.rotationPlan, sleepTime: time }
+                                            })
+                                        }
+                                        }
+                                    />
+                                </Box>
+                            </HStack>
+                        </View>
                         <HStack alignItems="center" justifyContent="space-between">
-                            <Text size="sm">Confirmation Alarm</Text>
+                        <Heading color="#000000" size="sm">Confirmation Alarm</Heading>
                             <Switch value={userInfo?.rotationPlan.isConfirm} onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: !userInfo.rotationPlan.isConfirm } })} />
                         </HStack>
                         <Divider my="$3" />
-                        <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading>
+                        <Heading color="#000000" size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading>
                         <FlatList
                             data={userInfo.rotationPlan.alarms}
                             renderItem={renderAlarmItem}
@@ -333,11 +338,11 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                         />
                     </VStack>
                 ) : (
-                    <Text zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
+                    <Text style={{color:'black'}} zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
                 )}
             </VStack>
             <Box p="$2">
-                <Text textAlign="center">Book Appointment</Text>
+                <Text style={{color:'black',marginBottom:20}} textAlign="center">Book Appointment</Text>
             </Box>
 
         </View>
