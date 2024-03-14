@@ -43,7 +43,7 @@ const FeaturesSection: React.FC<{ navigation: any }> = ({ navigation }) => {
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap="$2" alignItems="center" justifyContent="center">
             {features.map((feature, index) => (
                 <TouchableOpacity key={index} onPress={() => {
-                    if (userInfo.isLoggedIn)
+                    if (userInfo._id)
                         navigation.navigate(feature.target);
                     else {
                         toast.show({

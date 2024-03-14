@@ -13,11 +13,11 @@ const LandingPage: React.FC<{navigation: any}> = ({navigation}) => {
     return (
         <Box p="$3" h="$full">
             <VStack space="md" display="flex" justifyContent="space-between">
-                {userInfo.isLoggedIn ? <Heading>{`Hello, ${userInfo.fullName}`}</Heading> : ""}
+                {userInfo._id ? <Heading>{`Hello, ${userInfo.fullName}`}</Heading> : ""}
                 <GreetingSection />
                 <PostSection />
                 <FeaturesSection navigation={navigation} />
-                {!userInfo.isLoggedIn ? <LoginButtonSection /> : ""}
+                {!userInfo._id ? <LoginButtonSection /> : ""}
             </VStack>
         </Box>
     );
