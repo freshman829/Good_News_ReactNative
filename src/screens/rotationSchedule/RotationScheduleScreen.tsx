@@ -38,6 +38,7 @@ interface AlarmPlan {
 }
 
 const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation }) => {
+    const init = useRef(true);
     const { userInfo, setUserInfo } = useUserInfoStore();
     const isInitialMount = useRef(true);
     const [openMode, setOpenMode] = useState(false);
@@ -46,47 +47,119 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     const [special, setSpecial] = useState<number>(0);
 
     useEffect(() => {
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
+        setMode(userInfo.rotationPlan.mode);
+        setSpecial(userInfo.rotationPlan.plan);
+    }, []);
+
+    useEffect(() => {
+        const saveUpdate = async () => {
+            if (isInitialMount.current) {
+                isInitialMount.current = false;
+            } else {
+                let hasUpdated = false;
+                if (mode !== userInfo.rotationPlan.mode) {
+                    hasUpdated = true;
+                }
+                if (special !== userInfo.rotationPlan.plan) {
+                    hasUpdated = true;
+                }
+                if (hasUpdated) {
+                    console.log("here is save", { ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special || 0 } })
+                    const updatedUser = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special || 0 } });
+                    if (updatedUser) {
+                        setUserInfo(updatedUser);
+                    }
+                }
+            }
+        }
+        if (init.current) {
+            init.current = false;
         } else {
-            let hasUpdated = false;
-            if (mode !== userInfo.rotationPlan.mode) {
-                hasUpdated = true;
-            }
-            if (special !== userInfo.rotationPlan.plan) {
-                hasUpdated = true;
-            }
-            if (hasUpdated) {
-                setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special || 0 } });
-            }
+            saveUpdate();
         }
     }, [mode, special]);
 
     useEffect(() => {
-        if (!isInitialMount.current && userInfo.rotationPlan.mode > 0 && userInfo.rotationPlan.plan >= 2) {
+        if (userInfo.rotationPlan.mode > 0
+            && userInfo.rotationPlan.plan >= 2
+            && userInfo.rotationPlan.wakeTime
+            && userInfo.rotationPlan.sleepTime
+            && !userInfo.rotationPlan.programStartDate
+        ) {
+            console.log("here we go");
             refreshAlarms();
         }
-    }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime]);
+    }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime, userInfo.rotationPlan.mode, userInfo.rotationPlan.plan]);
 
     useEffect(() => {
-        const updateInfo = async () => {
-            const result = await saveRotationSchedule(userInfo);
-        }
-        if (!isInitialMount.current) {
-            updateInfo();
-        }
-    }, [userInfo.rotationPlan]);
+        renderConfirmAlarm();
+    }, [userInfo.rotationPlan.isConfirm]);
 
+    const updateInfo = async (updateData: UserInterface): Promise<UserInterface> => {
+        const result = await saveRotationSchedule(updateData);
+        return result;
+    }
+
+    const renderConfirmAlarm = async () => {
+        const alarms = [...userInfo.rotationPlan.alarms];
+        if (userInfo.rotationPlan.isConfirm) {
+            let append = [];
+            if (alarms.find((alarm) => alarm.isConfirm)) return;
+            for (let i = 0; i < alarms.length; i++) {
+                let alarm = { ...alarms[i] };
+                let confirmationTime = new Date(alarm.timeDate);
+                confirmationTime.setMinutes(confirmationTime.getMinutes() + 5);
+                let confirmationAlarm = {
+                    id: alarms.length,
+                    time: formatDate(confirmationTime),
+                    timeDate: confirmationTime,
+                    isSpecial: alarm.isConfirm,
+                    isActive: true,
+                    isConfirm: true
+                };
+                try {
+                    await Notification.scheduleNotification({
+                        id: (confirmationAlarm.id - 1).toString(),
+                        reminder: confirmationAlarm.isSpecial ? "It's special time to rotate" : "It's time to rotate",
+                        date: (confirmationAlarm.timeDate) as Date
+                    });
+                } catch (error) {
+                    console.log(confirmationTime);
+                    console.log(error);
+                }
+                append.push(confirmationAlarm);
+            }
+            const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: alarms.concat(append).sort((a: any, b: any) => a.timeDate - b.timeDate) } });
+            setUserInfo(updatedData);
+        } else {
+            const newAlarms = [];
+            for (let i = 0; i < alarms.length; i++) {
+                const alarm = alarms[i];
+                if (!alarm.isConfirm) {
+                    newAlarms.push(alarm);
+                } else {
+                    try {
+                        await Notification.cancelNotification((alarm.id - 1).toString());
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+            }
+            const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: newAlarms } });
+            setUserInfo(updatedData);
+        }
+    }
     const refreshAlarms = async () => {
         await Notification.cancelAllNotifications();
         const today = new Date();
-        let programEndDate = userInfo.rotationPlan.programStartDate || today;
-        programEndDate.setDate(today.getDate() + userInfo.rotationPlan.programDays || 14);
+        let programEndDate = new Date(userInfo.rotationPlan.programStartDate || today);
+        programEndDate.setDate(today.getDate() + (userInfo.rotationPlan.programDays || 14));
         if (userInfo.rotationPlan.programStartDate && userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length) return;
         if (today > programEndDate) {
 
             // No alarms to generate if the end date is in the past
-            setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: [] } });
+            const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: [] } });
+            setUserInfo(updatedData);
             return;
         }
 
@@ -96,11 +169,14 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         let currentDate = new Date();
         while (currentDate <= programEndDate) {
             let temp = await generateAlarms(currentDate);
+            console.log(temp, "generatedAlarms");
             generatedAlarms = generatedAlarms.concat(temp);
             currentDate.setDate(currentDate.getDate() + 1);
-        }
+            console.log(currentDate);
 
-        setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: new Date(), programDays: 14, alarms: generatedAlarms } });
+        }
+        const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: new Date(), programDays: 14, alarms: generatedAlarms } });
+        setUserInfo(updatedData);
     };
     const generateAlarms = async (day: Date) => {
         const times = new Set();
@@ -108,7 +184,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
         const defaultWakeTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 7, 0, 0);
         const defaultSleepTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 22, 0, 0);
-
+        console.log(defaultWakeTime, defaultSleepTime, "defaultTime");
         let wakeTime = userInfo.rotationPlan.wakeTime ?
             new Date(defaultWakeTime.getFullYear(),
                 defaultWakeTime.getMonth(),
@@ -131,18 +207,18 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             sleepTime.setMinutes(0);
         }
 
-        times.add(wakeTime);
-        times.add(sleepTime);
-
+        // times.add(wakeTime);
+        // times.add(sleepTime);
+        console.log(wakeTime, sleepTime, "real times");
         if (userInfo.rotationPlan.plan === 4) {
             let nextAlarm = new Date(wakeTime);
-            while (nextAlarm < sleepTime) {
+            while (nextAlarm <= sleepTime) {
                 times.add(new Date(nextAlarm));
                 nextAlarm.setMinutes(nextAlarm.getMinutes() + 90);
             }
         } else {
             let nextAlarm = new Date(wakeTime);
-            while (nextAlarm < sleepTime) {
+            while (nextAlarm <= sleepTime) {
                 times.add(new Date(nextAlarm));
                 nextAlarm.setMinutes(nextAlarm.getMinutes() + 120);
             }
@@ -183,28 +259,6 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             } catch (error) {
                 console.log(error, "123123");
             }
-
-            if (userInfo.rotationPlan.isConfirm) {
-                const confirmationTime = new Date(time as Date);
-                confirmationTime.setMinutes(confirmationTime.getMinutes() + 5);
-                const confirmationAlarm = {
-                    id: alarmStatesSet.size,
-                    time: formatDate(confirmationTime),
-                    timeDate: confirmationTime,
-                    isSpecial,
-                    isActive: true
-                };
-                try {
-                    await Notification.scheduleNotification({
-                        id: (confirmationAlarm.id - 1).toString(),
-                        reminder: isSpecial ? "It's special time to rotate" : "It's time to rotate",
-                        date: (confirmationAlarm.timeDate) as Date
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
-                alarmStatesSet.add(confirmationAlarm);
-            }
         }
         let alrms = Array.from(alarmStatesSet).sort((a: any, b: any) => a.timeDate - b.timeDate);
         return alrms;
@@ -236,7 +290,8 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 date: item.timeDate as Date
             })
         }
-        setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: alarms } })
+        const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: alarms } });
+        setUserInfo(updatedData);
     }
 
     const renderAlarmItem = (item: any) => {
@@ -259,13 +314,24 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         )
     }
 
+    const updateTime = async (time: string, isWake: boolean) => {
+        let dataToBeUpdate;
+        if (isWake) {
+            dataToBeUpdate = { ...userInfo, rotationPlan: { ...userInfo.rotationPlan, wakeTime: time, sleepTime: "10:00 PM" } };
+        } else {
+            dataToBeUpdate = { ...userInfo, rotationPlan: { ...userInfo.rotationPlan, sleepTime: time } };
+        }
+        const updatedData = await updateInfo(dataToBeUpdate);
+        setUserInfo(updatedData);
+    }
+
 
     return (
         <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full">
-            <HStack alignItems="center"><Icon style={{color:'black'}} as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{color:'black'}} onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <HStack alignItems="center"><Icon style={{ color: 'black' }} as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{ color: 'black' }} onPress={() => navigation.goBack()}>Back</Text></HStack>
             <VStack flex={1} overflow="scroll">
                 <Heading color="#000000" textAlign="center" my="$10">Rotation Schedule</Heading>
-                <View style={{ zIndex: 8888 }}>
+                <View style={{ zIndex: 9999 }}>
                     <HStack justifyContent="space-between" pb="$2">
                         <Heading color="#000000" size="sm" maxWidth="$3/5">Are you on maintenance / post maintenance mode?</Heading>
                         <DropDownPicker
@@ -295,17 +361,15 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                 />
                             </HStack>
                         </View>
-                        <View style={{ zIndex: 7777 }}>
+                        {userInfo.rotationPlan.plan >= 2 ? <View style={{ zIndex: 7777 }}>
                             <HStack>
                                 <Box flex={1}>
                                     <Heading color="#000000" size="sm">When do you wake up?</Heading>
                                     <TimePicker isWake={true}
                                         value={userInfo.rotationPlan.wakeTime}
                                         setTime={(time) => {
-                                            time && setUserInfo({
-                                                ...userInfo,
-                                                rotationPlan: { ...userInfo.rotationPlan, wakeTime: time }
-                                            })
+                                            console.log(time, "this is wakeTime");
+                                            time && updateTime(time, true)
                                         }
                                         }
                                     />
@@ -315,35 +379,39 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                     <TimePicker isWake={false}
                                         value={userInfo.rotationPlan.sleepTime}
                                         setTime={(time) => {
-                                            time && setUserInfo({
-                                                ...userInfo,
-                                                rotationPlan: { ...userInfo.rotationPlan, sleepTime: time }
-                                            })
+                                            time && updateTime(time, false)
                                         }
                                         }
                                     />
                                 </Box>
                             </HStack>
-                        </View>
-                        <HStack alignItems="center" justifyContent="space-between">
-                        <Heading color="#000000" size="sm">Confirmation Alarm</Heading>
-                            <Switch value={userInfo?.rotationPlan.isConfirm} onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: !userInfo.rotationPlan.isConfirm } })} />
-                        </HStack>
-                        <Divider my="$3" />
-                        <Heading color="#000000" size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading>
-                        <FlatList
-                            data={userInfo.rotationPlan.alarms}
-                            renderItem={renderAlarmItem}
-                            keyExtractor={(item, index) => index.toString()}
-                            px="$3"
-                        />
+                        </View> : ""}
+                        {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
+                            <HStack alignItems="center" justifyContent="space-between">
+                                <Heading color="#000000" size="sm">Confirmation Alarm</Heading>
+                                <Switch value={userInfo?.rotationPlan.isConfirm} onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: !userInfo.rotationPlan.isConfirm } })} />
+                            </HStack> : ""
+                        }
+                        {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ? <Divider my="$3" /> : ""}
+                        {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
+                            <Heading color="#000000" size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
+                        }
+                        {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
+
+                            <FlatList
+                                data={userInfo.rotationPlan.alarms}
+                                renderItem={renderAlarmItem}
+                                keyExtractor={(item, index) => index.toString()}
+                                px="$3"
+                            /> : ""
+                        }
                     </VStack>
                 ) : (
-                    <Text style={{color:'black'}} zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
+                    <Text style={{ color: 'black' }} zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
                 )}
             </VStack>
             <Box p="$2">
-                <Text style={{color:'black',marginBottom:20}} textAlign="center">Book Appointment</Text>
+                <Text style={{ color: 'black', marginBottom: 20 }} textAlign="center">Book Appointment</Text>
             </Box>
 
         </View>

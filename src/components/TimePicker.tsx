@@ -13,17 +13,11 @@ type TimePickerProps = {
 }
 
 const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime, setTime }) => {
-    const [selectedTime, setSelectedTime] = useState('05:00 AM');
+    const [selectedTime, setSelectedTime] = useState('');
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (value) {
-            setSelectedTime(value);
-        } else if (isWake) {
-            setSelectedTime('05:00 AM');
-        } else {
-            setSelectedTime('11:00 PM');
-        }
+        setSelectedTime(value ? value : "");
     }, []);
     useEffect(() => {
         if (value !== selectedTime) {
@@ -75,7 +69,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime
             <DropDownPicker
                 open={open}
                 value={selectedTime}
-                items={generateTimeOptions().map((value, index) => { return {label: value, value} })}
+                items={generateTimeOptions().map((value, index) => { return { label: value, value } })}
                 setOpen={setOpen}
                 setValue={setSelectedTime}
                 style={{ width: 150 }}
@@ -88,7 +82,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime
 const styles = StyleSheet.create({
     container: {
         width: 200,
-        padding: 10
+        padding: 10,
     }
 });
 

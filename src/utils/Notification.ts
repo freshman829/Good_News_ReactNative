@@ -109,7 +109,7 @@ class Notifications {
         id,
         reminder,
         date
-    } : {
+    }: {
         id: string,
         reminder?: string,
         date?: Date
@@ -122,7 +122,7 @@ class Notifications {
             if (alarms.includes(id))
                 await notifee.cancelNotification(id);
             else if (reminder && date)
-                this.scheduleNotification({id, reminder, date})
+                this.scheduleNotification({ id, reminder, date })
         }
     }
 
@@ -132,6 +132,13 @@ class Notifications {
         // If the user has granted the permission, schedule the notification
         if (hasPermissions) {
             await notifee.cancelAllNotifications();
+        }
+    }
+
+    public async cancelNotification(id: string) {
+        const hasPermissions = await this.checkPermissions();
+        if (hasPermissions) {
+            await notifee.cancelNotification(id);
         }
     }
 }

@@ -3,7 +3,7 @@ import { useUserInfoStore } from "../../../store/UserStore";
 import { useState } from "react";
 import { loginUserWithApple } from "../../../api/userAPI";
 import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication';
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
 
 const LoginButtonSection: React.FC = () => {
     const { userInfo, setUserInfo } = useUserInfoStore();
@@ -17,13 +17,18 @@ const LoginButtonSection: React.FC = () => {
     }
 
     async function onAppleButtonPress() {
-        const appleAuthRequestResponse = await appleAuth.performRequest({
-            requestedOperation: appleAuth.Operation.LOGIN,
-            requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-        });
-        const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
-        if (credentialState === appleAuth.State.AUTHORIZED) {
-            login(appleAuthRequestResponse.user, `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}`, appleAuthRequestResponse.identityToken)
+        if (Platform.OS === "android") {
+            login("001083.6bedd928a5e74b47a623b8375c0a6b06.0900", "Code Wizard", "sdfsdfsdfsdfsdf");
+        } else {
+
+            const appleAuthRequestResponse = await appleAuth.performRequest({
+                requestedOperation: appleAuth.Operation.LOGIN,
+                requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+            });
+            const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+            if (credentialState === appleAuth.State.AUTHORIZED) {
+                login(appleAuthRequestResponse.user, `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}`, appleAuthRequestResponse.identityToken)
+            }
         }
     }
     return (
