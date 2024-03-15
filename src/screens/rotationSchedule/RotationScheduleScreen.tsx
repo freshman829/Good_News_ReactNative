@@ -10,6 +10,7 @@ import Notification from "../../utils/Notification";
 import { saveRotationSchedule } from "../../api/userAPI";
 import DropDownPicker from "react-native-dropdown-picker";
 import { extractTime } from "../../utils/numberUtil";
+import uuid from 'react-native-uuid'
 
 type RotationScheduleProps = NativeStackScreenProps<
     RootStackParamList,
@@ -64,7 +65,6 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                     hasUpdated = true;
                 }
                 if (hasUpdated) {
-                    console.log("here is save", { ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special || 0 } })
                     const updatedUser = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special || 0 } });
                     if (updatedUser) {
                         setUserInfo(updatedUser);
@@ -86,7 +86,6 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             && userInfo.rotationPlan.sleepTime
             && !userInfo.rotationPlan.programStartDate
         ) {
-            console.log("here we go");
             refreshAlarms();
         }
     }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime, userInfo.rotationPlan.mode, userInfo.rotationPlan.plan]);
@@ -110,7 +109,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 let confirmationTime = new Date(alarm.timeDate);
                 confirmationTime.setMinutes(confirmationTime.getMinutes() + 5);
                 let confirmationAlarm = {
-                    id: alarms.length,
+                    id: uuid.v4(),
                     time: formatDate(confirmationTime),
                     timeDate: confirmationTime,
                     isSpecial: alarm.isConfirm,
@@ -119,17 +118,25 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 };
                 try {
                     await Notification.scheduleNotification({
-                        id: (confirmationAlarm.id - 1).toString(),
+                        id: (confirmationAlarm.id).toString(),
                         reminder: confirmationAlarm.isSpecial ? "It's special time to rotate" : "It's time to rotate",
                         date: (confirmationAlarm.timeDate) as Date
                     });
                 } catch (error) {
-                    console.log(confirmationTime);
                     console.log(error);
                 }
                 append.push(confirmationAlarm);
             }
-            const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: alarms.concat(append).sort((a: any, b: any) => a.timeDate - b.timeDate) } });
+            const updatedData = await updateInfo({
+                ...userInfo,
+                rotationPlan: {
+                  ...userInfo.rotationPlan,
+                  alarms: alarms
+                    .concat(append)
+                    .sort((a: any, b: any) => new Date(a.timeDate) - new Date(b.timeDate))
+                }
+            });
+
             setUserInfo(updatedData);
         } else {
             const newAlarms = [];
@@ -139,12 +146,13 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                     newAlarms.push(alarm);
                 } else {
                     try {
-                        await Notification.cancelNotification((alarm.id - 1).toString());
+                        await Notification.cancelNotification(alarm.id);
                     } catch (error) {
                         console.log(error);
                     }
                 }
             }
+
             const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: newAlarms } });
             setUserInfo(updatedData);
         }
@@ -169,14 +177,11 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         let currentDate = new Date();
         while (currentDate <= programEndDate) {
             let temp = await generateAlarms(currentDate);
-            console.log(temp, "generatedAlarms");
             generatedAlarms = generatedAlarms.concat(temp);
             currentDate.setDate(currentDate.getDate() + 1);
-            console.log(currentDate);
-
         }
+        setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: new Date(), programDays: 14, alarms: generatedAlarms } });
         const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: new Date(), programDays: 14, alarms: generatedAlarms } });
-        setUserInfo(updatedData);
     };
     const generateAlarms = async (day: Date) => {
         const times = new Set();
@@ -184,7 +189,6 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
         const defaultWakeTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 7, 0, 0);
         const defaultSleepTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 22, 0, 0);
-        console.log(defaultWakeTime, defaultSleepTime, "defaultTime");
         let wakeTime = userInfo.rotationPlan.wakeTime ?
             new Date(defaultWakeTime.getFullYear(),
                 defaultWakeTime.getMonth(),
@@ -209,7 +213,6 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
         // times.add(wakeTime);
         // times.add(sleepTime);
-        console.log(wakeTime, sleepTime, "real times");
         if (userInfo.rotationPlan.plan === 4) {
             let nextAlarm = new Date(wakeTime);
             while (nextAlarm <= sleepTime) {
@@ -243,7 +246,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                     break;
             }
             const newAlarm = {
-                id: alarmStatesSet.size,
+                id: uuid.v4(),
                 time: formatDate(time as Date),
                 timeDate: time,
                 isSpecial,
@@ -252,12 +255,12 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             alarmStatesSet.add(newAlarm);
             try {
                 await Notification.scheduleNotification({
-                    id: (newAlarm.id - 1).toString(),
+                    id: (newAlarm.id).toString(),
                     reminder: isSpecial ? "It's special time to rotate" : "It's time to rotate",
                     date: (newAlarm.timeDate) as Date
                 });
             } catch (error) {
-                console.log(error, "123123");
+                console.error(error);
             }
         }
         let alrms = Array.from(alarmStatesSet).sort((a: any, b: any) => a.timeDate - b.timeDate);
@@ -269,7 +272,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     }
 
     async function updateAlarm(item: {
-        id: number,
+        id: string,
         time: string,
         timeDate: unknown,
         isSpecial: boolean,
@@ -281,17 +284,17 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 alarm.isActive = !alarm.isActive;
             }
         });
+        setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: alarms } });
         if (item.isActive) {
-            await Notification.toggleNotification({ id: item.id.toString() });
+            await Notification.toggleNotification({ id: item.id });
         } else {
             await Notification.toggleNotification({
-                id: item.id.toString(),
+                id: item.id,
                 reminder: item.isSpecial ? "It's special time to rotate" : "It's time to rotate",
-                date: item.timeDate as Date
+                date: new Date(item.timeDate)
             })
         }
-        const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: alarms } });
-        setUserInfo(updatedData);
+        await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: alarms } });
     }
 
     const renderAlarmItem = (item: any) => {
@@ -368,7 +371,6 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                     <TimePicker isWake={true}
                                         value={userInfo.rotationPlan.wakeTime}
                                         setTime={(time) => {
-                                            console.log(time, "this is wakeTime");
                                             time && updateTime(time, true)
                                         }
                                         }
