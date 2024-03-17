@@ -1,4 +1,4 @@
-import { Box, Card, Heading, Icon, Image, Toast, ToastDescription, ToastTitle, VStack, useToast } from "@gluestack-ui/themed";
+import { Box, Card, Heading, Image, useToast } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { useUserInfoStore } from "../../../store/UserStore";
@@ -17,7 +17,7 @@ const features = [
     {
         title: "TIME TO EAT",
         src: require("../../../assets/time_to.png"),
-        target: ""
+        target: "WhenToEat"
     },
     {
         title: "MY GOAL WEIGHT",
@@ -35,9 +35,8 @@ const features = [
         target: ""
     },
 ]
-const FeaturesSection: React.FC<{ navigation: any,onLogin: () => void }> = ({ navigation,onLogin }) => {
-    const { userInfo, setUserInfo } = useUserInfoStore();
-    const toast = useToast();
+const FeaturesSection: React.FC<{ navigation: any, onLogin: () => void }> = ({ navigation, onLogin }) => {
+    const { userInfo } = useUserInfoStore();
 
     return (
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap="$2" alignItems="center" justifyContent="center">
@@ -46,7 +45,7 @@ const FeaturesSection: React.FC<{ navigation: any,onLogin: () => void }> = ({ na
                     if (userInfo._id)
                         navigation.navigate(feature.target);
                     else {
-                        onLogin()
+                        onLogin();
                     }
                 }}>
                     <Card

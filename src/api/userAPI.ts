@@ -19,7 +19,6 @@ export async function loginUserWithApple(user: { userId: string, userName: strin
 
 export async function saveRotationSchedule(data: UserInterface) {
     try {
-        console.log(`/users/${data._id}/updateSchedule`);
         const result = await Axios.post(`/users/${data._id}/updateSchedule`, data.rotationPlan);
         return result.data;
     } catch (error) {
@@ -45,5 +44,20 @@ export async function saveNewWeightLog(data: { id: string, log: { weight: number
     } catch (error) {
         console.log(error);
         throw error;
+    }
+}
+
+export async function saveProgramDuration(data: { id: string, program: { start: Date, duration: number } }) {
+    try {
+        const result = await Axios.post(`/users/${data.id}/saveProgramDate`, data.program);
+        return {
+            success: true,
+            data: result.data
+        };
+    } catch (error) {
+        return {
+            success: false,
+            msg: (error as any).message
+        };
     }
 }

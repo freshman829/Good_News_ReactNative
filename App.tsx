@@ -19,6 +19,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/navigation/Navigator';
 import { config } from './config/gluestack-ui.config';
+import { ToastProvider } from './src/providers/ToastProvider';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -32,9 +33,11 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView style={backgroundStyle}>
       <GluestackUIProvider config={config} colorMode={isDarkMode ? 'dark' : 'light'}>
-        <NavigationContainer>
-          <StackNavigator />
-        </NavigationContainer>
+        <ToastProvider>
+          <NavigationContainer>
+            <StackNavigator />
+          </NavigationContainer>
+        </ToastProvider>
       </GluestackUIProvider>
     </SafeAreaView>
   );

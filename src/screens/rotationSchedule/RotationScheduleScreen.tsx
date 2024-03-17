@@ -328,7 +328,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
     return (
         <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full">
-            <HStack alignItems="center"><Icon style={{ color: 'black' }} as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{ color: 'black' }} onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <HStack alignItems="center"><Icon color="$black" as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{ color: 'black' }} onPress={() => navigation.goBack()}>Back</Text></HStack>
             <VStack flex={1} overflow="scroll">
                 <Heading color="#000000" textAlign="center" my="$10">Rotation Schedule</Heading>
                 <View style={{ zIndex: 9999 }}>

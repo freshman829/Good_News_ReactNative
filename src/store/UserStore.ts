@@ -1,12 +1,27 @@
 import { create } from "zustand";
 
+type Appointment = {
+    id: string;
+    location: string;
+    fullName: string;
+    phone: string;
+    appointmentStatus: string;
+    apptDateTime: Date
+    appointmentType: string;
+    callResult: string;
+    description: string;
+    practitionerNotes: string;
+};
+
 const initUserInfo: UserInterface = {
     _id: "",
     appleId: "",
     email: "",
     fullName: "",
-    firstTimeRun: true,
+    firstRun: false,
     isLoggedIn: false,
+    appointmentHistory: [],
+    nextAppointment: undefined,
     rotationPlan: {
         mode: 0,
         wakeTime: "07:00 AM",
@@ -28,8 +43,10 @@ export interface UserInterface {
     appleId: string;
     email: string;
     fullName: string;
-    firstTimeRun: boolean;
+    firstRun: boolean;
     isLoggedIn: boolean;
+    nextAppointment: Appointment | undefined;
+    appointmentHistory: Appointment[];
     rotationPlan: {
         plan: number;
         mode: number;
