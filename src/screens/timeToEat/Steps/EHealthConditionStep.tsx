@@ -9,7 +9,7 @@ const EHealthConditionStep = () => {
         userInfo,
         setUserInfo
     } = useUserInfoStore();
-    const [isShowConditions, setIsShowConditions] = useState(false);
+    const [isShowConditions, setIsShowConditions] = useState(userInfo.healthCondition.length > 0 ? true : false);
     const [conditions, setFilterConditions] = useState(FOOD_PLAN_BY_CONDITION);
 
     const toggleHandleCondition = () => {
@@ -70,7 +70,7 @@ const EHealthConditionStep = () => {
                 <VStack flex={1} gap={5}>
                     <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
                         <Text>Health Conditions</Text>
-                        <Switch value={isShowConditions} defaultValue={false} onToggle={() => toggleHandleCondition()} />
+                        <Switch value={isShowConditions} defaultValue={userInfo.healthCondition.length > 0 ? true : false} onToggle={() => toggleHandleCondition()} />
                     </HStack>
                     {isShowConditions && (
                         <VStack>

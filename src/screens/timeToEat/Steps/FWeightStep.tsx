@@ -22,11 +22,11 @@ const FWeightStep = () => {
             // remove the socialDays
             let filterDays = socialDays.filter((item) => item !== date);
             setSocialDays(filterDays);
-            setUserInfo({ ...userInfo, socialDays: { ...filterDays }});
+            setUserInfo({ ...userInfo, socialDays: [...filterDays]});
         } else {
             socialDays.push(date);
-            setSocialDays([...socialDays]);
-            setUserInfo({ ...userInfo, socialDays: { ...socialDays }});
+            setSocialDays(socialDays);
+            setUserInfo({ ...userInfo, socialDays: [...socialDays]});
         }
     }
 

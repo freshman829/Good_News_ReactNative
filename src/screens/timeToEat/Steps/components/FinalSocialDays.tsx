@@ -8,7 +8,7 @@ const FinalSocialDays = () => {
         <VStack mt={16} gap={6}>
             <Heading size="sm"> Social Days</Heading>
             <VStack mt={8}>
-                {userInfo.socialDays && userInfo.socialDays.map((item) => (
+                {userInfo.socialDays.length > 0 && userInfo.socialDays.map((item) => (
                     <Text>{item}</Text>
                 ))}
             </VStack>
