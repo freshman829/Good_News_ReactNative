@@ -4,6 +4,10 @@ import { RootStackParamList } from "../../types/data";
 import Stepper from "react-native-stepper-ui";
 import { useState } from "react";
 import AWelcomeStep from "./Steps/AWelcomeStep";
+import BDailyFoodStep from "./Steps/BDailyFoodStep";
+import CPreferStep from "./Steps/CPreferStep";
+import DAllergyStep from "./Steps/DAllergyStep";
+import GEmotionalStep from "./Steps/GEmotionalStep";
 
 type TimeToEatProps = NativeStackScreenProps<
     RootStackParamList,
@@ -19,9 +23,10 @@ const MyComponent = (test: string) => {
 
 const content = [
     <AWelcomeStep />,
-    MyComponent("1"),
-    MyComponent("2"),
-    MyComponent("3")
+    <BDailyFoodStep />,
+    <CPreferStep />,
+    <DAllergyStep />,
+    <GEmotionalStep />
 ];
 
 const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
