@@ -4,6 +4,8 @@ import { RootStackParamList } from "../../types/data";
 import Stepper from "react-native-stepper-ui";
 import { useState } from "react";
 import AWelcomeStep from "./Steps/AWelcomeStep";
+import EHealthConditionStep from "./Steps/EHealthConditionStep";
+import FWeightStep from "./Steps/FWeightStep";
 
 type TimeToEatProps = NativeStackScreenProps<
     RootStackParamList,
@@ -21,6 +23,10 @@ const content = [
     <AWelcomeStep />,
     MyComponent("1"),
     MyComponent("2"),
+    MyComponent("3"),
+    MyComponent("4"),
+    <EHealthConditionStep />,
+    <FWeightStep />,
     MyComponent("3")
 ];
 
