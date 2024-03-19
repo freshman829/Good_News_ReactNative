@@ -11,9 +11,10 @@ interface CustomSelectProps {
     value?: string,
     options: SelectOption[],
     onSelect?: (value: string) => void
+    my?: string,
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ value, options, onSelect }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({ value, options, onSelect, my ="$1" }) => {
     const [selectedValue, setSelectedValue] = useState<string>("");
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ value, options, onSelect })
     };
 
     return (
-        <Box style={styles.container} my="$8">
+        <Box style={styles.container} my={my}>
             {options.map((option, index) => (
                 <TouchableOpacity
                     key={index}

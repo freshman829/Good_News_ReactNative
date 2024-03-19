@@ -25,6 +25,7 @@ const CPreferStep = () => {
                         { value: "FV", label: "I Prefer Fruits & Vegetables Days" }
                     ]}
                     onSelect={(value: string) => SelectPrefer(value)}
+                    my="$8"
                 />
             </VStack>
         </Box>

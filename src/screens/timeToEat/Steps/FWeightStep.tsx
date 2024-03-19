@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import { useUserInfoStore } from "../../../store/UserStore";
 
-const FWeightStep = () => {
+interface FWeightStepProps  {
+    finalStep?: boolean
+}
+
+const FWeightStep: React.FC<FWeightStepProps> = ({ finalStep = false }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [currentWeight, setCurrentWeight] = useState(0);
     const [targetWeight, setTargetWeight] = useState(userInfo.weightLogs.target || 0);
@@ -72,40 +76,48 @@ const FWeightStep = () => {
     return (
         <Box flex={1} h="$full" p="$4">
             <VStack display="flex" flex={1}>
-                <Heading>
-                    Weight & Goals
-                </Heading>
-                <Divider mt="$4" mb="$2"/>
+                {!finalStep && (
+                    <>
+                        <Heading>
+                            Weight & Goals
+                        </Heading>
+                        <Divider mt="$4" mb="$2"/>
+                    </>
+                )}
                 <VStack flex={1} justifyContent="space-between" gap={8}>
-                    <VStack gap={5}>
-                        <Heading size="sm">Select Your Current Weight</Heading>
-                        <Text size="sm">{currentWeight.toString()} lbs</Text>
-                        <Center mt={8}>
-                            <Slider onChange={handleCurrentWeightChange} maxValue={500} value={currentWeight}>
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </Center>
-                    </VStack>
-                    <VStack gap={5} mt={5}>
-                        <Heading size="sm">Select Your Target Weight</Heading>
-                        <Text size="sm">{targetWeight.toString()} lbs</Text>
-                        <Center mt={8}>
-                            <Slider onChange={handleTargetWeightChange} maxValue={500} value={targetWeight}>
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </Center>
-                    </VStack>
-                    <Text size="sm" mt={5} color={targetWeightWarning ? "red" : "green"}>You selected {socialDays.length.toString()} Social Days. You're on track for weight loss!</Text>
-                    <VStack gap={6}>
-                        <Heading>Social Days</Heading>
-                        <Text size="sm">The more social days you select, the slower your progress will be.</Text>
-                    </VStack>
+                    {!finalStep && (
+                        <>
+                            <VStack gap={5}>
+                                <Heading size="sm">Select Your Current Weight</Heading>
+                                <Text size="sm">{currentWeight.toString()} lbs</Text>
+                                <Center mt={8}>
+                                    <Slider onChange={handleCurrentWeightChange} maxValue={500} value={currentWeight}>
+                                        <SliderTrack>
+                                            <SliderFilledTrack />
+                                        </SliderTrack>
+                                        <SliderThumb />
+                                    </Slider>
+                                </Center>
+                            </VStack>
+                            <VStack gap={5} mt={5}>
+                                <Heading size="sm">Select Your Target Weight</Heading>
+                                <Text size="sm">{targetWeight.toString()} lbs</Text>
+                                <Center mt={8}>
+                                    <Slider onChange={handleTargetWeightChange} maxValue={500} value={targetWeight}>
+                                        <SliderTrack>
+                                            <SliderFilledTrack />
+                                        </SliderTrack>
+                                        <SliderThumb />
+                                    </Slider>
+                                </Center>
+                            </VStack>
+                            <Text size="sm" mt={5} color={targetWeightWarning ? "red" : "green"}>You selected {socialDays.length.toString()} Social Days. You're on track for weight loss!</Text>
+                            <VStack gap={6}>
+                                <Heading>Social Days</Heading>
+                                <Text size="sm">The more social days you select, the slower your progress will be.</Text>
+                            </VStack>
+                        </>
+                    )}
 
                     <VStack mt={8}>
                         <Calendar 

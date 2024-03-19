@@ -1,16 +1,30 @@
-import { HStack, Heading, Switch, VStack, Text } from "@gluestack-ui/themed";
+import { Box, Heading, VStack } from "@gluestack-ui/themed";
+import CustomSelect from "../../../../components/CustomSelect";
+import { useUserInfoStore } from "../../../../store/UserStore";
 
 const FinalOtherPreferences = () => {
+    const {userInfo, setUserInfo} = useUserInfoStore();
+
+    const SelectPrefer = (value: string) => {
+        if (value === "SN" || value === "FV")
+            setUserInfo({ ...userInfo, prefer: value });
+    }
     return (
-        <VStack gap={8} mt={16}>
-            <Heading size="sm">Other Preferences and Info</Heading>
-            <HStack display="flex" justifyContent="space-between" alignItems="center" mt={8}>
-                <VStack>
-                    <Text maxWidth="$5/6">Prefers Single Protein over Fruits & Vegatables Day</Text>
-                </VStack>
-                <Switch />
-            </HStack>
-        </VStack>
+        <Box mt={16}>
+            <VStack>
+                <Heading size="sm">
+                    Other Preferences and Info
+                </Heading>
+                <CustomSelect
+                    value={userInfo.prefer}
+                    options={[
+                        { value: "SP", label: "Prefer Single-Protein" },
+                        { value: "FV", label: "Prefer Fruits & Vegetables" }
+                    ]}
+                    onSelect={(value: string) => SelectPrefer(value)}
+                />
+            </VStack>
+        </Box>
     )
 }
 

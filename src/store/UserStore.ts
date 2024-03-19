@@ -110,7 +110,7 @@ export interface UserInterface {
     healthCondition: healthCondition[],
     socialDays: any[],
     weightLogs: {
-        target: Number,
+        target: number,
         logs: any[]
     },
     dietToday: {

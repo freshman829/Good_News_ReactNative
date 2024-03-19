@@ -23,7 +23,6 @@ const FinalGoals = () => {
     };
 
     const SelectStartTime = (e: DateTimePickerEvent, date?: Date) => {
-        console.log("date:::", date);
         if (e.type === 'dismissed') {
             setPicker(false);
         }else if (e.type === 'set' && date) {
