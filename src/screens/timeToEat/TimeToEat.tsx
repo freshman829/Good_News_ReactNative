@@ -10,18 +10,12 @@ import BDailyFoodStep from "./Steps/BDailyFoodStep";
 import CPreferStep from "./Steps/CPreferStep";
 import DAllergyStep from "./Steps/DAllergyStep";
 import GEmotionalStep from "./Steps/GEmotionalStep";
+import CustomStepper from "../../components/CustomStepper";
 
 type TimeToEatProps = NativeStackScreenProps<
     RootStackParamList,
     "WhenToEat"
 >;
-const MyComponent = (test: string) => {
-    return (
-        <View>
-            <Text>{test}</Text>
-        </View>
-    );
-};
 
 const content = [
     <AWelcomeStep />,
@@ -47,12 +41,18 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
     return (
         <View p="$4" display="flex" h="$full">
             <HStack alignItems="center"><Icon color="$black" as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{ color: 'black' }} onPress={() => navigation.goBack()}>Back</Text></HStack>
-            <Stepper
+            {/* <Stepper
                 active={active}
                 content={content}
                 onBack={goBefore}
                 onNext={goToNext}
                 onFinish={() => console.log("finish")}
+            /> */}
+            <CustomStepper 
+                currentStep={active}
+                contents={content}
+                onNext={goToNext}
+                onBefore={goBefore}
             />
         </View>
     );

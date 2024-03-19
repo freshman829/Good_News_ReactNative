@@ -58,13 +58,13 @@ const AWelcomeStep = () => {
         })
     };
 
-    return <Box flex={1} h="$full" p="$4">
-        <VStack display="flex" flex={1}>
+    return <Box p="$4">
+        <VStack >
             <Heading>
                 Welcome to the Sadkhin Program and the Good News App! We are customizing your personal daily food schedule
             </Heading>
             <Divider mt="$4" mb="$2" />
-            <VStack flex={1} justifyContent="space-between">
+            <VStack >
                 <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
                     <Text maxWidth="$1/2">New To Program</Text>
                     <Switch value={userInfo.firstRun} onToggle={() => toggleNew()} />
