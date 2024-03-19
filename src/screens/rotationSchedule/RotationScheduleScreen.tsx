@@ -348,7 +348,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                         />
                     </HStack>
                 </View>
-                {(userInfo.rotationPlan.mode > 0) ? (
+                {(userInfo.rotationPlan.mode === 0) ? (
                     <VStack h="$full" gap="$3">
                         <View style={{ zIndex: 8888 }}>
                             <HStack justifyContent="space-between" alignItems="center">
