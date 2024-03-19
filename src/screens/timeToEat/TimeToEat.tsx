@@ -4,6 +4,8 @@ import { RootStackParamList } from "../../types/data";
 import Stepper from "react-native-stepper-ui";
 import { useState } from "react";
 import AWelcomeStep from "./Steps/AWelcomeStep";
+import EHealthConditionStep from "./Steps/EHealthConditionStep";
+import FWeightStep from "./Steps/FWeightStep";
 import BDailyFoodStep from "./Steps/BDailyFoodStep";
 import CPreferStep from "./Steps/CPreferStep";
 import DAllergyStep from "./Steps/DAllergyStep";
@@ -26,6 +28,8 @@ const content = [
     <BDailyFoodStep />,
     <CPreferStep />,
     <DAllergyStep />,
+    <EHealthConditionStep />,
+    <FWeightStep />,
     <GEmotionalStep />
 ];
 

@@ -32,6 +32,8 @@ const initUserInfo: UserInterface = {
         programStartDate: new Date(),
         programDays: 14
     },
+    healthCondition: [],
+    socialDays: [],
     weightLogs: {
         target: 0,
         logs: []
@@ -80,6 +82,12 @@ const initUserInfo: UserInterface = {
     }
 };
 
+type healthCondition = {
+    id: number,
+    title: string,
+    isActive: boolean
+}
+
 export interface UserInterface {
     _id: string;
     appleId: string;
@@ -99,6 +107,8 @@ export interface UserInterface {
         programStartDate: Date;
         programDays: number;
     },
+    healthCondition: healthCondition[],
+    socialDays: any[],
     weightLogs: {
         target: Number,
         logs: any[]
