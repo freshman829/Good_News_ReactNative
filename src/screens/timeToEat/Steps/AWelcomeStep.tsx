@@ -78,7 +78,7 @@ const AWelcomeStep = () => {
                                     {userInfo.rotationPlan.programStartDate ? formatDateInYMD(userInfo.rotationPlan.programStartDate) : ""}
                                 </Text>
                             </Pressable>
-                            {picker ? <RNDateTimePicker display="calendar" value={userInfo.rotationPlan.programStartDate} onChange={SelectStartTime} /> : ""}
+                            {picker ? <RNDateTimePicker display="calendar" value={new Date(userInfo.rotationPlan.programStartDate)} onChange={SelectStartTime} /> : ""}
                         </HStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$8">
                             <VStack>

@@ -10,6 +10,7 @@ import BDailyFoodStep from "./Steps/BDailyFoodStep";
 import CPreferStep from "./Steps/CPreferStep";
 import DAllergyStep from "./Steps/DAllergyStep";
 import GEmotionalStep from "./Steps/GEmotionalStep";
+import HFinalStep from "./Steps/HFinalStep";
 import CustomStepper from "../../components/CustomStepper";
 
 type TimeToEatProps = NativeStackScreenProps<
@@ -24,7 +25,8 @@ const content = [
     <DAllergyStep />,
     <EHealthConditionStep />,
     <FWeightStep />,
-    <GEmotionalStep />
+    <GEmotionalStep finalStep={false}/>,
+    <HFinalStep />
 ];
 
 const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {

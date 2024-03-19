@@ -17,24 +17,30 @@ const EHealthConditionStep = () => {
     }
 
     const toggleHandleConditionItem = (index: number, title: string) => {
-        const item = userInfo.healthCondition.filter((condition) => condition.id === index);
-        if (item.length > 0) {
-            userInfo.healthCondition.forEach((condition) => {
-                if (condition.id === index) {
-                    condition.isActive = !condition.isActive;
-                }
-            })
+        const conditionInfo = {
+            id: index,
+            title: title,
+            isActive: true,
+        };
+        
+        if (userInfo.healthCondition) {
+            // Check if the condition with the same id already exists
+            const existingConditionIndex = userInfo.healthCondition.findIndex(condition => condition.id === index);
+        
+            if (existingConditionIndex !== -1) {
+                // Toggle isActive if the condition already exists
+                userInfo.healthCondition[existingConditionIndex].isActive = !userInfo.healthCondition[existingConditionIndex].isActive;
+            } else {
+                // Add the new condition if it doesn't exist
+                userInfo.healthCondition.push(conditionInfo);
+            }
         } else {
-            const conditionInfo = {
-                id: index,
-                title: title,
-                isActive: true,
-            };
-
-            userInfo.healthCondition.push(conditionInfo);
+            // If healthCondition is undefined, initialize it with an array containing conditionInfo
+            userInfo.healthCondition = [conditionInfo];
         }
-
-        setUserInfo({ ...userInfo })
+        
+        // Update the state with the modified userInfo
+        setUserInfo({ ...userInfo });
     }
 
     const getConditionActiveStatue = (index: number) => {
