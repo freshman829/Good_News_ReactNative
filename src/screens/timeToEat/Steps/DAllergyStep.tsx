@@ -5,7 +5,10 @@ import { Allergies } from '../../../constants';
 import { useUserInfoStore } from '../../../store/UserStore';
 // import { TouchableOpacity } from 'react-native';
 
-const DAllergyStep = () => {
+interface DAllergyStepProps {
+    finalStep?: boolean
+}
+const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [searchValue, setSearchValue] = useState('');
     
@@ -85,7 +88,7 @@ const DAllergyStep = () => {
         <Box >
             <VStack>
                 <Heading>
-                    Let's add any allergy information
+                    Let's {finalStep ? "edit" : "add"} any allergy information
                 </Heading>
                 <Divider my="$8" />
                 <Input size={"lg"} variant={"rounded"} isInvalid={false} isDisabled={false}>
