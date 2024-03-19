@@ -184,7 +184,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                         Today Depression Today
                     </Heading>
                 )}
-                <Divider my="$4" />
+                {/* <Divider my="$4" /> */}
                 {list.map((item, index) => (
                     <Box py="$2" key={index}>
                         <HStack display="flex" justifyContent="space-between" alignItems="center">

@@ -5,12 +5,13 @@ import FinalAllergies from "./components/FinalAllergies";
 import FinalOtherPreferences from "./components/FinalOtherPreferences";
 import FinalSocialDays from "./components/FinalSocialDays";
 import FinalGoals from "./components/FinalGoals";
+import FinalWeight from "./components/FinalWeight";
 
 
 const HFinalStep = () => {
 
     return (
-        <Box>
+        <Box p="$4">
             <Heading>
                 Confirmation of Choices
             </Heading>
@@ -27,6 +28,7 @@ const HFinalStep = () => {
                 <Divider mt={6}/>
                 <FinalGoals />
                 <Divider mt={6}/>
+                <FinalWeight />
             </VStack>
         </Box>
     )
