@@ -1,4 +1,4 @@
-import { Box, Center, Divider, Heading, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, VStack, ScrollView} from "@gluestack-ui/themed";
+import { Box, Center, Divider, Heading, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, VStack, ScrollView } from "@gluestack-ui/themed";
 import { useEffect, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import { useUserInfoStore } from "../../../store/UserStore";
@@ -22,11 +22,11 @@ const FWeightStep = () => {
             // remove the socialDays
             let filterDays = socialDays.filter((item) => item !== date);
             setSocialDays(filterDays);
-            setUserInfo({ ...userInfo, socialDays: [...filterDays]});
+            setUserInfo({ ...userInfo, socialDays: [...filterDays] });
         } else {
             socialDays.push(date);
             setSocialDays(socialDays);
-            setUserInfo({ ...userInfo, socialDays: [...socialDays]});
+            setUserInfo({ ...userInfo, socialDays: [...socialDays] });
         }
     }
 
@@ -43,29 +43,29 @@ const FWeightStep = () => {
         if (updatedLogs.length > 0) {
             updatedLogs[updatedLogs.length - 1].weight = value;
         } else {
-            updatedLogs.push({weight: value});
+            updatedLogs.push({ weight: value });
         }
 
-        setUserInfo({ 
-            ...userInfo, 
-            weightLogs: { 
-              ...userInfo.weightLogs, 
-              logs: updatedLogs
-            } 
+        setUserInfo({
+            ...userInfo,
+            weightLogs: {
+                ...userInfo.weightLogs,
+                logs: updatedLogs
+            }
         });
     }
 
     const handleTargetWeightChange = (value: number) => {
         setTargetWeight(value);
-        if (currentWeight < value ) setTargetWeightWarning(true);
+        if (currentWeight < value) setTargetWeightWarning(true);
         else setTargetWeightWarning(false);
 
-        setUserInfo({ 
-            ...userInfo, 
-            weightLogs: { 
-              ...userInfo.weightLogs, 
-              target: value 
-            } 
+        setUserInfo({
+            ...userInfo,
+            weightLogs: {
+                ...userInfo.weightLogs,
+                target: value
+            }
         });
     }
 
@@ -75,7 +75,7 @@ const FWeightStep = () => {
                 <Heading>
                     Weight & Goals
                 </Heading>
-                <Divider mt="$4" mb="$2"/>
+                <Divider mt="$4" mb="$2" />
                 <VStack flex={1} justifyContent="space-between" gap={8}>
                     <VStack gap={5}>
                         <Heading size="sm">Select Your Current Weight</Heading>
@@ -108,7 +108,7 @@ const FWeightStep = () => {
                     </VStack>
 
                     <VStack mt={8}>
-                        <Calendar 
+                        <Calendar
                             onDayPress={(day) => selectDay(day.dateString)}
                             markedDates={markedDates}
                         />

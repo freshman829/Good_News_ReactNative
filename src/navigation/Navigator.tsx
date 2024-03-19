@@ -4,6 +4,7 @@ import LandingPage from "../screens/landing/LandingPage";
 import RotationScheduleScreen from "../screens/rotationSchedule/RotationScheduleScreen";
 import GoalWeightScreen from "../screens/goalWeight/GoalWeightScreen";
 import TimeToEat from "../screens/timeToEat/TimeToEat";
+import FoodPlanScreen from "../screens/FoodPlan/FoodPlanScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,7 +18,7 @@ function StackNavigator() {
             <Stack.Screen name="RotationSchedule" component={RotationScheduleScreen} />
             <Stack.Screen name="GoalWeightScreen" component={GoalWeightScreen} />
             <Stack.Screen name="WhenToEat" component={TimeToEat} />
-            
+            <Stack.Screen name="FoodPlan" component={FoodPlanScreen} />
         </Stack.Navigator>
     )
 }

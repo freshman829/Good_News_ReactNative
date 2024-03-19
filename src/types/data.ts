@@ -6,7 +6,8 @@ export type RootStackParamList = {
     GoalWeightScreen: undefined,
     HowCanWeHelp: undefined,
     KidsCorner: undefined,
-    WhenToEat: undefined
+    WhenToEat: undefined,
+    FoodPlan: undefined
 };
 
 export interface CreateNewTargetProps {

@@ -9,7 +9,7 @@ const BDailyFoodStep = () => {
     };
 
     const updateAlternatives = () => {
-        setUserInfo({ ...userInfo, dietToday: { ...userInfo.dietToday, alternatives: !userInfo.dietToday.alternatives } })
+        setUserInfo({ ...userInfo, dietToday: { ...userInfo.dietToday, alternatives: !userInfo.dietToday?.alternatives } })
     };
 
     const updateFemale = () => {

@@ -14,6 +14,7 @@ const AWelcomeStep = () => {
     } = useUserInfoStore();
     const [picker, setPicker] = useState(false);
     const [appointPicker, setAppointPicker] = useState(false);
+
     const changeNumber = (isPlus: boolean) => {
         let days = userInfo.rotationPlan.programDays;
         let afterChange = isPlus ? days + 1 : days - 1 || 0;
@@ -35,10 +36,10 @@ const AWelcomeStep = () => {
         if (e.type === 'dismissed') {
             setPicker(false);
         }
-        //  else if (e.type === 'set' && date) {
-        //     setPicker(false);
-        //     setUserInfo({ ...userInfo, nextAppointment: date });
-        // }
+         else if (e.type === 'set' && date) {
+            setPicker(false);
+            setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: date } });
+        }
     };
 
     const toggleNew = () => {
