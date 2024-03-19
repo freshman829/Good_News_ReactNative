@@ -24,7 +24,7 @@ const EHealthConditionStep = () => {
                     condition.isActive = !condition.isActive;
                 }
             })
-        }else {
+        } else {
             const conditionInfo = {
                 id: index,
                 title: title,
@@ -60,25 +60,27 @@ const EHealthConditionStep = () => {
                 <Heading>
                     Do you want to customize your food plan based on your health conditions
                 </Heading>
-                <Divider mt="$4" mb="$2"/>
-                <VStack flex={1} justifyContent="space-between" gap={5}>
+                <Divider mt="$4" mb="$2" />
+                <VStack flex={1} gap={5}>
                     <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
                         <Text>Health Conditions</Text>
                         <Switch value={isShowConditions} defaultValue={false} onToggle={() => toggleHandleCondition()} />
                     </HStack>
-                    <Input>
-                        <InputSlot pl="$3">
-                            <InputIcon as={SearchIcon}/>
-                        </InputSlot>
-                        <InputField placeholder="Search..." onChangeText={filterConditions}/>
-                    </Input>
                     {isShowConditions && (
-                        conditions.map((condition, index) => (
-                            <HStack key={index} display="flex" justifyContent="space-between" alignItems="center" mt="$2">
-                                <Text>{condition}</Text>
-                                <Switch value={getConditionActiveStatue(index)} defaultValue={false} onToggle={() => toggleHandleConditionItem(index, condition)} />
-                            </HStack>
-                        ))
+                        <VStack>
+                            <Input>
+                                <InputSlot pl="$3">
+                                    <InputIcon as={SearchIcon} />
+                                </InputSlot>
+                                <InputField placeholder="Search..." onChangeText={filterConditions} />
+                            </Input>
+                            {conditions.map((condition, index) => (
+                                <HStack key={index} display="flex" justifyContent="space-between" alignItems="center" mt="$2">
+                                    <Text>{condition}</Text>
+                                    <Switch value={getConditionActiveStatue(index)} defaultValue={false} onToggle={() => toggleHandleConditionItem(index, condition)} />
+                                </HStack>
+                            ))}
+                        </VStack>
                     )}
                 </VStack>
             </VStack>
