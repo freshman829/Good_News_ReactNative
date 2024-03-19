@@ -1,9 +1,12 @@
+import React from "react";
 import { Box, Divider, HStack, Heading, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Switch, Text, VStack } from "@gluestack-ui/themed";
 import { useUserInfoStore } from "../../../store/UserStore";
 
-const GEmotionalStep = () => {
+interface GEmotionalStepProps {
+    finalStep?: boolean;
+}
+const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
-    console.log(userInfo.emotions);
     
     const list = [
         "depression",
@@ -172,14 +175,20 @@ const GEmotionalStep = () => {
     return (
         <Box>
             <VStack>
-                <Heading>
-                    Set Emotional & Health Conditions and Goals For Today?
-                </Heading>
+                {!finalStep ? (
+                    <Heading>
+                        Set Emotional & Health Conditions and Goals For Today?
+                    </Heading>
+                ) : (
+                    <Heading size="sm">
+                        Today Depression Today
+                    </Heading>
+                )}
                 <Divider my="$4" />
                 {list.map((item, index) => (
                     <Box py="$2" key={index}>
                         <HStack display="flex" justifyContent="space-between" alignItems="center">
-                            <Text>Did you experience {item} today?</Text>
+                            <Text>{!finalStep ? "Did you experience" : "Have"} {item} today?</Text>
                             <Switch value={userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.status} onToggle={() => toggle(item)} />
                         </HStack>
                         {userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.status ? (
