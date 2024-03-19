@@ -4,28 +4,38 @@ import { RootStackParamList } from "../../types/data";
 import Stepper from "react-native-stepper-ui";
 import { useState } from "react";
 import AWelcomeStep from "./Steps/AWelcomeStep";
+import EHealthConditionStep from "./Steps/EHealthConditionStep";
+import FWeightStep from "./Steps/FWeightStep";
+import BDailyFoodStep from "./Steps/BDailyFoodStep";
+import CPreferStep from "./Steps/CPreferStep";
+import DAllergyStep from "./Steps/DAllergyStep";
+import GEmotionalStep from "./Steps/GEmotionalStep";
+import HFinalStep from "./Steps/HFinalStep";
+import CustomStepper from "../../components/CustomStepper";
+import { updateUserinfo } from "../../api/userAPI";
+import { useUserInfoStore } from "../../store/UserStore";
+import { useToastr } from "../../providers/ToastProvider";
 
 type TimeToEatProps = NativeStackScreenProps<
     RootStackParamList,
     "WhenToEat"
 >;
-const MyComponent = (test: string) => {
-    return (
-        <View>
-            <Text>{test}</Text>
-        </View>
-    );
-};
 
 const content = [
     <AWelcomeStep />,
-    MyComponent("1"),
-    MyComponent("2"),
-    MyComponent("3")
+    <BDailyFoodStep />,
+    <CPreferStep />,
+    <DAllergyStep />,
+    <EHealthConditionStep />,
+    <FWeightStep />,
+    <GEmotionalStep finalStep={false} />,
+    <HFinalStep />
 ];
 
 const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
+    const { userInfo, setUserInfo } = useUserInfoStore();
     const [active, setActive] = useState(0);
+    const toast = useToastr();
 
     const goBefore = () => {
         setActive((p) => p - 1)
@@ -35,15 +45,25 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
         setActive((p) => p + 1);
     }
 
+    const goToFoodPlan = async () => {
+        const result = await updateUserinfo(userInfo);
+        if (result.success) {
+            setUserInfo({ ...result.data });
+            navigation.navigate("FoodPlan");
+        } else {
+            toast?.showToast({ title: "error", message: result.msg, options: 'error' });
+        }
+    }
+
     return (
         <View p="$4" display="flex" h="$full">
             <HStack alignItems="center"><Icon color="$black" as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{ color: 'black' }} onPress={() => navigation.goBack()}>Back</Text></HStack>
-            <Stepper
-                active={active}
-                content={content}
-                onBack={goBefore}
+            <CustomStepper
+                currentStep={active}
+                contents={content}
                 onNext={goToNext}
-                onFinish={() => console.log("finish")}
+                onBefore={goBefore}
+                onFinish={goToFoodPlan}
             />
         </View>
     );

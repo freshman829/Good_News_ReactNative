@@ -32,11 +32,61 @@ const initUserInfo: UserInterface = {
         programStartDate: new Date(),
         programDays: 14
     },
+    healthCondition: [],
+    socialDays: [],
     weightLogs: {
         target: 0,
         logs: []
+    },
+    dietToday: {
+        eatSomthing: false,
+        alternatives: false
+    },
+    female: false,
+    dietaryRestrictions: {
+        kosher: false,
+        vegan: false,
+        halal: false
+    },
+    prefer: "SN",
+    allergies: {
+        protein: [],
+        fv: []
+    },
+    emotions: {
+        depression: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        anxiety: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        stress: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        fatigue: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        insomnia: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        }
     }
 };
+
+type healthCondition = {
+    id: number,
+    title: string,
+    isActive: boolean
+}
 
 export interface UserInterface {
     _id: string;
@@ -57,9 +107,53 @@ export interface UserInterface {
         programStartDate: Date;
         programDays: number;
     },
+    healthCondition: healthCondition[],
+    socialDays: any[],
     weightLogs: {
-        target: Number,
+        target: number,
         logs: any[]
+    },
+    dietToday: {
+        eatSomthing: boolean,
+        alternatives: boolean
+    },
+    female: boolean,
+    dietaryRestrictions: {
+        kosher: boolean,
+        vegan: boolean,
+        halal: boolean
+    },
+    prefer: "SN" | "FV",
+    allergies: {
+        protein: string[],
+        fv: string[]
+    },
+    emotions: {
+        depression: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        anxiety: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        stress: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        fatigue: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        insomnia: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        }
     }
 }
 
