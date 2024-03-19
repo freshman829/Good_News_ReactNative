@@ -6,6 +6,10 @@ import { useState } from "react";
 import AWelcomeStep from "./Steps/AWelcomeStep";
 import EHealthConditionStep from "./Steps/EHealthConditionStep";
 import FWeightStep from "./Steps/FWeightStep";
+import BDailyFoodStep from "./Steps/BDailyFoodStep";
+import CPreferStep from "./Steps/CPreferStep";
+import DAllergyStep from "./Steps/DAllergyStep";
+import GEmotionalStep from "./Steps/GEmotionalStep";
 
 type TimeToEatProps = NativeStackScreenProps<
     RootStackParamList,
@@ -21,13 +25,12 @@ const MyComponent = (test: string) => {
 
 const content = [
     <AWelcomeStep />,
-    MyComponent("1"),
-    MyComponent("2"),
-    MyComponent("3"),
-    MyComponent("4"),
+    <BDailyFoodStep />,
+    <CPreferStep />,
+    <DAllergyStep />,
     <EHealthConditionStep />,
     <FWeightStep />,
-    MyComponent("3")
+    <GEmotionalStep />
 ];
 
 const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
