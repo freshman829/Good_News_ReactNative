@@ -8,6 +8,7 @@ import { registerNewTarget, saveNewWeightLog } from "../../api/userAPI";
 import { Dimensions } from "react-native";
 import moment from 'moment';
 import { LineChart } from 'react-native-chart-kit';
+import EmojiInput from '../../components/EmojiInput';
 
 type GoalWeightScreenProps = NativeStackScreenProps<
     RootStackParamList,
@@ -18,6 +19,7 @@ const GoalWeightScreen: React.FC<GoalWeightScreenProps> = ({ navigation }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [target, setTarget] = useState("0");
     const [current, setCurrent] = useState("0");
+    const [comment, setComment] = useState("");
     const [labels, setlabels] = useState<string[]>([]);
     const [values, setvalues] = useState<number[]>([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -54,13 +56,14 @@ const GoalWeightScreen: React.FC<GoalWeightScreenProps> = ({ navigation }) => {
             id: userInfo._id,
             log: {
                 weight: parseInt(current),
+                comment,
                 date: new Date()
             }
         };
-
         const result = await saveNewWeightLog(saveData);
         setUserInfo(result);
         setIsOpen(false);
+        setComment("");
     }
 
     if (!userInfo.weightLogs.target)
@@ -118,8 +121,9 @@ const GoalWeightScreen: React.FC<GoalWeightScreenProps> = ({ navigation }) => {
                 py="$2"
             >
                 <HStack justifyContent="space-between">
-                    <Text size="md" color="$secondary800">{moment(item.item.date).format("YYYY/MM/DD")}</Text>
-                    <Text size='md' color="$secondary800">{item.item.weight} lbs</Text>
+                    <Text size="md" >{moment(item.item.date).format("MM/DD/YYYY")}</Text>
+                    {item.item.comment ? <Text size='md' >{item.item.comment}</Text> : ""}
+                    <Text size='md' >{item.item.weight} lbs</Text>
                 </HStack>
             </Box>
         )
@@ -207,9 +211,19 @@ const GoalWeightScreen: React.FC<GoalWeightScreenProps> = ({ navigation }) => {
                         </ModalCloseButton>
                     </ModalHeader>
                     <ModalBody>
-                        <Input>
-                            <InputField type="text" value={current} onChangeText={(e) => setCurrent(e)} />
-                        </Input>
+                        <VStack space="xs">
+                            <Text lineHeight="$xs">Current Weight</Text>
+                            <Input>
+                                <InputField type="text" value={current} onChangeText={(e) => setCurrent(e)} />
+                            </Input>
+                        </VStack>
+                        <VStack space="xs" mt="$2">
+                            <Text lineHeight="$xs">Comment</Text>
+                            <EmojiInput value={comment} onChangeText={(text) => setComment(text)} />
+                            {/* <Input>
+                                <InputField type="text" value={comment} onChangeText={(text) => setComment(text)} />
+                            </Input> */}
+                        </VStack>
                     </ModalBody>
                     <ModalFooter>
                         <Button

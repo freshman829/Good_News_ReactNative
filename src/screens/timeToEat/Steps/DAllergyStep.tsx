@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Input, InputField, InputIcon, InputSlot, SearchIcon, HStack, Text, Switch, ScrollView } from '@gluestack-ui/themed';
 import { Box, Divider, Heading, VStack } from "@gluestack-ui/themed";
-import { Allergies } from '../../../constants';
 import { useUserInfoStore } from '../../../store/UserStore';
+import { getFoodList } from '../../../api/foodAPI';
+import { useToastr } from '../../../providers/ToastProvider';
 // import { TouchableOpacity } from 'react-native';
 
 interface DAllergyStepProps {
@@ -11,14 +12,29 @@ interface DAllergyStepProps {
 const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [searchValue, setSearchValue] = useState('');
+    const [foods, setFoods] = useState([]);
+    const toast = useToastr();
     
+    useEffect(() => {
+        const getFoods = async () => {
+            const result = await getFoodList();
+            if (result.success) {
+                setFoods(result.data);
+            } else {
+                toast?.showToast({ message: result.msg, options: "error" });
+            }
+        }
+        getFoods();
+    }, []);
+
     const proteins = useMemo(() => {
-        return Allergies.proteinAllergies.filter((protein) => protein.toLowerCase().includes(searchValue.toLowerCase()));
-    }, [searchValue]);
-    
+        return foods.filter((protein: any) => protein.type.includes("sp") && protein.name.toLowerCase().includes(searchValue.toLowerCase()))
+                .map((protein: any) => protein.name);
+    }, [searchValue, foods]);
     const fvs = useMemo(() => {
-        return Allergies.fvAllergies.filter((fv) => fv.toLowerCase().includes(searchValue.toLowerCase()));
-    }, [searchValue]);
+        return foods.filter((fv: any) => (fv.type.includes("fruit") || fv.type.includes("vegetable")) && fv.name.toLowerCase().includes(searchValue.toLowerCase()))
+                .map((fv: any) => fv.name);
+    }, [searchValue, foods]);
 
     const renderProtein = (item: string, key: number) => {
         const isSelected = userInfo.allergies.protein.includes(item);
@@ -35,18 +51,16 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                 borderBottomWidth="$1"
                 borderColor="$trueGray300"
                 $dark-borderColor="$trueGray100"
-                $base-pl="$0"
-                $base-pr="$0"
-                $sm-pl="$4"
-                $sm-pr="$4"
+                pl="$0"
+                pr="$0"
                 py="$2"
                 key={`protein-${key}`}
             >
                 {/* <TouchableOpacity onPress={addOrRemoveProtein}> */}
-                    <HStack justifyContent="space-between">
-                        <Text size="md" color="$secondary800" >{item}</Text>
-                        <Switch value={isSelected} onToggle={addOrRemoveProtein} />
-                    </HStack>
+                <HStack justifyContent="space-between">
+                    <Text size="md" color="$secondary800" flex={1} >{item}</Text>
+                    <Switch value={isSelected} onToggle={addOrRemoveProtein} />
+                </HStack>
                 {/* </TouchableOpacity> */}
             </Box>
         )
@@ -75,10 +89,10 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                 key={`fv-${key}`}
             >
                 {/* <TouchableOpacity onPress={addOrRemoveFV}> */}
-                    <HStack justifyContent="space-between">
-                        <Text size="md" color="$secondary800" >{item}</Text>
-                        <Switch value={isSelected} onToggle={addOrRemoveFV} />
-                    </HStack>
+                <HStack justifyContent="space-between">
+                    <Text size="md" color="$secondary800" flex={1} >{item}</Text>
+                    <Switch value={isSelected} onToggle={addOrRemoveFV} />
+                </HStack>
                 {/* </TouchableOpacity> */}
             </Box>
         )

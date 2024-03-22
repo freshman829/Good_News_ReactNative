@@ -35,6 +35,23 @@ export function extractTime(timeStr: string) {
   return { hours, minutes };
 }
 
+/**
+ * convert Date in string with "MM/DD/YYYY" format
+ * @param date Date
+ * @returns string
+ */
 export function formatDateInYMD(date: Date) {
   return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+}
+/**
+ * convert YYYY-MM-DD to MM/DD/YYYY
+ * @param inputDate [string]
+ * @returns [string]
+ */
+export function convertDateString(inputDate: string) {
+  // Split the string into parts
+  const parts = inputDate.split('-');
+  // Rearrange the parts and join them with '/'
+  const convertedDate = `${parts[1]}/${parts[2]}/${parts[0]}`;
+  return convertedDate;
 }

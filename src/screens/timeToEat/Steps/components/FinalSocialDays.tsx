@@ -2,6 +2,7 @@ import { Heading, VStack, Text, Modal, ModalBackdrop, ModalContent, ModalBody, M
 import { useUserInfoStore } from "../../../../store/UserStore";
 import React, { useState } from "react";
 import { Calendar } from "react-native-calendars";
+import { convertDateString } from "../../../../utils/numberUtil";
 
 const FinalSocialDays = () => {
     const { userInfo, setUserInfo } = useUserInfoStore();
@@ -25,7 +26,7 @@ const FinalSocialDays = () => {
             <Heading size="sm"> Social Days</Heading>
             <VStack mt={8}>
                 {userInfo.socialDays.length > 0 && userInfo.socialDays.map((item, index) => (
-                    <Text key={index}>{item}</Text>
+                    <Text key={index}>{convertDateString(item)}</Text>
                 ))}
             </VStack>
             <Text onPress={editSocialDays} color="blue">Edit Social Days</Text>
