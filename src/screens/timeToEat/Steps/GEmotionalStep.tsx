@@ -7,13 +7,17 @@ interface GEmotionalStepProps {
 }
 const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
-    
+
     const list = [
         "depression",
         "anxiety",
         "stress",
         "fatigue",
-        "insomnia"
+        "insomnia",
+        "libido",
+        "bulimic",
+        "sugar",
+        "fatty",
     ];
 
     const toggle = (item: string) => {
@@ -41,137 +45,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
             }
         });
     }
-    // const toggleDepression = () => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             depression: {
-    //                 ...userInfo.emotions?.depression,
-    //                 status: !userInfo.emotions?.depression?.status
-    //             }
-    //         }
-    //     });
-    // }
-
-    // const changeDepressionSeverity = (value: number) => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             depression: {
-    //                 ...userInfo.emotions.depression,
-    //                 severity: value,
-    //                 updated: new Date()
-    //             }
-    //         }
-    //     });
-    // }
-
-    // const toggleAnxiety = () => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             anxiety: {
-    //                 ...userInfo.emotions.anxiety,
-    //                 status: !userInfo.emotions.anxiety.status
-    //             }
-    //         }
-    //     });
-    // }
-
-    // const changeAnxietySeverity = (value: number) => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             anxiety: {
-    //                 ...userInfo.emotions.anxiety,
-    //                 severity: value,
-    //                 updated: new Date()
-    //             }
-    //         }
-    //     });
-    // }
-
-    // const toggleStress = () => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             stress: {
-    //                 ...userInfo.emotions.stress,
-    //                 status: !userInfo.emotions.stress.status
-    //             }
-    //         }
-    //     });
-    // }
-    // const changeStressSeverity = (value: number) => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             stress: {
-    //                 ...userInfo.emotions.stress,
-    //                 severity: value,
-    //                 updated: new Date()
-    //             }
-    //         }
-    //     });
-    // }
-    // const toggleFatigue = () => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             fatigue: {
-    //                 ...userInfo.emotions.fatigue,
-    //                 status: !userInfo.emotions.fatigue.status
-    //             }
-    //         }
-    //     });
-    // }
-
-    // const changeFatigueSeverity = (value: number) => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             fatigue: {
-    //                 ...userInfo.emotions.fatigue,
-    //                 severity: value,
-    //                 updated: new Date()
-    //             }
-    //         }
-    //     });
-    // }
-    // const toggleInsomnia = () => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             insomnia: {
-    //                 ...userInfo.emotions.insomnia,
-    //                 status: !userInfo.emotions.insomnia.status
-    //             }
-    //         }
-    //     });
-    // }
-    // const changeInsomniaSeverity = (value: number) => {
-    //     setUserInfo({
-    //         ...userInfo,
-    //         emotions: {
-    //             ...userInfo.emotions,
-    //             insomnia: {
-    //                 ...userInfo.emotions.insomnia,
-    //                 severity: value,
-    //                 updated: new Date()
-    //             }
-    //         }
-    //     });
-    // }
-
+    
     return (
         <Box>
             <VStack>
@@ -181,7 +55,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                     </Heading>
                 ) : (
                     <Heading size="sm">
-                        Today Depression Today
+                        Depression Today
                     </Heading>
                 )}
                 {/* <Divider my="$4" /> */}
@@ -218,114 +92,12 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                         ) : ""}
                     </Box>
                 ))}
-                {/* <Box py="$2">
-                    <HStack display="flex" justifyContent="space-between" alignItems="center">
-                        <Text>Did you experience anxiety today?</Text>
-                        <Switch value={userInfo.emotions?.anxiety?.status} onToggle={toggleAnxiety} />
-                    </HStack>
-                    {userInfo.emotions?.anxiety?.status ? (
-                        <VStack p="$4">
-                            <Slider
-                                value={userInfo.emotions?.anxiety?.severity}
-                                onChange={changeAnxietySeverity}
-                                size="md"
-                                orientation="horizontal"
-                                isDisabled={false}
-                                isReversed={false}
-                            >
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                            <Text mt="$4">Anxiety Severity: {userInfo.emotions?.anxiety?.severity}</Text>
-                            {userInfo.emotions?.anxiety?.updated ?
-                                <Text mt="$2">Last Updated: {userInfo.emotions?.anxiety?.updated.toLocaleDateString()}</Text> : ""
-                            }
-                        </VStack>
-                    ) : ""}
-                </Box>
                 <Box py="$2">
-                    <HStack display="flex" justifyContent="space-between" alignItems="center">
-                        <Text>Did you experience stress today?</Text>
-                        <Switch value={userInfo.emotions?.stress?.status} onToggle={toggleStress} />
-                    </HStack>
-                    {userInfo.emotions?.stress?.status ? (
-                        <VStack p="$4">
-                            <Slider
-                                value={userInfo.emotions?.stress?.severity}
-                                onChange={changeStressSeverity}
-                                size="md"
-                                orientation="horizontal"
-                                isDisabled={false}
-                                isReversed={false}
-                            >
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                            <Text mt="$4">Stress Severity: {userInfo.emotions?.stress?.severity}</Text>
-                            {userInfo.emotions?.stress?.updated ?
-                                <Text mt="$2">Last Updated: {userInfo.emotions?.stress?.updated.toLocaleDateString()}</Text> : ""
-                            }
-                        </VStack>
-                    ) : ""}
-                </Box>
-                <Box py="$2">
-                    <HStack display="flex" justifyContent="space-between" alignItems="center">
-                        <Text>Did you experience fatigue today?</Text>
-                        <Switch value={userInfo.emotions?.fatigue.status} onToggle={toggleFatigue} />
-                    </HStack>
-                    {userInfo.emotions?.fatigue.status ? (
-                        <VStack p="$4">
-                            <Slider
-                                value={userInfo.emotions?.fatigue.severity}
-                                onChange={changeFatigueSeverity}
-                                size="md"
-                                orientation="horizontal"
-                                isDisabled={false}
-                                isReversed={false}
-                            >
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                            <Text mt="$4">Fatigue Severity: {userInfo.emotions?.fatigue.severity}</Text>
-                            {userInfo.emotions?.fatigue.updated ?
-                                <Text mt="$2">Last Updated: {userInfo.emotions?.fatigue.updated.toLocaleDateString()}</Text> : ""
-                            }
-                        </VStack>
-                    ) : ""}
-                </Box>
-                <Box py="$2">
-                    <HStack display="flex" justifyContent="space-between" alignItems="center">
-                        <Text>Did you experience insomnia today?</Text>
-                        <Switch value={userInfo.emotions?.insomnia.status} onToggle={toggleInsomnia} />
-                    </HStack>
-                    {userInfo.emotions?.insomnia.status ? (
-                        <VStack p="$4">
-                            <Slider
-                                value={userInfo.emotions?.insomnia.severity}
-                                onChange={changeInsomniaSeverity}
-                                size="md"
-                                orientation="horizontal"
-                                isDisabled={false}
-                                isReversed={false}
-                            >
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                            <Text mt="$4">Insomnia Severity: {userInfo.emotions?.insomnia.severity}</Text>
-                            {userInfo.emotions?.insomnia.updated ?
-                                <Text mt="$2">Last Updated: {userInfo.emotions?.insomnia.updated.toLocaleDateString()}</Text> : ""
-                            }
-                        </VStack>
-                    ) : ""}
-                </Box> */}
+                        <HStack display="flex" justifyContent="space-between" alignItems="center">
+                            <Text>Are you pre or menopause?</Text>
+                            <Switch value={userInfo.emotions?.meno?.status} onToggle={() => toggle("meno")} />
+                        </HStack>
+                    </Box>
             </VStack>
         </Box>
     );

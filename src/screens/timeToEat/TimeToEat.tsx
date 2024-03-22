@@ -46,7 +46,7 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
     }
 
     const goToFoodPlan = async () => {
-        const result = await updateUserinfo(userInfo);
+        const result = await updateUserinfo({ ...userInfo, isFinishInterview: true });
         if (result.success) {
             setUserInfo({ ...result.data });
             navigation.navigate("FoodPlan");

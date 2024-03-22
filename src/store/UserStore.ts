@@ -30,7 +30,8 @@ const initUserInfo: UserInterface = {
         alarms: [],
         plan: 0,
         programStartDate: new Date(),
-        programDays: 14
+        programDays: 14,
+        alarmTurn: false
     },
     healthCondition: [],
     socialDays: [],
@@ -78,8 +79,32 @@ const initUserInfo: UserInterface = {
             status: false,
             severity: 0,
             updated: undefined
-        }
-    }
+        },
+        libido: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        bulimic: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        sugar: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        fatty: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        meno: {
+            status: false,
+        },
+    },
+    isFinishInterview: false
 };
 
 type healthCondition = {
@@ -95,7 +120,8 @@ export interface UserInterface {
     fullName: string;
     firstRun: boolean;
     isLoggedIn: boolean;
-    nextAppointment: Appointment | undefined;
+    // nextAppointment: Appointment | undefined;
+    nextAppointment: Date | undefined;
     appointmentHistory: Appointment[];
     rotationPlan: {
         plan: number;
@@ -106,6 +132,7 @@ export interface UserInterface {
         alarms: any[],
         programStartDate: Date;
         programDays: number;
+        alarmTurn: boolean;
     },
     healthCondition: healthCondition[],
     socialDays: any[],
@@ -153,8 +180,33 @@ export interface UserInterface {
             status: boolean,
             severity: number,
             updated?: Date
-        }
-    }
+        },
+        libido: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        bulimic: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        sugar: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        fatty: {
+            status: boolean,
+            severity: number,
+            updated?: Date
+        },
+        meno: {
+            status: boolean,
+        },
+
+    },
+    isFinishInterview: boolean
 }
 
 interface UserState {

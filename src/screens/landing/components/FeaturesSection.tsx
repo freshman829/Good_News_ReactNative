@@ -42,9 +42,14 @@ const FeaturesSection: React.FC<{ navigation: any, onLogin: () => void }> = ({ n
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap="$2" alignItems="center" justifyContent="center">
             {features.map((feature, index) => (
                 <TouchableOpacity key={index} onPress={() => {
-                    if (userInfo._id)
-                        navigation.navigate(feature.target);
-                    else {
+                    if (userInfo._id) {
+                        console.log(feature.title, userInfo.isFinishInterview);
+                        if (feature.title === "TIME TO EAT" && userInfo.isFinishInterview) {
+                            navigation.navigate("FoodPlan");
+                        } else {
+                            navigation.navigate(feature.target);
+                        }
+                    } else {
                         onLogin();
                     }
                 }}>

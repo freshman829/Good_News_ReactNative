@@ -3,13 +3,13 @@ import { UserInterface } from "../store/UserStore";
 import { CreateNewTargetProps } from "../types/data";
 
 const Axios = axios.create({
-    baseURL: "https://goodnews2023.herokuapp.com/api"
-    // baseURL: "http://10.0.2.2:3000/api"
+    baseURL: "https://goodnews2023.herokuapp.com/api/users"
+    // baseURL: "http://10.0.2.2:3000/api/users"
 });
 
 export async function loginUserWithApple(user: { userId: string, userName: string, identityToken: string }) {
     try {
-        const result = await Axios.post(`/users/loginWithApple`, user);
+        const result = await Axios.post(`/loginWithApple`, user);
         return result.data;
     } catch (error) {
         console.log(error);
@@ -19,7 +19,7 @@ export async function loginUserWithApple(user: { userId: string, userName: strin
 
 export async function saveRotationSchedule(data: UserInterface) {
     try {
-        const result = await Axios.post(`/users/${data._id}/updateSchedule`, data.rotationPlan);
+        const result = await Axios.post(`/${data._id}/updateSchedule`, data.rotationPlan);
         return result.data;
     } catch (error) {
         console.log(error);
@@ -29,7 +29,7 @@ export async function saveRotationSchedule(data: UserInterface) {
 
 export async function registerNewTarget(data: CreateNewTargetProps) {
     try {
-        const result = await Axios.post(`/users/${data.id}/addTarget`, data.value);
+        const result = await Axios.post(`/${data.id}/addTarget`, data.value);
         return result.data;
     } catch (error) {
         console.log(error);
@@ -37,9 +37,9 @@ export async function registerNewTarget(data: CreateNewTargetProps) {
     }
 }
 
-export async function saveNewWeightLog(data: { id: string, log: { weight: number, date: Date } }) {
+export async function saveNewWeightLog(data: { id: string, log: { weight: number, comment?: string, date: Date } }) {
     try {
-        const result = await Axios.post(`/users/${data.id}/addWeightLog`, data.log);
+        const result = await Axios.post(`/${data.id}/addWeightLog`, data.log);
         return result.data;
     } catch (error) {
         console.log(error);
@@ -49,7 +49,7 @@ export async function saveNewWeightLog(data: { id: string, log: { weight: number
 
 export async function saveProgramDuration(data: { id: string, program: { start: Date, duration: number } }) {
     try {
-        const result = await Axios.post(`/users/${data.id}/saveProgramDate`, data.program);
+        const result = await Axios.post(`/${data.id}/saveProgramDate`, data.program);
         return {
             success: true,
             data: result.data
@@ -64,7 +64,7 @@ export async function saveProgramDuration(data: { id: string, program: { start: 
 
 export async function updateUserinfo(data: UserInterface) {
     try {
-        const result = await Axios.put(`/users/${data._id}`, data);
+        const result = await Axios.put(`/${data._id}`, data);
         return {
             success: true,
             data: result.data
@@ -76,3 +76,33 @@ export async function updateUserinfo(data: UserInterface) {
         }
     }
 }
+
+export async function getPlanList(id: string) {
+    try {
+        const result = await Axios.get(`/${id}/getPlan`);
+        return {
+            success: true,
+            data: result.data
+        }
+    } catch (error) {
+        return {
+            success: false,
+            msg: (error as any).message
+        }
+    }
+}
+
+export async function getFoodSuggestion(id: string) {
+    try {
+        const result = await Axios.get(`/${id}/getFoodSuggestion`);
+        return {
+            success: true,
+            data: result.data
+        };
+    } catch (error) {
+        return {
+            success: false,
+            msg: (error as any).message
+        };
+    }
+} 

@@ -17,3 +17,9 @@ export interface CreateNewTargetProps {
         log: { weight: number, date: Date }
     }
 };
+
+export interface DayPlan {
+    date: string,
+    dayType: 'SP' | 'FV' | 'SD',
+    foods: any[]
+};

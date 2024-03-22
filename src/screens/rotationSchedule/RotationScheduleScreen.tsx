@@ -42,13 +42,10 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     const init = useRef(true);
     const { userInfo, setUserInfo } = useUserInfoStore();
     const isInitialMount = useRef(true);
-    const [openMode, setOpenMode] = useState(false);
-    const [mode, setMode] = useState(0);
     const [openSpecial, setOpenSpecial] = useState(false);
     const [special, setSpecial] = useState<number>(0);
 
     useEffect(() => {
-        setMode(userInfo.rotationPlan.mode);
         setSpecial(userInfo.rotationPlan.plan);
     }, []);
 
@@ -58,14 +55,11 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 isInitialMount.current = false;
             } else {
                 let hasUpdated = false;
-                if (mode !== userInfo.rotationPlan.mode) {
-                    hasUpdated = true;
-                }
                 if (special !== userInfo.rotationPlan.plan) {
                     hasUpdated = true;
                 }
                 if (hasUpdated) {
-                    const updatedUser = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, mode, plan: special || 0 } });
+                    const updatedUser = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, plan: special || 0 } });
                     if (updatedUser) {
                         setUserInfo(updatedUser);
                     }
@@ -77,10 +71,10 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         } else {
             saveUpdate();
         }
-    }, [mode, special]);
+    }, [special]);
 
     useEffect(() => {
-        if (userInfo.rotationPlan.mode > 0
+        if (!userInfo.rotationPlan.alarmTurn
             && userInfo.rotationPlan.plan >= 2
             && userInfo.rotationPlan.wakeTime
             && userInfo.rotationPlan.sleepTime
@@ -88,7 +82,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         ) {
             refreshAlarms();
         }
-    }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime, userInfo.rotationPlan.mode, userInfo.rotationPlan.plan]);
+    }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime, userInfo.rotationPlan.alarmTurn, userInfo.rotationPlan.plan]);
 
     useEffect(() => {
         renderConfirmAlarm();
@@ -337,18 +331,13 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 <View style={{ zIndex: 9999 }}>
                     <HStack justifyContent="space-between" pb="$2">
                         <Heading color="#000000" size="sm" maxWidth="$3/5">Are you on maintenance / post maintenance mode?</Heading>
-                        <DropDownPicker
-                            open={openMode}
-                            value={userInfo.rotationPlan.mode}
-                            items={maintenanceMode}
-                            setOpen={setOpenMode}
-                            setValue={setMode}
-                            style={{ width: 100, zIndex: 9999 }}
-                            containerStyle={{ width: 100, zIndex: 9999 }}
+                        <Switch 
+                            value={userInfo?.rotationPlan.alarmTurn} 
+                            onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarmTurn: !userInfo.rotationPlan.alarmTurn } })} 
                         />
                     </HStack>
                 </View>
-                {(userInfo.rotationPlan.mode === 0) ? (
+                {!userInfo.rotationPlan.alarmTurn ? (
                     <VStack h="$full" gap="$3">
                         <View style={{ zIndex: 8888 }}>
                             <HStack justifyContent="space-between" alignItems="center">

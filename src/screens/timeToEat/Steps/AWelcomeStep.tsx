@@ -14,6 +14,12 @@ const AWelcomeStep = () => {
     } = useUserInfoStore();
     const [picker, setPicker] = useState(false);
     const [appointPicker, setAppointPicker] = useState(false);
+    const [showNextAppointment, setShowNextAppointment] = useState(false);
+
+    useEffect(() => {
+        setShowNextAppointment(userInfo.nextAppointment ? true : false);
+    }, [userInfo.nextAppointment]);
+
 
     const changeNumber = (isPlus: boolean) => {
         let days = userInfo.rotationPlan.programDays;
@@ -27,18 +33,29 @@ const AWelcomeStep = () => {
         });
     };
     const toggleNextAppoint = () => {
-        setUserInfo({
-            ...userInfo,
-            nextAppointment: undefined
-        });
+        if (showNextAppointment) {
+            setUserInfo({ ...userInfo, nextAppointment: undefined })
+        }
+        setShowNextAppointment(prev => !prev);
     };
-    const SelectStartTime = (e: DateTimePickerEvent, date?: Date) => {
+
+    const selectStartTime = (e: DateTimePickerEvent, date?: Date) => {
         if (e.type === 'dismissed') {
             setPicker(false);
         }
-         else if (e.type === 'set' && date) {
+        else if (e.type === 'set' && date) {
             setPicker(false);
             setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: date } });
+        }
+    };
+
+    const selectNextAppointment = (e: DateTimePickerEvent, date?: Date) => {
+        if (e.type === 'dismissed') {
+            setAppointPicker(false);
+        }
+        else if (e.type === 'set' && date) {
+            setAppointPicker(false);
+            setUserInfo({ ...userInfo, nextAppointment: date });
         }
     };
 
@@ -75,11 +92,11 @@ const AWelcomeStep = () => {
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
                             <Text maxWidth="$1/2">When is your program start date?</Text>
                             <Pressable onPress={() => setPicker(true)}>
-                                <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200">
+                                <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" softShadow="2">
                                     {userInfo.rotationPlan.programStartDate ? formatDateInYMD(userInfo.rotationPlan.programStartDate) : ""}
                                 </Text>
                             </Pressable>
-                            {picker ? <RNDateTimePicker display="calendar" value={new Date(userInfo.rotationPlan.programStartDate)} onChange={SelectStartTime} /> : ""}
+                            {picker ? <RNDateTimePicker display="calendar" value={new Date(userInfo.rotationPlan.programStartDate)} onChange={selectStartTime} /> : ""}
                         </HStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$8">
                             <VStack>
@@ -87,10 +104,10 @@ const AWelcomeStep = () => {
                                 <Text>{userInfo.rotationPlan.programDays} days</Text>
                             </VStack>
                             <ButtonGroup isAttached>
-                                <Button mr="$0" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>
+                                <Button mr="$0" softShadow="2" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>
                                     <ButtonText>-</ButtonText>
                                 </Button>
-                                <Button variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" size="xs" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" onPress={() => changeNumber(true)}>
+                                <Button variant="outline" softShadow="2" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" size="xs" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" onPress={() => changeNumber(true)}>
                                     <ButtonText>+</ButtonText>
                                 </Button>
                             </ButtonGroup>
@@ -98,17 +115,15 @@ const AWelcomeStep = () => {
                     </VStack> :
                     <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
                         <Text maxWidth="$1/2">Are you on maintenance/post maintenance mode?</Text>
-
-                        <ButtonGroup size={"sm"} isDisabled={false} isAttached
-
-                        >
+                        <ButtonGroup size={"sm"} isDisabled={false} isAttached>
                             <Button
                                 variant="outline"
                                 rounded="$md"
                                 borderColor="$backgroundLight300"
                                 $dark-borderColor="$backgroundDark700"
-                                $dark-backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.NO ? "$backgroundDefault" : "$backgroundLight200" }
-                                backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.NO ? "$backgroundDefault" : "$backgroundDark200" }
+                                softShadow='2'
+                                $dark-backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.NO ? "$backgroundDefault" : "$backgroundLight200"}
+                                backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.NO ? "$backgroundDefault" : "$backgroundDark200"}
                                 size="xs" borderRightWidth='$0'
                                 onPress={() => changeMode(PlanConstants.MAINTAINENCE_MODE.NO)}
                             >
@@ -119,8 +134,9 @@ const AWelcomeStep = () => {
                                 rounded="$md"
                                 borderColor="$backgroundLight300"
                                 $dark-borderColor="$backgroundDark700"
-                                $dark-backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.YES ? "$backgroundDefault" : "$backgroundLight200" }
-                                backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.YES ? "$backgroundDefault" : "$backgroundDark200" }
+                                softShadow='2'
+                                $dark-backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.YES ? "$backgroundDefault" : "$backgroundLight200"}
+                                backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.YES ? "$backgroundDefault" : "$backgroundDark200"}
                                 size="xs" borderRightWidth='$0'
                                 onPress={() => changeMode(PlanConstants.MAINTAINENCE_MODE.YES)}
                             >
@@ -131,8 +147,9 @@ const AWelcomeStep = () => {
                                 rounded="$md"
                                 borderColor="$backgroundLight300"
                                 $dark-borderColor="$backgroundDark700"
-                                $dark-backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.POST ? "$backgroundDefault" : "$backgroundLight200" }
-                                backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.POST ? "$backgroundDefault" : "$backgroundDark200" }
+                                softShadow='2'
+                                $dark-backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.POST ? "$backgroundDefault" : "$backgroundLight200"}
+                                backgroundColor={userInfo.rotationPlan.mode === PlanConstants.MAINTAINENCE_MODE.POST ? "$backgroundDefault" : "$backgroundDark200"}
                                 size="xs" borderRightWidth='$0'
                                 onPress={() => changeMode(PlanConstants.MAINTAINENCE_MODE.POST)}
                             >
@@ -141,19 +158,22 @@ const AWelcomeStep = () => {
                         </ButtonGroup>
                     </HStack>}
                 <Text textAlign="center" my="$8">When is your next appointment?</Text>
-                <HStack display="flex" justifyContent="space-between" alignItems="center">
-                    <Text maxWidth="$1/2">Select a Date</Text>
-                    <Pressable>
-                        <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" minWidth="$24">
-                            {"select a appointment"}
-                        </Text>
-                    </Pressable>
-                    {appointPicker ? <RNDateTimePicker display="calendar" value={userInfo.rotationPlan.programStartDate} onChange={SelectStartTime} /> : ""}
+                {showNextAppointment ?
+                    <HStack display="flex" justifyContent="space-between" alignItems="center">
+                        <Text maxWidth="$1/2">Select a Date</Text>
+                        <Pressable onPress={() => setAppointPicker(true)}>
+                            <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" minWidth="$24">
+                                {userInfo.nextAppointment ? formatDateInYMD(userInfo.nextAppointment) : "select a appointment"}
+                            </Text>
+                        </Pressable>
+                        {appointPicker ? <RNDateTimePicker display="calendar" value={userInfo.nextAppointment || new Date()} onChange={selectNextAppointment} /> : ""}
+                    </HStack>
+                    : ""
+                }
+                <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$4">
+                    <Text maxWidth="$2/3">I don't have an appointment</Text>
+                    <Switch value={!showNextAppointment} onToggle={() => toggleNextAppoint()} />
                 </HStack>
-                {/* <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$4">
-                        <Text maxWidth="$2/3">I don't have an appointment</Text>
-                        <Switch value={userInfo.nextAppointment} onToggle={() => toggleNextAppoint()} />
-                     </HStack> */}
             </VStack>
         </VStack>
     </Box>;
