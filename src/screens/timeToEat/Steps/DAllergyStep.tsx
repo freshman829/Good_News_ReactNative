@@ -4,7 +4,7 @@ import { Box, Divider, Heading, VStack } from "@gluestack-ui/themed";
 import { useUserInfoStore } from '../../../store/UserStore';
 import { getFoodList } from '../../../api/foodAPI';
 import { useToastr } from '../../../providers/ToastProvider';
-// import { TouchableOpacity } from 'react-native';
+import { Dimensions } from 'react-native';
 
 interface DAllergyStepProps {
     finalStep?: boolean
@@ -55,11 +55,12 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                 pr="$0"
                 py="$2"
                 key={`protein-${key}`}
+                style={{width:Dimensions.get('window').width/1.5}}
             >
                 {/* <TouchableOpacity onPress={addOrRemoveProtein}> */}
                 <HStack justifyContent="space-between">
                     <Text size="md" color="$secondary800" flex={1} >{item}</Text>
-                    <Switch value={isSelected} onToggle={addOrRemoveProtein} />
+                    <Switch style={{marginLeft:20}} value={isSelected} onToggle={addOrRemoveProtein} />
                 </HStack>
                 {/* </TouchableOpacity> */}
             </Box>
@@ -87,6 +88,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                 $sm-pr="$4"
                 py="$2"
                 key={`fv-${key}`}
+                // maxWidth="$4/5"
             >
                 {/* <TouchableOpacity onPress={addOrRemoveFV}> */}
                 <HStack justifyContent="space-between">
@@ -101,7 +103,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
     return (
         <Box >
             <VStack>
-                <Heading>
+                <Heading  color="$black">
                     Let's {finalStep ? "edit" : "add"} any allergy information
                 </Heading>
                 <Divider my="$8" />
@@ -114,7 +116,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                     </InputSlot>
                 </Input>
                 <Box>
-                    <Heading my="$4" textAlign="center" size="sm">
+                    <Heading  color="$black" my="$4" textAlign="center" size="sm">
                         Protein Allergies
                     </Heading>
                     <ScrollView px="$3" h="$48" overflow="scroll">
@@ -122,7 +124,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                     </ScrollView>
                 </Box>
                 <Box>
-                    <Heading my="$4" textAlign="center" size="sm">
+                    <Heading color="$black" my="$4" textAlign="center" size="sm">
                         Fruit & Vegetables Allergies
                     </Heading>
                     <ScrollView px="$3" h="$48" overflow="scroll">
