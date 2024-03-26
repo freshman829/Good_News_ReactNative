@@ -50,11 +50,11 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
         <Box>
             <VStack>
                 {!finalStep ? (
-                    <Heading>
+                    <Heading color="$black">
                         Set Emotional & Health Conditions and Goals For Today?
                     </Heading>
                 ) : (
-                    <Heading size="sm">
+                    <Heading color="$black" size="sm">
                         Depression Today
                     </Heading>
                 )}
@@ -62,7 +62,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                 {list.map((item, index) => (
                     <Box py="$2" key={index}>
                         <HStack display="flex" justifyContent="space-between" alignItems="center">
-                            <Text>{!finalStep ? "Did you experience" : "Have"} {item} today?</Text>
+                            <Text color="$black">{!finalStep ? "Did you experience" : "Have"} {item} today?</Text>
                             <Switch value={userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.status} onToggle={() => toggle(item)} />
                         </HStack>
                         {userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.status ? (
@@ -81,7 +81,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                                     </SliderTrack>
                                     <SliderThumb />
                                 </Slider>
-                                <Text mt="$4">Depression Severity: {userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.severity}</Text>
+                                <Text color="$black" mt="$4">Depression Severity: {userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.severity}</Text>
                                 {
                                     userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.updated
                                         ? <Text mt="$2">Last Updated: {new Date(userInfo.emotions[item as keyof typeof userInfo.emotions].updated).toLocaleDateString()}</Text>
@@ -94,7 +94,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                 ))}
                 <Box py="$2">
                         <HStack display="flex" justifyContent="space-between" alignItems="center">
-                            <Text>Are you pre or menopause?</Text>
+                            <Text color="$black">Are you pre or menopause?</Text>
                             <Switch value={userInfo.emotions?.meno?.status} onToggle={() => toggle("meno")} />
                         </HStack>
                     </Box>

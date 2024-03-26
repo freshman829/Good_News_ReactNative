@@ -29,31 +29,31 @@ const FinalPersonalPreference = () => {
 
     return (
         <VStack gap={8} mt={16}>
-            <Heading size="sm">
+            <Heading color="$black" size="sm">
                 Personal Preferences
             </Heading>
             <HStack mt={6} display="flex" justifyContent="space-between" alignItems="center">
-                <Text>Ate fruits and veggies today</Text>
+                <Text color="$black">Ate fruits and veggies today</Text>
                 <Switch value={userInfo.dietToday?.eatSomthing} onToggle={updateEatSomething} />
             </HStack>
             <HStack mt={6} display="flex" justifyContent="space-between" alignItems="center">
-                <Text>Ate dairy today</Text>
+                <Text color="$black">Ate dairy today</Text>
                 <Switch value={userInfo.dietToday?.alternatives} onToggle={updateAlternatives} />
             </HStack>
             <HStack mt={6} display="flex" justifyContent="space-between" alignItems="center">
-                <Text>Kosher</Text>
+                <Text color="$black">Kosher</Text>
                 <Switch value={userInfo.dietaryRestrictions?.kosher} onToggle={updateKosher} />
             </HStack>
             <HStack mt={6} display="flex" justifyContent="space-between" alignItems="center">
-                <Text>Vegan</Text>
+                <Text color="$black">Vegan</Text>
                 <Switch value={userInfo.dietaryRestrictions?.vegan} onToggle={updateVegan} />
             </HStack>
             <HStack mt={6} display="flex" justifyContent="space-between" alignItems="center">
-                <Text>Halal</Text>
+                <Text color="$black">Halal</Text>
                 <Switch value={userInfo.dietaryRestrictions?.halal} onToggle={updateHalal} />
             </HStack>
             <HStack mt={6} display="flex" justifyContent="space-between" alignItems="center">
-                <Text>Female</Text>
+                <Text color="$black">Female</Text>
                 <Switch value={userInfo?.female} onToggle={updateFemale} />
             </HStack>
         </VStack>

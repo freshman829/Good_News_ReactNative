@@ -15,7 +15,7 @@ const CPreferStep = () => {
     return (
         <Box>
             <VStack>
-                <Heading>
+                <Heading color="$black"  color="$black">
                     Do you prefer Single-Protein Days or Fruits & Vegetables Days?
                 </Heading>
                 <CustomSelect

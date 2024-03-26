@@ -61,7 +61,7 @@ const ProgramDateSelect = () => {
                 </FormControl>
                 <FormControl>
                     <FormControlLabel mb="$1">
-                        <FormControlLabelText>How many days is your program?</FormControlLabelText>
+                        <FormControlLabelText color="$black">How many days is your program?</FormControlLabelText>
                     </FormControlLabel>
                     <View>
                         <Box

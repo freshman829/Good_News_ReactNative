@@ -47,14 +47,13 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
     }, [userInfo.emotions]);
 
     useEffect(() => {
-        if ((userInfo.emotions.depression.status ||
-            userInfo.emotions.anxiety.status ||
-            userInfo.emotions?.fatty?.status)
+        if ((userInfo.emotions?.depression.status ||
+            userInfo.emotions?.anxiety.status || userInfo.emotions?.fatty?.status)
             && initRef.current) {
             initRef.current = false;
             setInit(true);
         }
-    }, [userInfo.emotions.depression, userInfo.emotions.anxiety]);
+    }, [userInfo.emotions?.depression, userInfo.emotions?.anxiety]);
 
     const saveUserInfo = async () => {
         const result = await updateUserinfo(userInfo);
@@ -154,9 +153,9 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                 </>
             ) : (
                 <>
-                    <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.navigate("Home")}>Back</Text></HStack>
+                    <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text color="$black" onPress={() => navigation.navigate("Home")}>Back</Text></HStack>
                     <VStack>
-                        <Heading pt="$4">
+                        <Heading color="$black" pt="$4">
                             {userInfo.rotationPlan.mode === 0 ? (
                                 "Congradulations on reaching the last step of the sadkhinTherapy Weight Loss Program!"
                             ) : (
@@ -170,7 +169,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                         </Button>
                         <Box>
                             {suggests && suggests.length ? (
-                                <Text p="$4">
+                                <Text color="$black"  p="$4">
                                     {suggests.reduce((acc: string, cur: any, index: number) => {
                                         if (index === 0)
                                             return cur.name;
