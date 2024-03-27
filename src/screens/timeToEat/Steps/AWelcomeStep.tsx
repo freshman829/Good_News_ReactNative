@@ -100,8 +100,8 @@ const AWelcomeStep = () => {
                         </HStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$8">
                             <VStack>
-                                <Text maxWidth="$2/3">How many days is your program?</Text>
-                                <Text>{userInfo.rotationPlan.programDays} days</Text>
+                                <Text color="$black" maxWidth="$2/3">How many days is your program?</Text>
+                                <Text color="$black">{userInfo.rotationPlan.programDays} days</Text>
                             </VStack>
                             <ButtonGroup isAttached>
                                 <Button mr="$0" softShadow="2" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>

@@ -47,8 +47,8 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
     }, [userInfo.emotions]);
 
     useEffect(() => {
-        if ((userInfo.emotions?.depression.status ||
-            userInfo.emotions?.anxiety.status || userInfo.emotions?.fatty?.status)
+        if ((userInfo.emotions?.depression?.status ||
+            userInfo.emotions?.anxiety?.status || userInfo.emotions?.fatty?.status)
             && initRef.current) {
             initRef.current = false;
             setInit(true);
@@ -101,7 +101,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                             </ModalHeader>
                             <ModalBody>
                                 <Text p="$4" textAlign="justify">
-                                    {(userInfo.emotions.depression.status || userInfo.emotions.anxiety.status) ?
+                                    {(userInfo.emotions?.depression?.status || userInfo.emotions?.anxiety?.status) ?
                                         `Did you know that cooking method is affects your mood as well? During stressful or depressed time, the best is to cook high fiber veggies and to eat it in smooth and warm form like a soup. During anxious time the best is to eat raw crunchy high fiber vegetable and fruits.`
                                         : ""
                                     }
