@@ -1,10 +1,10 @@
 import axios from "axios";
 import { UserInterface } from "../store/UserStore";
 import { CreateNewTargetProps } from "../types/data";
+import { API_URL } from "../constants";
 
 const Axios = axios.create({
-    baseURL: "https://goodnews2023.herokuapp.com/api/users"
-    // baseURL: "http://10.0.2.2:3000/api/users"
+    baseURL: `${API_URL}/users`
 });
 
 export async function loginUserWithApple(user: { userId: string, userName: string, identityToken: string }) {
@@ -100,6 +100,7 @@ export async function getFoodSuggestion(id: string) {
             data: result.data
         };
     } catch (error) {
+        console.log(error);
         return {
             success: false,
             msg: (error as any).message

@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { DayPlan, RootStackParamList } from "../../types/data";
-import { Box, Divider, HStack, Heading, Text, VStack, ScrollView, Button, Spinner, Modal, Icon, ModalBody, ModalContent, ModalHeader, CloseIcon, ModalCloseButton, ModalBackdrop, ChevronLeftIcon, ButtonText, ModalFooter } from "@gluestack-ui/themed";
+import { Box, Divider, HStack, Heading, Text, VStack, ScrollView, Button, Spinner, Modal, Icon, ModalBody, ModalContent, ModalHeader, CloseIcon, ModalCloseButton, ModalBackdrop, ChevronLeftIcon, ButtonText, ModalFooter, Card } from "@gluestack-ui/themed";
 import { useState, useEffect, useRef } from "react";
 import { getFoodSuggestion, getPlanList, updateUserinfo } from "../../api/userAPI";
 import { useUserInfoStore } from "../../store/UserStore";
@@ -126,17 +126,36 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                             {plans && plans.length ? plans.map((plan, index) => (
                                 <Box p="$4" key={index}>
                                     <VStack>
-                                        <HStack display="flex" justifyContent="space-between" alignItems="center">
+                                        <HStack display="flex" justifyContent="space-between" alignItems="center" mb="$2">
                                             <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200">{plan.date}</Text>
                                             <Text>{plan.dayType === "SP" ? "Single Protein Day" : plan.dayType === "SD" ? "Social Day" : "Fruit and Vegetable Day"}</Text>
                                         </HStack>
-                                        <Text mt="$2">
-                                            {plan.foods.reduce((acc: string, cur: any, index: number) => {
-                                                if (index === 0)
-                                                    return cur.name;
-                                                else return acc + ", " + cur.name;
-                                            }, "")}
-                                        </Text>
+                                        {plan.foods.map((suggest, index) => (
+                                            <Card key={index} mb="$4" p="$4" rounded="$md" >
+                                                <Heading alignSelf="center" size="lg" mb="$2">{suggest.name}</Heading>
+                                                {suggest.reason ? <Text color="text.primary" mb="$1">{suggest.reason}</Text> : ""}
+                                                {suggest.ingredients && suggest.ingredients.length ? (
+                                                    <Heading size="md">Ingredients</Heading>
+                                                ) : ""}
+                                                {suggest.ingredients && suggest.ingredients.length ? suggest.ingredients.map((ing: any, i: number) => (
+                                                    <Text key={i} color="text.secondary" mb="$0.5">
+                                                        • {ing.count ?? ""} {ing.count && ing.unit ? ing.unit : ""} {ing.material}
+                                                    </Text>
+                                                )) : ""}
+                                                {suggest.directions && suggest.directions.length ? (
+                                                    <Box>
+                                                        <Heading size="md">Directions</Heading>
+                                                        {suggest.directions.map((ing: any, j: number) => (
+                                                            <Text key={j} color="text.secondary" mb="$0.5" mt={j === 0 ? "$2" : "0"}>
+                                                                {j + 1}. {ing}
+                                                            </Text>
+                                                        ))}
+                                                    </Box>
+                                                ) : ""}
+                                                {suggest.extra ? <Text color="text.tertiary" mt="$2">{suggest.extra}</Text> : ""}
+                                            </Card>
+                                        ))}
+
                                     </VStack>
                                     {(index < plans.length - 1) ? <Divider my="$2" /> : ""}
                                 </Box>
@@ -162,21 +181,37 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                                 "Congradulations! You have fully completed SadkhinTherapy Weight Loss Program."
                             )}
                         </Heading>
-                        <Button onPress={() => setShowDepression(false)} mb="$2">
+                        <Button onPress={() => setShowDepression(true)} mb="$2">
                             <ButtonText>
                                 Depression Today
                             </ButtonText>
                         </Button>
-                        <Box>
-                            {suggests && suggests.length ? (
-                                <Text color="$black"  p="$4">
-                                    {suggests.reduce((acc: string, cur: any, index: number) => {
-                                        if (index === 0)
-                                            return cur.name;
-                                        else return acc + ", " + cur.name;
-                                    }, "")}
-                                </Text>
-                            ) : (
+                        <ScrollView>
+                            {suggests && suggests.length ? suggests.map((suggest: any, index: number) => (
+                                <Card key={index} mb="$4" p="$4" rounded="$md" >
+                                    <Heading alignSelf="center" size="lg" mb="$2">{suggest.name}</Heading>
+                                    {suggest.reason ? <Text color="text.primary" mb="$1">{suggest.reason}</Text> : ""}
+                                    {suggest.ingredients && suggest.ingredients.length ? (
+                                        <Heading size="md">Ingredients</Heading>
+                                    ) : ""}
+                                    {suggest.ingredients && suggest.ingredients.length ? suggest.ingredients.map((ing: any, i: number) => (
+                                        <Text key={i} color="text.secondary" mb="$0.5">
+                                            • {ing.count ?? ""} {ing.count && ing.unit ? ing.unit : ""} {ing.material}
+                                        </Text>
+                                    )) : ""}
+                                    {suggest.directions && suggest.directions.length ? (
+                                        <Box>
+                                            <Heading size="md">Directions</Heading>
+                                            {suggest.directions.map((ing: any, j: number) => (
+                                                <Text key={j} color="text.secondary" mb="$0.5" mt={j === 0 ? "$2" : "0"}>
+                                                    {j + 1}. {ing}
+                                                </Text>
+                                            ))}
+                                        </Box>
+                                    ) : ""}
+                                    {suggest.extra ? <Text color="text.tertiary" mt="$2">{suggest.extra}</Text> : ""}
+                                </Card>
+                            )) : (
                                 <HStack space="xl" display="flex" justifyContent="center" alignItems="center" mt="$4">
                                     <Spinner size="large" />
                                     <Text size="md">
@@ -184,7 +219,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                                     </Text>
                                 </HStack>
                             )}
-                        </Box>
+                        </ScrollView>
                     </VStack>
                 </>
             )}

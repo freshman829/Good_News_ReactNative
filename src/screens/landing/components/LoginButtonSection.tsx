@@ -2,21 +2,36 @@ import { Box, Button, ButtonText, CloseIcon, FormControl, Heading, Icon, Input, 
 import { AppleButton } from '@invertase/react-native-apple-authentication';
 import { Dimensions } from "react-native";
 interface LoginButtonSectionProps {
+    isLoading: boolean,
     onLogin: () => void;
 }
-const LoginButtonSection: React.FC<LoginButtonSectionProps> = ({ onLogin }) => {
+const LoginButtonSection: React.FC<LoginButtonSectionProps> = ({ isLoading, onLogin }) => {
     return (
         <Box>
-            <AppleButton
-                buttonStyle={AppleButton.Style.WHITE}
-                buttonType={AppleButton.Type.SIGN_IN}
-                style={{
-                    alignSelf: 'center',
-                    width: Dimensions.get('window').width / 1.2,
-                    height: 45,
-                }}
-                onPress={() => onLogin()}
-            />
+            {isLoading ? (
+                <Button
+                    variant="outline"
+                    style={{
+                        alignSelf: 'center',
+                        width: Dimensions.get('window').width / 1.2,
+                        height: 45
+                    }}>
+                    <ButtonText>
+                        <Spinner size="small" />
+                    </ButtonText>
+                </Button>
+            ) : (
+                <AppleButton
+                    buttonStyle={AppleButton.Style.WHITE}
+                    buttonType={AppleButton.Type.SIGN_IN}
+                    style={{
+                        alignSelf: 'center',
+                        width: Dimensions.get('window').width / 1.2,
+                        height: 45,
+                    }}
+                    onPress={() => onLogin()}
+                />
+            )}
         </Box>
     )
 };

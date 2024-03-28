@@ -35,22 +35,31 @@ const features = [
         target: ""
     },
 ]
-const FeaturesSection: React.FC<{ navigation: any, onLogin: () => void }> = ({ navigation, onLogin }) => {
+const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolean> }> = ({ navigation, onLogin }) => {
     const { userInfo } = useUserInfoStore();
 
     return (
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap="$2" alignItems="center" justifyContent="center">
             {features.map((feature, index) => (
-                <TouchableOpacity key={index} onPress={() => {
+                <TouchableOpacity key={index} onPress={async () => {
                     if (userInfo._id) {
-                        console.log(feature.title, userInfo.isFinishInterview);
                         if (feature.title === "TIME TO EAT" && userInfo.isFinishInterview) {
                             navigation.navigate("FoodPlan");
                         } else {
                             navigation.navigate(feature.target);
                         }
                     } else {
-                        onLogin();
+                        let res = await onLogin();
+                        setTimeout(() => {
+                            if (res) {
+                                console.log(feature.title, userInfo);
+                                if (feature.title === "TIME TO EAT" && userInfo.isFinishInterview) {
+                                    navigation.navigate("FoodPlan");
+                                } else {
+                                    navigation.navigate(feature.target);
+                                }
+                            }
+                        }, 500);
                     }
                 }}>
                     <Card
