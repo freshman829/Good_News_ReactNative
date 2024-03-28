@@ -2,7 +2,7 @@ import { ChevronLeftIcon, HStack, Icon, Text, View } from "@gluestack-ui/themed"
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
 import Stepper from "react-native-stepper-ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AWelcomeStep from "./Steps/AWelcomeStep";
 import EHealthConditionStep from "./Steps/EHealthConditionStep";
 import FWeightStep from "./Steps/FWeightStep";
@@ -37,6 +37,11 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
     const [active, setActive] = useState(0);
     const toast = useToastr();
 
+    useEffect(() => {
+        if (userInfo.isFinishInterview) {
+            navigation.navigate("FoodPlan");
+        }
+    }, []);
     const goBefore = () => {
         setActive((p) => p - 1)
     }

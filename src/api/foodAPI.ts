@@ -1,8 +1,8 @@
 import axios from "axios";
+import { API_URL } from "../constants";
 
 const Axios = axios.create({
-    baseURL: "https://goodnews2023.herokuapp.com/api/food"
-    // baseURL: "http://10.0.2.2:3000/api/food"
+    baseURL: `${API_URL}/food`
 });
 
 export async function getFoodList() {
