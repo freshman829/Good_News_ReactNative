@@ -304,7 +304,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                 py="$2"
             >
                 <HStack justifyContent="space-between">
-                    <Text size="md" color="$secondary800" bold={item.item.isSpecial}>{item.item.time}</Text>
+                    <Text size="md" bold={item.item.isSpecial}>{item.item.time}</Text>
                     <Switch value={item.item.isActive} onChange={() => updateAlarm(item.item)} />
                 </HStack>
             </Box>
@@ -324,13 +324,13 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
 
     return (
-        <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full">
-            <HStack alignItems="center"><Icon color="$black" as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text style={{ color: 'black' }} onPress={() => navigation.goBack()}>Back</Text></HStack>
+        <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full" backgroundColor="$backgroundDefault">
+            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
             <VStack flex={1} overflow="scroll">
-                <Heading color="#000000" textAlign="center" my="$10">Rotation Schedule</Heading>
+                <Heading textAlign="center" my="$10">Rotation Schedule</Heading>
                 <View style={{ zIndex: 9999 }}>
                     <HStack justifyContent="space-between" pb="$2">
-                        <Heading color="#000000" size="sm" maxWidth="$3/5">Are you on maintenance / post maintenance mode?</Heading>
+                        <Heading size="sm" maxWidth="$3/5">Are you on maintenance / post maintenance mode?</Heading>
                         <Switch 
                             value={userInfo?.rotationPlan.alarmTurn} 
                             onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarmTurn: !userInfo.rotationPlan.alarmTurn } })} 
@@ -341,7 +341,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                     <VStack h="$full" gap="$3">
                         <View style={{ zIndex: 8888 }}>
                             <HStack justifyContent="space-between" alignItems="center">
-                                <Heading color="#000000" size="sm" maxWidth="$3/5">What are your special rotation times?</Heading>
+                                <Heading size="sm" maxWidth="$3/5">What are your special rotation times?</Heading>
                                 <DropDownPicker
                                     open={openSpecial}
                                     value={userInfo.rotationPlan.plan}
@@ -356,7 +356,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                         {userInfo.rotationPlan.plan >= 2 ? <View style={{ zIndex: 7777 }}>
                             <HStack>
                                 <Box flex={1}>
-                                    <Heading color="#000000" size="sm">When do you wake up?</Heading>
+                                    <Heading size="sm">When do you wake up?</Heading>
                                     <TimePicker isWake={true}
                                         value={userInfo.rotationPlan.wakeTime}
                                         setTime={(time) => {
@@ -366,7 +366,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                     />
                                 </Box>
                                 <Box flex={1}>
-                                    <Heading color="#000000" size="sm">When do you go to sleep?</Heading>
+                                    <Heading size="sm">When do you go to sleep?</Heading>
                                     <TimePicker isWake={false}
                                         value={userInfo.rotationPlan.sleepTime}
                                         setTime={(time) => {
@@ -379,13 +379,13 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                         </View> : ""}
                         {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
                             <HStack alignItems="center" justifyContent="space-between">
-                                <Heading color="#000000" size="sm">Confirmation Alarm</Heading>
+                                <Heading size="sm">Confirmation Alarm</Heading>
                                 <Switch value={userInfo?.rotationPlan.isConfirm} onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: !userInfo.rotationPlan.isConfirm } })} />
                             </HStack> : ""
                         }
                         {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ? <Divider my="$3" /> : ""}
                         {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
-                            <Heading color="#000000" size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
+                            <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
                         }
                         {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
 
@@ -398,11 +398,11 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                         }
                     </VStack>
                 ) : (
-                    <Text style={{ color: 'black' }} zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
+                    <Text zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
                 )}
             </VStack>
             <Box p="$2">
-                <Text style={{ color: 'black', marginBottom: 20 }} textAlign="center">Book Appointment</Text>
+                <Text mb="$4" textAlign="center">Book Appointment</Text>
             </Box>
 
         </View>

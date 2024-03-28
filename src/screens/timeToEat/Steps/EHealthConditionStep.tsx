@@ -63,13 +63,13 @@ const EHealthConditionStep = () => {
     return (
         <Box flex={1} h="$full" p="$4">
             <VStack display="flex" flex={1}>
-                <Heading color="$black">
+                <Heading>
                     Do you want to customize your food plan based on your health conditions
                 </Heading>
                 <Divider mt="$4" mb="$2" />
                 <VStack flex={1} gap={5}>
                     <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
-                        <Text color="$black">Health Conditions</Text>
+                        <Text>Health Conditions</Text>
                         <Switch value={isShowConditions} defaultValue={userInfo.healthCondition.length > 0 ? true : false} onToggle={() => toggleHandleCondition()} />
                     </HStack>
                     {isShowConditions && (
@@ -81,8 +81,8 @@ const EHealthConditionStep = () => {
                                 <InputField placeholder="Search..." onChangeText={filterConditions} />
                             </Input>
                             {conditions.map((condition, index) => (
-                                <HStack color="$black" key={index} display="flex" justifyContent="space-between" alignItems="center" mt="$2">
-                                    <Text color="$black">{condition}</Text>
+                                <HStack key={index} display="flex" justifyContent="space-between" alignItems="center" mt="$2">
+                                    <Text>{condition}</Text>
                                     <Switch value={getConditionActiveStatue(index)} defaultValue={false} onToggle={() => toggleHandleConditionItem(index, condition)} />
                                 </HStack>
                             ))}

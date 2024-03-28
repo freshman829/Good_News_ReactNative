@@ -29,7 +29,7 @@ const FinalSocialDays = () => {
                     <Text key={index}>{convertDateString(item)}</Text>
                 ))}
             </VStack>
-            <Text onPress={editSocialDays} color="blue">Edit Social Days</Text>
+            <Text onPress={editSocialDays} color="$blue500">Edit Social Days</Text>
             <Modal
                 isOpen={isEditing}
                 onClose={() => setIsEditing(false)}

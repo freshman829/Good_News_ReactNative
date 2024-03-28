@@ -19,18 +19,18 @@ const FinalAllergies = () => {
     return (
         <Box>
             <VStack mt={16} gap={7}>
-                <Heading color="$black" size="sm">
+                <Heading size="sm">
                     Allergies
                 </Heading>
                 <HStack mt={8}>
-                    <Text color="$black" maxWidth="$2/3">Allergy to Fruits & Veggies:</Text>
-                    <Text color="$black" maxWidth="$1/2"> {fvs === "" ? "None" : fvs}</Text>
+                    <Text maxWidth="$2/3">Allergy to Fruits & Veggies:</Text>
+                    <Text maxWidth="$1/2"> {fvs === "" ? "None" : fvs}</Text>
                 </HStack>
                 <HStack>
-                    <Text color="$black" maxWidth="$2/3">Allergy to Single Protein:</Text>
-                    <Text color="$black" maxWidth="$1/2"> {proteins === "" ? "None" : proteins}</Text>
+                    <Text maxWidth="$2/3">Allergy to Single Protein:</Text>
+                    <Text maxWidth="$1/2"> {proteins === "" ? "None" : proteins}</Text>
                 </HStack>
-                <Text color="blue" onPress={() => handleClick()} >Edit Allergies</Text>
+                <Text color="$blue500" onPress={() => handleClick()} >Edit Allergies</Text>
             </VStack>
             <Modal
                 isOpen={showModal}

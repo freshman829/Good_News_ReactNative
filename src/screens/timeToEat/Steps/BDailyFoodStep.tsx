@@ -31,48 +31,48 @@ const BDailyFoodStep = () => {
     return (
         <Box>
             <VStack display="flex" flex={1}>
-                <Heading  color="$black">
+                <Heading>
                     We are Customizing Your personal daily food schedule
                 </Heading>
                 <Divider mt="$4" mb="$2" />
                 <VStack>
-                    <Heading  color="$black" size="sm" mb="$4">
+                    <Heading size="sm" mb="$4">
                         Diet Today
                     </Heading>
                     <HStack mb="$2" display="flex" justifyContent="space-between" alignItems="center">
-                        <Text maxWidth="$4/5" color="$black">Did you eat something beside fruits and veggies today?</Text>
+                        <Text maxWidth="$4/5" >Did you eat something beside fruits and veggies today?</Text>
                         <Switch value={userInfo.dietToday?.eatSomthing} onToggle={updateEatSomething} />
                     </HStack>
                     <HStack display="flex" justifyContent="space-between" alignItems="center">
-                        <Text  color="$black">Any diary or alternatives today?</Text>
+                        <Text>Any diary or alternatives today?</Text>
                         <Switch value={userInfo.dietToday?.alternatives} onToggle={updateAlternatives} />
                     </HStack>
                     <Divider mb="$4" mt="$2" />
                 </VStack>
                 <VStack>
-                    <Heading  color="$black" size="sm" mb="$4">
+                    <Heading size="sm" mb="$4">
                         Personal Preferences
                     </Heading>
                     <HStack display="flex" justifyContent="space-between" alignItems="center">
-                        <Text color="$black">Are you female?</Text>
+                        <Text>Are you female?</Text>
                         <Switch value={userInfo?.female} onToggle={updateFemale} />
                     </HStack>
                     <Divider mb="$4" mt="$2" />
                 </VStack>
                 <VStack>
-                    <Heading  color="$black" size="sm" mb="$4">
+                    <Heading size="sm" mb="$4">
                         Dietary Restrictions
                     </Heading>
                     <HStack mb="$2" display="flex" justifyContent="space-between" alignItems="center">
-                        <Text  color="$black">Kosher?</Text>
+                        <Text>Kosher?</Text>
                         <Switch value={userInfo.dietaryRestrictions?.kosher} onToggle={updateKosher} />
                     </HStack>
                     <HStack mb="$2" display="flex" justifyContent="space-between" alignItems="center">
-                        <Text  color="$black" >Vegan?</Text>
+                        <Text>Vegan?</Text>
                         <Switch value={userInfo.dietaryRestrictions?.vegan} onToggle={updateVegan} />
                     </HStack>
                     <HStack mb="$2" display="flex" justifyContent="space-between" alignItems="center">
-                        <Text color="$black">Halal?</Text>
+                        <Text>Halal?</Text>
                         <Switch value={userInfo.dietaryRestrictions?.halal} onToggle={updateHalal} />
                     </HStack>
                 </VStack>

@@ -16,7 +16,7 @@
     "@invertase/react-native-apple-authentication": "^2.3.0",
     "@notifee/react-native": "^7.8.2",
     "@react-native-community/async-storage": "^1.12.1",
-    "@react-native-community/datetimepicker": "^7.6.2",
+    "@react-native-community/datetimepicker": "^7.6.3",
     "@react-native-community/push-notification-ios": "^1.11.0",
     "@react-native-picker/picker": "^2.6.1",
     "@react-navigation/native": "^6.1.14",

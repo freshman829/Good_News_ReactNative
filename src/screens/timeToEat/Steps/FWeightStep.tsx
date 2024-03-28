@@ -78,7 +78,7 @@ const FWeightStep: React.FC<FWeightStepProps> = ({ finalStep = false }) => {
             <VStack display="flex" flex={1}>
                 {!finalStep && (
                     <>
-                        <Heading color="$black">
+                        <Heading>
                             Weight & Goals
                         </Heading>
                         <Divider mt="$4" mb="$2"/>
@@ -89,7 +89,7 @@ const FWeightStep: React.FC<FWeightStepProps> = ({ finalStep = false }) => {
                         <>
                             <VStack gap={5}>
                                 <Heading size="sm">Select Your Current Weight</Heading>
-                                <Text color="$black" size="sm">{currentWeight.toString()} lbs</Text>
+                                <Text size="sm">{currentWeight.toString()} lbs</Text>
                                 <Center mt={8}>
                                     <Slider onChange={handleCurrentWeightChange} maxValue={500} value={currentWeight}>
                                         <SliderTrack>
@@ -101,7 +101,7 @@ const FWeightStep: React.FC<FWeightStepProps> = ({ finalStep = false }) => {
                             </VStack>
                             <VStack gap={5} mt={5}>
                                 <Heading size="sm">Select Your Target Weight</Heading>
-                                <Text color="$black" size="sm">{targetWeight.toString()} lbs</Text>
+                                <Text size="sm">{targetWeight.toString()} lbs</Text>
                                 <Center mt={8}>
                                     <Slider onChange={handleTargetWeightChange} maxValue={500} value={targetWeight}>
                                         <SliderTrack>
@@ -113,8 +113,8 @@ const FWeightStep: React.FC<FWeightStepProps> = ({ finalStep = false }) => {
                             </VStack>
                             <Text size="sm" mt={5} color={targetWeightWarning ? "red" : "green"}>You selected {socialDays.length.toString()} Social Days. You're on track for weight loss!</Text>
                             <VStack gap={6}>
-                                <Heading color="$black">Social Days</Heading>
-                                <Text color="$black" size="sm">The more social days you select, the slower your progress will be.</Text>
+                                <Heading>Social Days</Heading>
+                                <Text size="sm">The more social days you select, the slower your progress will be.</Text>
                             </VStack>
                         </>
                     )}

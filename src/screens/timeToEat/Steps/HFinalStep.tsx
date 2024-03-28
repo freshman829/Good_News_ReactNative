@@ -12,7 +12,7 @@ const HFinalStep = () => {
 
     return (
         <Box p="$4">
-            <Heading color="$black">
+            <Heading>
                 Confirmation of Choices
             </Heading>
             <VStack mt={16}>

@@ -42,7 +42,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         }
     }
     return (
-        <Box p="$3" h="$full">
+        <Box p="$3" h="$full" backgroundColor="$backgroundDefault">
             <VStack space="md" display="flex" justifyContent="space-between">
                 {/* {userInfo._id ? <Heading>{`Hello, ${userInfo.fullName}`}</Heading> : ""} */}
                 <GreetingSection />

@@ -65,10 +65,10 @@ const FinalGoals = () => {
     };
     return (
         <VStack gap={4} mt={16}>
-            <Heading color="$black" size="sm">Goals & Program Info</Heading>
+            <Heading size="sm">Goals & Program Info</Heading>
             <HStack display="flex" justifyContent="space-between" alignItems="center" mt={8}>
                 <VStack>
-                    <Text color="$black" maxWidth="$4/5">How many days is your program? {userInfo.rotationPlan.programDays} days</Text>
+                    <Text maxWidth="$4/5">How many days is your program? {userInfo.rotationPlan.programDays} days</Text>
                 </VStack>
                 <ButtonGroup isAttached>
                     <Button mr="$0" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>
@@ -81,12 +81,12 @@ const FinalGoals = () => {
             </HStack>
             <Divider mt={6} />
             <VStack gap={8} mt={8}>
-                <Text color="$black" textAlign="center">When is your next appointment?</Text>
+                <Text textAlign="center">When is your next appointment?</Text>
                 {showNextAppointment ?
                     <HStack display="flex" justifyContent="space-between" alignItems="center">
-                        <Text color="$black" maxWidth="$1/2">Select a Date</Text>
+                        <Text maxWidth="$1/2">Select a Date</Text>
                         <Pressable onPress={() => setAppointPicker(true)}>
-                            <Text color="$black" p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" minWidth="$24">
+                            <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" minWidth="$24">
                                 {userInfo.nextAppointment ? formatDateInYMD(userInfo.nextAppointment) : "select a appointment"}
                             </Text>
                         </Pressable>
@@ -95,13 +95,13 @@ const FinalGoals = () => {
                     : ""
                 }
                 <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$4">
-                    <Text color="$black" maxWidth="$2/3">I don't have an appointment</Text>
+                    <Text maxWidth="$2/3">I don't have an appointment</Text>
                     <Switch value={!showNextAppointment} onToggle={() => toggleNextAppoint()} />
                 </HStack>
             </VStack>
             <Divider mt={6} />
             <VStack mt={6}>
-                <Text color="$black" textAlign="center">Are you in maintenance/after maintenance mode?</Text>
+                <Text textAlign="center">Are you in maintenance/after maintenance mode?</Text>
                 <ButtonGroup isAttached mt="$4" alignContent="center" alignItems="center">
                     <Button
                         variant="outline"

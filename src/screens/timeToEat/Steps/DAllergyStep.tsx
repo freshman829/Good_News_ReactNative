@@ -28,7 +28,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
     }, []);
 
     const proteins = useMemo(() => {
-        return foods.filter((protein: any) => protein.type.includes("sp") && protein.name.toLowerCase().includes(searchValue.toLowerCase()))
+        return foods.filter((protein: any) => protein.type.includes("SP") && protein.name.toLowerCase().includes(searchValue.toLowerCase()))
                 .map((protein: any) => protein.name);
     }, [searchValue, foods]);
     const fvs = useMemo(() => {
@@ -59,7 +59,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
             >
                 {/* <TouchableOpacity onPress={addOrRemoveProtein}> */}
                 <HStack justifyContent="space-between">
-                    <Text size="md" color="$secondary800" flex={1} >{item}</Text>
+                    <Text size="md" flex={1} >{item}</Text>
                     <Switch style={{marginLeft:20}} value={isSelected} onToggle={addOrRemoveProtein} />
                 </HStack>
                 {/* </TouchableOpacity> */}
@@ -92,7 +92,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
             >
                 {/* <TouchableOpacity onPress={addOrRemoveFV}> */}
                 <HStack justifyContent="space-between">
-                    <Text size="md" color="$secondary800" flex={1} >{item}</Text>
+                    <Text size="md" flex={1} >{item}</Text>
                     <Switch value={isSelected} onToggle={addOrRemoveFV} />
                 </HStack>
                 {/* </TouchableOpacity> */}
@@ -103,7 +103,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
     return (
         <Box >
             <VStack>
-                <Heading  color="$black">
+                <Heading>
                     Let's {finalStep ? "edit" : "add"} any allergy information
                 </Heading>
                 <Divider my="$8" />
@@ -116,7 +116,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                     </InputSlot>
                 </Input>
                 <Box>
-                    <Heading  color="$black" my="$4" textAlign="center" size="sm">
+                    <Heading my="$4" textAlign="center" size="sm">
                         Protein Allergies
                     </Heading>
                     <ScrollView px="$3" h="$48" overflow="scroll">
@@ -124,7 +124,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                     </ScrollView>
                 </Box>
                 <Box>
-                    <Heading color="$black" my="$4" textAlign="center" size="sm">
+                    <Heading my="$4" textAlign="center" size="sm">
                         Fruit & Vegetables Allergies
                     </Heading>
                     <ScrollView px="$3" h="$48" overflow="scroll">

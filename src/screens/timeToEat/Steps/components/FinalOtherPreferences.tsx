@@ -12,7 +12,7 @@ const FinalOtherPreferences = () => {
     return (
         <Box mt={16}>
             <VStack>
-                <Heading color="$black" size="sm">
+                <Heading size="sm">
                     Other Preferences and Info
                 </Heading>
                 <CustomSelect

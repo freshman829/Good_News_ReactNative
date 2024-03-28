@@ -4,7 +4,7 @@ import { HStack, Heading, VStack, Text, Switch } from "@gluestack-ui/themed";
 const FinalHelthCondition = () => {
     return (
         <VStack mt={8} gap={4}>
-            <Heading color="$black">
+            <Heading>
                 Health Conditions
             </Heading>
             <HStack display="flex" justifyContent="space-between" alignItems="center">

@@ -78,19 +78,19 @@ const AWelcomeStep = () => {
 
     return <Box p="$4">
         <VStack >
-            <Heading  color="$black">
+            <Heading>
                 Welcome to the Sadkhin Program and the Good News App! We are customizing your personal daily food schedule
             </Heading>
             <Divider mt="$4" mb="$2" />
             <VStack >
                 <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
-                    <Text color="$black" maxWidth="$1/2">New To Program</Text>
+                    <Text maxWidth="$1/2">New To Program</Text>
                     <Switch value={userInfo.firstRun} onToggle={() => toggleNew()} />
                 </HStack>
                 {userInfo.firstRun ?
                     <VStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
-                            <Text  color="$black" maxWidth="$1/2">When is your program start date?</Text>
+                            <Text maxWidth="$1/2">When is your program start date?</Text>
                             <Pressable onPress={() => setPicker(true)}>
                                 <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" softShadow="2">
                                     {userInfo.rotationPlan.programStartDate ? formatDateInYMD(userInfo.rotationPlan.programStartDate) : ""}
@@ -100,8 +100,8 @@ const AWelcomeStep = () => {
                         </HStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$8">
                             <VStack>
-                                <Text color="$black" maxWidth="$2/3">How many days is your program?</Text>
-                                <Text color="$black">{userInfo.rotationPlan.programDays} days</Text>
+                                <Text maxWidth="$2/3">How many days is your program?</Text>
+                                <Text >{userInfo.rotationPlan.programDays} days</Text>
                             </VStack>
                             <ButtonGroup isAttached>
                                 <Button mr="$0" softShadow="2" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>
@@ -114,7 +114,7 @@ const AWelcomeStep = () => {
                         </HStack>
                     </VStack> :
                     <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
-                        <Text color="$black" maxWidth="$2/5">Are you on maintenance/post maintenance mode?</Text>
+                        <Text maxWidth="$2/5">Are you on maintenance/post maintenance mode?</Text>
                         <ButtonGroup size={"sm"} isDisabled={false} isAttached>
                             <Button
                                 variant="outline"
@@ -157,7 +157,7 @@ const AWelcomeStep = () => {
                             </Button>
                         </ButtonGroup>
                     </HStack>}
-                <Text  color="$black" textAlign="center" my="$8">When is your next appointment?</Text>
+                <Text textAlign="center" my="$8">When is your next appointment?</Text>
                 {showNextAppointment ?
                     <HStack display="flex" justifyContent="space-between" alignItems="center">
                         <Text maxWidth="$1/2">Select a Date</Text>
@@ -171,7 +171,7 @@ const AWelcomeStep = () => {
                     : ""
                 }
                 <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$4">
-                    <Text  color="$black" maxWidth="$2/3">I don't have an appointment</Text>
+                    <Text maxWidth="$2/3">I don't have an appointment</Text>
                     <Switch value={!showNextAppointment} onToggle={() => toggleNextAppoint()} />
                 </HStack>
             </VStack>
