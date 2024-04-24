@@ -61,7 +61,7 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
     }
 
     return (
-        <View p="$4" display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View w="$full" display="flex" h="$full" backgroundColor="$backgroundDefault">
             <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
             <CustomStepper
                 currentStep={active}

@@ -1,4 +1,4 @@
-import { Box, VStack } from "@gluestack-ui/themed";
+import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
 import FeaturesSection from "./components/FeaturesSection";
@@ -8,8 +8,10 @@ import { useUserInfoStore } from "../../store/UserStore";
 import { loginUserWithApple } from "../../api/userAPI";
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { Platform } from "react-native";
+import { jwtDecode } from 'jwt-decode';
 import ProgramDateSelect from "./components/ProgramDateSelect";
 import { useState } from "react";
+import { UserIcon } from "../../assets/icon/UserIcon";
 
 
 const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -42,15 +44,22 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         }
     }
     return (
-        <Box p="$3" h="$full" backgroundColor="$backgroundDefault">
-            <VStack space="md" display="flex" justifyContent="space-between">
-                {/* {userInfo._id ? <Heading>{`Hello, ${userInfo.fullName}`}</Heading> : ""} */}
-                <GreetingSection />
-                <PostSection />
-                <FeaturesSection onLogin={onAppleButtonPress} navigation={navigation} />
-                {!userInfo._id ? <LoginButtonSection isLoading={isLoading} onLogin={onAppleButtonPress} /> : ""}
-                {userInfo._id && !userInfo.rotationPlan.programStartDate && <ProgramDateSelect />}
-            </VStack>
+        <Box p="$3" h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
+            <ScrollView flex={1}>
+                <VStack space="md" display="flex" justifyContent="space-between">
+                    {/* {userInfo._id ? <Heading>{`Hello, ${userInfo.fullName}`}</Heading> : ""} */}
+                    <GreetingSection />
+                    <PostSection />
+                    <FeaturesSection onLogin={onAppleButtonPress} navigation={navigation} />
+                    {!userInfo._id ? <LoginButtonSection isLoading={isLoading} onLogin={onAppleButtonPress} /> : ""}
+                    {userInfo._id && !userInfo.rotationPlan.programStartDate && <ProgramDateSelect />}
+                </VStack>
+                {userInfo._id && 
+                    <Fab size="lg" placement="bottom right" bottom="$6" height="$12" onPress={() => navigation.navigate("Profile")}>
+                        <FabIcon as={UserIcon} size="sm"/>
+                    </Fab>
+                }
+            </ScrollView>
         </Box>
     );
 }

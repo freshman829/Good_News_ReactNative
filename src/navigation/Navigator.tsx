@@ -5,6 +5,7 @@ import RotationScheduleScreen from "../screens/rotationSchedule/RotationSchedule
 import GoalWeightScreen from "../screens/goalWeight/GoalWeightScreen";
 import TimeToEat from "../screens/timeToEat/TimeToEat";
 import FoodPlanScreen from "../screens/FoodPlan/FoodPlanScreen";
+import ProfileScreen from "../screens/profile/ProfileScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -19,6 +20,7 @@ function StackNavigator() {
             <Stack.Screen name="GoalWeightScreen" component={GoalWeightScreen} />
             <Stack.Screen name="WhenToEat" component={TimeToEat} />
             <Stack.Screen name="FoodPlan" component={FoodPlanScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
         </Stack.Navigator>
     )
 }

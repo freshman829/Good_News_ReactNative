@@ -74,7 +74,7 @@ const FWeightStep: React.FC<FWeightStepProps> = ({ finalStep = false }) => {
     }
 
     return (
-        <Box flex={1} h="$full" p="$4">
+        <Box flex={1} h="$full">
             <VStack display="flex" flex={1}>
                 {!finalStep && (
                     <>

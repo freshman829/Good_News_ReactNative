@@ -76,7 +76,7 @@ const AWelcomeStep = () => {
         })
     };
 
-    return <Box p="$4">
+    return <Box>
         <VStack >
             <Heading>
                 Welcome to the Sadkhin Program and the Good News App! We are customizing your personal daily food schedule
@@ -91,12 +91,7 @@ const AWelcomeStep = () => {
                     <VStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
                             <Text maxWidth="$1/2">When is your program start date?</Text>
-                            <Pressable onPress={() => setPicker(true)}>
-                                <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" softShadow="2">
-                                    {userInfo.rotationPlan.programStartDate ? formatDateInYMD(userInfo.rotationPlan.programStartDate) : ""}
-                                </Text>
-                            </Pressable>
-                            {picker ? <RNDateTimePicker display="calendar" value={new Date(userInfo.rotationPlan.programStartDate)} onChange={selectStartTime} /> : ""}
+                            <RNDateTimePicker display="calendar" value={new Date(userInfo.rotationPlan.programStartDate)} onChange={selectStartTime} />
                         </HStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$8">
                             <VStack>
@@ -161,12 +156,7 @@ const AWelcomeStep = () => {
                 {showNextAppointment ?
                     <HStack display="flex" justifyContent="space-between" alignItems="center">
                         <Text maxWidth="$1/2">Select a Date</Text>
-                        <Pressable onPress={() => setAppointPicker(true)}>
-                            <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" minWidth="$24">
-                                {userInfo.nextAppointment ? formatDateInYMD(userInfo.nextAppointment) : "select a appointment"}
-                            </Text>
-                        </Pressable>
-                        {appointPicker ? <RNDateTimePicker display="calendar" value={userInfo.nextAppointment || new Date()} onChange={selectNextAppointment} /> : ""}
+                        <RNDateTimePicker display="calendar" value={userInfo.nextAppointment || new Date()} onChange={selectNextAppointment} />
                     </HStack>
                     : ""
                 }

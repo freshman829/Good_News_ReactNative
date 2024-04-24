@@ -44,16 +44,16 @@ const CustomStepper: React.FC<CustomStepperProps> = ({
     }
 
     return (
-        <View flex={1} display="flex" justifyContent="space-between" alignItems="center">
+        <View w="$full" flex={1} display="flex" justifyContent="space-between">
             <HStack display="flex" justifyContent="space-between" alignItems="center" w="$full">
                 {new Array(length).fill(0).map((item, index) => (
                     <Icon as={CircleIcon} key={index} m="$2" w="$4" h="$4" color={active >= index ? "$primary500" : ""} />
                 ))}
             </HStack>
-            <ScrollView flex={1}>
+            <ScrollView flex={1} p="$4">
                 {contents && contents.length ? contents[active] : ""}
             </ScrollView>
-            <Box w="$full" display="flex" flexDirection="row-reverse" justifyContent="space-between" alignItems="center" pt="$2">
+            <Box w="$full" p="$4" display="flex" flexDirection="row-reverse" justifyContent="space-between" alignItems="center" pt="$2">
                 {active >= 0 && active !== (length - 1) ?
                     <Button action={"primary"} variant="solid" size={"sm"} isDisabled={false}
                         onPress={clickNext}

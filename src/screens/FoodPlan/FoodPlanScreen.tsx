@@ -149,7 +149,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                                                     <Box>
                                                         <Heading size="md">Directions</Heading>
                                                         {suggest.directions.map((ing: any, j: number) => (
-                                                            <Text key={j} mb="$0.5" mt={j === 0 ? "$2" : "0"}>
+                                                            <Text key={j} mb="$0.5" mt={j === 0 ? "$2" : "$0"}>
                                                                 {j + 1}. {ing}
                                                             </Text>
                                                         ))}
@@ -175,9 +175,9 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                 </>
             ) : (
                 <>
-                    <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text color="$black" onPress={() => navigation.navigate("Home")}>Back</Text></HStack>
+                    <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.navigate("Home")}>Back</Text></HStack>
                     <VStack>
-                        <Heading color="$black" pt="$4">
+                        <Heading pt="$4">
                             {userInfo.rotationPlan.mode === 0 ? (
                                 "Congradulations on reaching the last step of the sadkhinTherapy Weight Loss Program!"
                             ) : (
@@ -193,12 +193,12 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                             {suggests && suggests.length ? suggests.map((suggest: any, index: number) => (
                                 <Card key={index} mb="$4" p="$4" rounded="$md" >
                                     <Heading alignSelf="center" size="lg" mb="$2">{suggest.name}</Heading>
-                                    {suggest.reason ? <Text color="text.primary" mb="$1">{suggest.reason}</Text> : ""}
+                                    {suggest.reason ? <Text mb="$1">{suggest.reason}</Text> : ""}
                                     {suggest.ingredients && suggest.ingredients.length ? (
                                         <Heading size="md">Ingredients</Heading>
                                     ) : ""}
                                     {suggest.ingredients && suggest.ingredients.length ? suggest.ingredients.map((ing: any, i: number) => (
-                                        <Text key={i} color="text.secondary" mb="$0.5">
+                                        <Text key={i} mb="$0.5">
                                             • {ing.count ?? ""} {ing.count && ing.unit ? ing.unit : ""} {ing.material}
                                         </Text>
                                     )) : ""}
@@ -206,13 +206,13 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                                         <Box>
                                             <Heading size="md">Directions</Heading>
                                             {suggest.directions.map((ing: any, j: number) => (
-                                                <Text key={j} color="text.secondary" mb="$0.5" mt={j === 0 ? "$2" : "0"}>
+                                                <Text key={j}  mb="$0.5" mt={j === 0 ? "$2" : "$0"}>
                                                     {j + 1}. {ing}
                                                 </Text>
                                             ))}
                                         </Box>
                                     ) : ""}
-                                    {suggest.extra ? <Text color="text.tertiary" mt="$2">{suggest.extra}</Text> : ""}
+                                    {suggest.extra ? <Text  mt="$2">{suggest.extra}</Text> : ""}
                                 </Card>
                             )) : (
                                 <HStack space="xl" display="flex" justifyContent="center" alignItems="center" mt="$4">

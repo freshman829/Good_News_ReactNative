@@ -47,7 +47,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
     }
     
     return (
-        <Box>
+        <Box mt="$3">
             <VStack>
                 {!finalStep ? (
                     <Heading>
@@ -93,11 +93,11 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                     </Box>
                 ))}
                 <Box py="$2">
-                        <HStack display="flex" justifyContent="space-between" alignItems="center">
-                            <Text>Are you pre or menopause?</Text>
-                            <Switch value={userInfo.emotions?.meno?.status} onToggle={() => toggle("meno")} />
-                        </HStack>
-                    </Box>
+                    <HStack display="flex" justifyContent="space-between" alignItems="center">
+                        <Text>Are you pre or menopause?</Text>
+                        <Switch value={userInfo.emotions?.meno?.status} onToggle={() => toggle("meno")} />
+                    </HStack>
+                </Box>
             </VStack>
         </Box>
     );

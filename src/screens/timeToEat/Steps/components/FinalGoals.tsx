@@ -85,12 +85,7 @@ const FinalGoals = () => {
                 {showNextAppointment ?
                     <HStack display="flex" justifyContent="space-between" alignItems="center">
                         <Text maxWidth="$1/2">Select a Date</Text>
-                        <Pressable onPress={() => setAppointPicker(true)}>
-                            <Text p="$2" rounded="$lg" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" minWidth="$24">
-                                {userInfo.nextAppointment ? formatDateInYMD(userInfo.nextAppointment) : "select a appointment"}
-                            </Text>
-                        </Pressable>
-                        {appointPicker ? <RNDateTimePicker display="calendar" value={userInfo.nextAppointment || new Date()} onChange={selectNextAppointment} /> : ""}
+                        <RNDateTimePicker display="calendar" value={userInfo.nextAppointment || new Date()} onChange={selectNextAppointment} />
                     </HStack>
                     : ""
                 }

@@ -51,14 +51,14 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                 borderBottomWidth="$1"
                 borderColor="$trueGray300"
                 $dark-borderColor="$trueGray100"
-                pl="$0"
-                pr="$0"
+                pl="$1"
+                pr="$1"
                 py="$2"
                 key={`protein-${key}`}
-                style={{width:Dimensions.get('window').width/1.5}}
+                // style={{width:Dimensions.get('window').width/1.5}}
             >
                 {/* <TouchableOpacity onPress={addOrRemoveProtein}> */}
-                <HStack justifyContent="space-between">
+                <HStack justifyContent="space-between" alignItems="center">
                     <Text size="md" flex={1} >{item}</Text>
                     <Switch style={{marginLeft:20}} value={isSelected} onToggle={addOrRemoveProtein} />
                 </HStack>
@@ -82,16 +82,14 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                 borderBottomWidth="$1"
                 borderColor="$trueGray300"
                 $dark-borderColor="$trueGray100"
-                $base-pl="$0"
-                $base-pr="$0"
-                $sm-pl="$4"
-                $sm-pr="$4"
+                $base-pl="$1"
+                $base-pr="$1"
                 py="$2"
                 key={`fv-${key}`}
                 // maxWidth="$4/5"
             >
                 {/* <TouchableOpacity onPress={addOrRemoveFV}> */}
-                <HStack justifyContent="space-between">
+                <HStack justifyContent="space-between" alignItems="center">
                     <Text size="md" flex={1} >{item}</Text>
                     <Switch value={isSelected} onToggle={addOrRemoveFV} />
                 </HStack>
@@ -115,11 +113,11 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                         <InputIcon as={SearchIcon} />
                     </InputSlot>
                 </Input>
-                <Box>
+                <Box w="$full" display="flex" justifyContent='space-between' flex={1}>
                     <Heading my="$4" textAlign="center" size="sm">
                         Protein Allergies
                     </Heading>
-                    <ScrollView px="$3" h="$48" overflow="scroll">
+                    <ScrollView px="$4" h="$48" overflow="scroll">
                         {proteins.map((protein, index) => renderProtein(protein, index))}
                     </ScrollView>
                 </Box>

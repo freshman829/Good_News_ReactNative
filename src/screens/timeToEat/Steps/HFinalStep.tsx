@@ -11,11 +11,11 @@ import FinalWeight from "./components/FinalWeight";
 const HFinalStep = () => {
 
     return (
-        <Box p="$4">
+        <Box>
             <Heading>
                 Confirmation of Choices
             </Heading>
-            <VStack mt={16}>
+            <Box>
                 <GEmotionalStep finalStep={true}/>
                 <Divider />
                 <FinalPersonalPreference />
@@ -29,7 +29,7 @@ const HFinalStep = () => {
                 <FinalGoals />
                 <Divider mt={6}/>
                 <FinalWeight />
-            </VStack>
+            </Box>
         </Box>
     )
 }
