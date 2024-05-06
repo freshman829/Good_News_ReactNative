@@ -70,8 +70,13 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                 <ModalBackdrop />
                 <ModalContent>
                     <ModalBody>
-                        <Box padding="$4">
-                            <GEmotionalStep finalStep={true} />
+                        <Box padding="$4" sx={{ height: "$96" }}>
+                            <Heading size="sm">
+                                Depression Today
+                            </Heading>
+                            <ScrollView>
+                                <GEmotionalStep finalStep={true} onModal={true} />
+                            </ScrollView>
                         </Box>
                     </ModalBody>
                     <ModalFooter>

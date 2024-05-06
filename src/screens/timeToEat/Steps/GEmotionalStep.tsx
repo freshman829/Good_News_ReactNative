@@ -4,8 +4,9 @@ import { useUserInfoStore } from "../../../store/UserStore";
 
 interface GEmotionalStepProps {
     finalStep?: boolean;
+    onModal?: boolean;
 }
-const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) => {
+const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false, onModal = false }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
 
     const list = [
@@ -49,7 +50,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
     return (
         <Box mt="$3">
             <VStack>
-                {!finalStep ? (
+                {!onModal && (!finalStep ? (
                     <Heading>
                         Set Emotional & Health Conditions and Goals For Today?
                     </Heading>
@@ -57,7 +58,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false }) =>
                     <Heading size="sm">
                         Depression Today
                     </Heading>
-                )}
+                ))}
                 {/* <Divider my="$4" /> */}
                 {list.map((item, index) => (
                     <Box py="$2" key={index}>
