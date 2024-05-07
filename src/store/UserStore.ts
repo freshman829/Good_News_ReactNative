@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Appointment = {
     id: string;
@@ -216,5 +217,9 @@ interface UserState {
 
 export const useUserInfoStore = create<UserState>((set) => ({
     userInfo: initUserInfo,
-    setUserInfo: (info) => set((state) => ({ userInfo: info }))
+    setUserInfo: async (info) => {
+        set((state) => ({ userInfo: info }));
+        
+        await AsyncStorage.setItem("userInfo", JSON.stringify(info));
+    }
 }));

@@ -45,6 +45,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     const [openSpecial, setOpenSpecial] = useState(false);
     const [special, setSpecial] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [isFirst, setIsFirst] = useState(true);
 
     useEffect(() => {
         setSpecial(userInfo.rotationPlan.plan);
@@ -80,8 +81,13 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             && userInfo.rotationPlan.wakeTime
             && userInfo.rotationPlan.sleepTime
         ) {
-            setIsLoading(true);
-            refreshAlarms();
+            if (isFirst) {
+                setIsFirst(false);
+            } else {
+                console.log("setIsLoading:::", isLoading);
+                setIsLoading(true);
+                refreshAlarms();
+            }
         }
     }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime, userInfo.rotationPlan.alarmTurn, userInfo.rotationPlan.plan]);
 

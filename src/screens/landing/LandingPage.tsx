@@ -1,4 +1,5 @@
 import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
 import FeaturesSection from "./components/FeaturesSection";
@@ -10,13 +11,27 @@ import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { Platform } from "react-native";
 import { jwtDecode } from 'jwt-decode';
 import ProgramDateSelect from "./components/ProgramDateSelect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserIcon } from "../../assets/icon/UserIcon";
 
 
 const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [isLoading, setIsLoading] = useState(false);
+
+    
+    useEffect(() => {
+        const getUserInfo = async () => {
+            await AsyncStorage.getItem("userInfo").then((value) => {
+                console.log("==============", value);
+                if (value) {
+                    setUserInfo(JSON.parse(value));
+                }
+            });
+        };
+        getUserInfo();
+    }, []);
+
 
     const login = async (userId: string, userName: string, identityToken: any) => {
         const result = await loginUserWithApple({ userId, userName, identityToken });
