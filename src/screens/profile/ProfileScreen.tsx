@@ -33,7 +33,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         const result = await updateUserinfo({ ...initialUserInfo, isFinishInterview: true });
         if (result.success) {
             setUserInfo({ ...result.data });
-            toast?.showToast({ title: "successfully", message: "User Information updated successfully", options: 'success' });
             setIsDisable(true);
         } else {
             toast?.showToast({ title: "error", message: result.msg, options: 'error' });

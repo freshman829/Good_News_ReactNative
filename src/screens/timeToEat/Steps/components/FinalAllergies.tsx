@@ -22,14 +22,14 @@ const FinalAllergies = () => {
                 <Heading size="sm">
                     Allergies
                 </Heading>
-                <HStack mt={8}>
-                    <Text maxWidth="$2/3">Allergy to Fruits & Veggies:</Text>
-                    <Text maxWidth="$1/2"> {fvs === "" ? "None" : fvs}</Text>
-                </HStack>
-                <HStack>
-                    <Text maxWidth="$2/3">Allergy to Single Protein:</Text>
-                    <Text maxWidth="$1/2"> {proteins === "" ? "None" : proteins}</Text>
-                </HStack>
+                <VStack mt={8} ml={6}>
+                    <Text bold>Allergy to Fruits & Veggies:</Text>
+                    <Text ml={16} minWidth="$1"> {fvs === "" ? "None" : fvs}</Text>
+                </VStack>
+                <VStack ml={6}>
+                    <Text bold>Allergy to Single Protein:</Text>
+                    <Text ml={16} minWidth="$1"> {proteins === "" ? "None" : proteins}</Text>
+                </VStack>
                 <Text color="$blue500" onPress={() => handleClick()} >Edit Allergies</Text>
             </VStack>
             <Modal

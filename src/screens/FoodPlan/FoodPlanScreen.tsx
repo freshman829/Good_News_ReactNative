@@ -6,6 +6,7 @@ import { getFoodSuggestion, getPlanList, updateUserinfo } from "../../api/userAP
 import { useUserInfoStore } from "../../store/UserStore";
 import { useToastr } from "../../providers/ToastProvider";
 import GEmotionalStep from "../timeToEat/Steps/GEmotionalStep";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type FoodPlanProps = NativeStackScreenProps<
     RootStackParamList,
@@ -23,20 +24,74 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
 
     useEffect(() => {
         const getPlans = async () => {
-            const result = await getPlanList(userInfo._id);
-            if (result.success) {
-                setPlans(result.data);
-            } else {
-                toast?.showToast({ message: result.msg, options: "error" });
-            }
+            // check the plan expire date
+            await AsyncStorage.getItem("planStoreDate").then(async (value) => {  
+                if (value) {
+                    const date = new Date(value);
+                    const now = new Date();
+                    date.setDate(new Date(value).getDate() + 1);
+                    if (now.getTime() > date.getTime()) {
+                        const result = await getPlanList(userInfo._id);
+                        if (result.success) {
+                            setPlans(result.data);
+                            await AsyncStorage.setItem("planStoreDate", new Date().toString());
+                            await AsyncStorage.setItem("planStore", JSON.stringify(result.data));   
+                        } else {
+                            toast?.showToast({ message: result.msg, options: "error" });
+                        }
+                    } else {
+                        await AsyncStorage.getItem("planStore").then((value) => {
+                            if (value) {
+                                setPlans(JSON.parse(value));
+                            }
+                        });
+                    }
+                } else {
+                    const result = await getPlanList(userInfo._id);
+                    if (result.success) {
+                        setPlans(result.data);
+                        await AsyncStorage.setItem("planStoreDate", new Date().toString());
+                        await AsyncStorage.setItem("planStore", JSON.stringify(result.data));   
+                    } else {
+                        toast?.showToast({ message: result.msg, options: "error" });
+                    }
+                }
+            });
         }
         const getSuggest = async () => {
-            const result = await getFoodSuggestion(userInfo._id);
-            if (result.success) {
-                setSuggests(result.data);
-            } else {
-                toast?.showToast({ message: result.msg, options: "error" });
-            }
+            // check the suggest expire date
+            await AsyncStorage.getItem("suggestStoreDate").then(async (value) => {  
+                if (value) {
+                    const date = new Date(value);
+                    const now = new Date();
+                    date.setDate(new Date(value).getDate() + 1);
+                    if (now.getTime() > date.getTime()) {
+                        const result = await getFoodSuggestion(userInfo._id);
+                        if (result.success) {
+                            setSuggests(result.data);
+                            await AsyncStorage.setItem("suggestStoreDate", new Date().toString());
+                            await AsyncStorage.setItem("suggestStore", JSON.stringify(result.data));   
+                        } else {
+                            toast?.showToast({ message: result.msg, options: "error" });
+                        }
+                    } else {
+                        await AsyncStorage.getItem("suggestStore").then((value) => {
+                            if (value) {
+                                setSuggests(JSON.parse(value));
+                            }
+                        });
+                    }
+                } else {
+                    const result = await getFoodSuggestion(userInfo._id);
+                    if (result.success) {
+                        setSuggests(result.data);
+                        await AsyncStorage.setItem("suggestStoreDate", new Date().toString());
+                        await AsyncStorage.setItem("suggestStore", JSON.stringify(result.data));   
+                    } else {
+                        toast?.showToast({ message: result.msg, options: "error" });
+                    }
+                } 
+            });
         }
 
         if (userInfo.rotationPlan.mode === 0) {
@@ -62,6 +117,8 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
         } else {
             toast?.showToast({ message: result.msg, options: "error" });
         }
+
+        setShowDepression(false)
     }
 
     return (
