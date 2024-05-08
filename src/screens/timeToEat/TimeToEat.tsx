@@ -56,7 +56,7 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
             setUserInfo({ ...result.data });
             navigation.navigate("FoodPlan");
         } else {
-            toast?.showToast({ title: "error", message: result.msg, options: 'error' });
+            // toast?.showToast({ title: "error", message: result.msg, options: 'error' });
         }
     }
 

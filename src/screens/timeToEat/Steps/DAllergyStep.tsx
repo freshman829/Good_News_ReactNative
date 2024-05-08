@@ -21,7 +21,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
             if (result.success) {
                 setFoods(result.data);
             } else {
-                toast?.showToast({ message: result.msg, options: "error" });
+                // toast?.showToast({ message: result.msg, options: "error" });
             }
         }
         getFoods();

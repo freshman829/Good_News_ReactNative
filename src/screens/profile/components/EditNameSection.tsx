@@ -26,9 +26,9 @@ const EditNameSection: React.FC<EditNameSectionProps> = ({
         if (result.success) {
             setUserInfo({ ...userInfo, fullName: name });
             setShowModal(false);
-            toast?.showToast({ title: "success", message: "Successfully", options: 'success' });
+            // toast?.showToast({ title: "success", message: "Successfully", options: 'success' });
         }else {
-            toast?.showToast({ title: "error", message: result.msg, options: 'error' });
+            // toast?.showToast({ title: "error", message: result.msg, options: 'error' });
         }
     }
 

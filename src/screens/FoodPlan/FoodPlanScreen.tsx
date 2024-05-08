@@ -37,7 +37,12 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                             await AsyncStorage.setItem("planStoreDate", new Date().toString());
                             await AsyncStorage.setItem("planStore", JSON.stringify(result.data));   
                         } else {
-                            toast?.showToast({ message: result.msg, options: "error" });
+                            await AsyncStorage.getItem("planStore").then((value) => {
+                                if (value) {
+                                    setPlans(JSON.parse(value));
+                                }
+                            });
+                            // toast?.showToast({ message: result.msg, options: "error" });
                         }
                     } else {
                         await AsyncStorage.getItem("planStore").then((value) => {
@@ -53,7 +58,12 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                         await AsyncStorage.setItem("planStoreDate", new Date().toString());
                         await AsyncStorage.setItem("planStore", JSON.stringify(result.data));   
                     } else {
-                        toast?.showToast({ message: result.msg, options: "error" });
+                        await AsyncStorage.getItem("planStore").then((value) => {
+                            if (value) {
+                                setPlans(JSON.parse(value));
+                            }
+                        });
+                        // toast?.showToast({ message: result.msg, options: "error" });
                     }
                 }
             });
@@ -72,7 +82,12 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                             await AsyncStorage.setItem("suggestStoreDate", new Date().toString());
                             await AsyncStorage.setItem("suggestStore", JSON.stringify(result.data));   
                         } else {
-                            toast?.showToast({ message: result.msg, options: "error" });
+                            await AsyncStorage.getItem("suggestStore").then((value) => {
+                                if (value) {
+                                    setSuggests(JSON.parse(value));
+                                }
+                            });
+                            // toast?.showToast({ message: result.msg, options: "error" });
                         }
                     } else {
                         await AsyncStorage.getItem("suggestStore").then((value) => {
@@ -88,7 +103,12 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                         await AsyncStorage.setItem("suggestStoreDate", new Date().toString());
                         await AsyncStorage.setItem("suggestStore", JSON.stringify(result.data));   
                     } else {
-                        toast?.showToast({ message: result.msg, options: "error" });
+                        await AsyncStorage.getItem("suggestStore").then((value) => {
+                            if (value) {
+                                setSuggests(JSON.parse(value));
+                            }
+                        });
+                        // toast?.showToast({ message: result.msg, options: "error" });
                     }
                 } 
             });
@@ -115,7 +135,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
         if (result.success) {
             setUserInfo(result.data);
         } else {
-            toast?.showToast({ message: result.msg, options: "error" });
+            // toast?.showToast({ message: result.msg, options: "error" });
         }
 
         setShowDepression(false)
@@ -251,7 +271,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                                 Depression Today
                             </ButtonText>
                         </Button>
-                        <ScrollView>
+                        <ScrollView mb={150}>
                             {suggests && suggests.length ? suggests.map((suggest: any, index: number) => (
                                 <Card key={index} mb="$4" p="$4" rounded="$md" >
                                     <Heading alignSelf="center" size="lg" mb="$2">{suggest.name}</Heading>

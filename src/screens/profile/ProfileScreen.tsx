@@ -35,7 +35,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             setUserInfo({ ...result.data });
             setIsDisable(true);
         } else {
-            toast?.showToast({ title: "error", message: result.msg, options: 'error' });
+            // toast?.showToast({ title: "error", message: result.msg, options: 'error' });
         }
     }
 
