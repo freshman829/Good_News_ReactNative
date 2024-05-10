@@ -9,12 +9,18 @@ type TimePickerProps = {
     isWake: boolean,
     value?: string,
     limitTime?: string,
-    setTime: (time: string | null) => void
+    setTime: (time: string | null) => void,
+    setIsOpen?: (isOpen: boolean) => void
 }
 
-const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime, setTime }) => {
+const TimePicker: React.FC<TimePickerProps> = ({ isWake = true, value, limitTime, setTime, setIsOpen }) => {
     const [selectedTime, setSelectedTime] = useState('');
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (setIsOpen)
+            setIsOpen(open);
+    }, [open]); 
 
     useEffect(() => {
         setSelectedTime(value ? value : "");

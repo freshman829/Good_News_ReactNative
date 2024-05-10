@@ -12,6 +12,7 @@ import FinalGoals from "../timeToEat/Steps/components/FinalGoals";
 import FinalSocialDays from "../timeToEat/Steps/components/FinalSocialDays";
 import FinalWeight from "../timeToEat/Steps/components/FinalWeight";
 import EditNameSection from "./components/EditNameSection";
+import SpinnerButton from "../../components/common/SpinnerButton";
 
 type ProfileScreenProps = NativeStackScreenProps<
     RootStackParamList,
@@ -22,20 +23,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     const { userInfo: initialUserInfo, setUserInfo } = useUserInfoStore();
     const toast = useToastr();
     const [userInfo, setLocalUserInfo] = useState(initialUserInfo);
-    const [isDisable, setIsDisable] = useState(true);
-
-    useEffect(() => {
-        if (JSON.stringify(userInfo) === JSON.stringify(initialUserInfo)) setIsDisable(true);
-        else setIsDisable(false);
-    }, [initialUserInfo]) 
+    const [isLoading, setIsLoading] = useState(false);
 
     const clickFinish = async () => {
+        setIsLoading(true);
         const result = await updateUserinfo({ ...initialUserInfo, isFinishInterview: true });
         if (result.success) {
             setUserInfo({ ...result.data });
-            setIsDisable(true);
+            setIsLoading(false);
         } else {
-            // toast?.showToast({ title: "error", message: result.msg, options: 'error' });
+            setIsLoading(false);;
         }
     }
 
@@ -68,17 +65,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 justifyContent="space-between" 
                 alignItems="center"
             >
-                <Button 
-                    action="primary" 
-                    variant="solid" 
+                <SpinnerButton
+                    isLoading={isLoading}
                     size="sm" 
-                    isDisabled={isDisable} 
                     onPress={clickFinish}
                 >
                     <ButtonText>
-                        Finish
+                        {isLoading ? "Loading..." : "Save"}
                     </ButtonText>
-                </Button>
+                </SpinnerButton>
             </Box>
         </View>
     );

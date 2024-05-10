@@ -1,4 +1,4 @@
-import { Box, ChevronLeftIcon, Divider, FlatList, HStack, Heading, Icon, Switch, Text, VStack, View, Spinner } from "@gluestack-ui/themed";
+import { Box, ChevronLeftIcon, Divider, FlatList, HStack, Heading, Icon, Switch, Text, VStack, View, Spinner, AccordionItem, AccordionHeader, AccordionTitleText, AccordionIcon, AccordionTrigger, AddIcon, RemoveIcon, AccordionContent, AccordionContentText, Accordion, ArrowUpIcon, ArrowDownIcon, ChevronDownIcon, ChevronUpIcon, ScrollView } from "@gluestack-ui/themed";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
 import SelectDropdown from "react-native-select-dropdown";
@@ -11,6 +11,9 @@ import { saveRotationSchedule } from "../../api/userAPI";
 import DropDownPicker from "react-native-dropdown-picker";
 import { extractTime } from "../../utils/numberUtil";
 import uuid from 'react-native-uuid'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StorageDatesNames } from "../../constants";
+import { updateStoreDate } from "../../utils/common";
 
 type RotationScheduleProps = NativeStackScreenProps<
     RootStackParamList,
@@ -46,6 +49,9 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     const [special, setSpecial] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
     const [isFirst, setIsFirst] = useState(true);
+    const [expanded, setIsExpanded] = useState(false);
+    const [isWakeDropdownOpen, setIsWakeDropdownOpen] = useState(false);
+    const [isSleepDropdownOpen, setIsSleepDropdownOpen] = useState(false);
 
     useEffect(() => {
         setSpecial(userInfo.rotationPlan.plan);
@@ -84,12 +90,30 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
             if (isFirst) {
                 setIsFirst(false);
             } else {
-                console.log("setIsLoading:::", isLoading);
-                setIsLoading(true);
                 refreshAlarms();
             }
         }
     }, [userInfo.rotationPlan.wakeTime, userInfo.rotationPlan.sleepTime, userInfo.rotationPlan.alarmTurn, userInfo.rotationPlan.plan]);
+
+    useEffect(() => {
+        const checkExpiredTime = async () => {
+            await AsyncStorage.getItem(StorageDatesNames.alarm).then((value) => {
+                console.log("alrm date: ", value);
+                if (value) {
+                    const alarmDate = new Date(value);
+                    const today = new Date();
+                    if (today > alarmDate) {
+                        console.log("Alarm date is expired", alarmDate);
+                        refreshAlarms();
+                    }
+                } else {
+                    refreshAlarms();
+                }
+            });
+        };
+
+        checkExpiredTime();
+    }, []);
 
     useEffect(() => {
         renderConfirmAlarm();
@@ -164,6 +188,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     }
 
     const refreshAlarms = async () => {
+        setIsLoading(true);
         await Notification.cancelAllNotifications();
 
         setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: [] } });
@@ -175,6 +200,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         if (today > programEndDate) {
             // No alarms to generate if the end date is in the past
             const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: [] } });
+            updateStoreDate(StorageDatesNames.alarm);
             setUserInfo(updatedData);
             return;
         }
@@ -191,6 +217,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
 
         setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: new Date(), programDays: 14, alarms: generatedAlarms } });
         const updatedData = await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: new Date(), programDays: 14, alarms: generatedAlarms } });
+        updateStoreDate(StorageDatesNames.alarm);
         setIsLoading(false);
     };
     const generateAlarms = async (day: Date) => {
@@ -343,61 +370,94 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         setUserInfo(updatedData);
     }
 
-
     return (
         <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full" backgroundColor="$backgroundDefault">
             <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
             <VStack flex={1} overflow="scroll">
-                <Heading textAlign="center" my="$10">Rotation Schedule</Heading>
-                <View style={{ zIndex: 9999 }}>
-                    <HStack justifyContent="space-between" pb="$2">
-                        <Heading size="sm" maxWidth="$3/5">Are you on maintenance / post maintenance mode?</Heading>
-                        <Switch 
-                            value={userInfo?.rotationPlan.alarmTurn} 
-                            onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarmTurn: !userInfo.rotationPlan.alarmTurn } })} 
-                        />
-                    </HStack>
-                </View>
+                <Accordion>
+                    <AccordionItem
+                        value="item-1"
+                    >
+                        <AccordionHeader>
+                            <AccordionTrigger>
+                                {({ isExpanded }) => {
+                                    setIsExpanded(isExpanded);
+                                    return (
+                                        <>
+                                            <AccordionTitleText>
+                                                Rotation Schedule
+                                            </AccordionTitleText>
+                                            {isExpanded ? (
+                                                <AccordionIcon as={ChevronUpIcon} />
+                                            ) : (
+                                                <AccordionIcon as={ChevronDownIcon} />
+                                            )}
+                                        </>
+                                    )
+                                }}
+                            </AccordionTrigger>
+                        </AccordionHeader>
+                        <AccordionContent>
+                            <View style={{ zIndex: 9999 }}>
+                                <HStack justifyContent="space-between" pb="$2">
+                                    <Text size="sm" maxWidth="$5/6">Are you on maintenance / post maintenance mode?</Text>
+                                    <Switch 
+                                        value={userInfo?.rotationPlan.alarmTurn} 
+                                        onToggle={() => setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarmTurn: !userInfo.rotationPlan.alarmTurn } })} 
+                                    />
+                                </HStack>
+                            </View>
+                            {!userInfo.rotationPlan.alarmTurn ? (
+                                <VStack h={isWakeDropdownOpen ? 350 : isSleepDropdownOpen ? 350 : "$full"} gap="$3">
+                                    <View style={{ zIndex: 8888 }}>
+                                        <HStack justifyContent="space-between" alignItems="center">
+                                            <Text size="sm" maxWidth="$4/6">What are your special rotation times?</Text>
+                                            <DropDownPicker
+                                                open={openSpecial}
+                                                value={userInfo.rotationPlan.plan}
+                                                items={specialRotations}
+                                                setOpen={setOpenSpecial}
+                                                setValue={setSpecial}
+                                                style={{ width: 100 }}
+                                                containerStyle={{ width: 100 }}
+                                            />
+                                        </HStack>
+                                    </View>
+                                    {userInfo.rotationPlan.plan >= 2 ? <View style={{ zIndex: 7777 }}>
+                                        <HStack>
+                                            <Box flex={1}>
+                                                <Text size="sm">When do you wake up?</Text>
+                                                <TimePicker isWake={true}
+                                                    value={userInfo.rotationPlan.wakeTime}
+                                                    setTime={(time) => {
+                                                        time && updateTime(time, true)
+                                                    }
+                                                    }
+                                                    setIsOpen={(open) => setIsWakeDropdownOpen(open)}
+                                                />
+                                            </Box>
+                                            <Box flex={1}>
+                                                <Text size="sm">When do you go to sleep?</Text>
+                                                <TimePicker isWake={false}
+                                                    value={userInfo.rotationPlan.sleepTime}
+                                                    setTime={(time) => {
+                                                        time && updateTime(time, false)
+                                                    }
+                                                    }
+                                                    setIsOpen={(open) => setIsSleepDropdownOpen(open)}
+                                                />
+                                            </Box>
+                                        </HStack>
+                                    </View> : ""}
+                                </VStack>
+                            ) : (
+                                <Text zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
+                            )}
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
                 {!userInfo.rotationPlan.alarmTurn ? (
-                    <VStack h="$full" gap="$3">
-                        <View style={{ zIndex: 8888 }}>
-                            <HStack justifyContent="space-between" alignItems="center">
-                                <Heading size="sm" maxWidth="$3/5">What are your special rotation times?</Heading>
-                                <DropDownPicker
-                                    open={openSpecial}
-                                    value={userInfo.rotationPlan.plan}
-                                    items={specialRotations}
-                                    setOpen={setOpenSpecial}
-                                    setValue={setSpecial}
-                                    style={{ width: 100 }}
-                                    containerStyle={{ width: 100 }}
-                                />
-                            </HStack>
-                        </View>
-                        {userInfo.rotationPlan.plan >= 2 ? <View style={{ zIndex: 7777 }}>
-                            <HStack>
-                                <Box flex={1}>
-                                    <Heading size="sm">When do you wake up?</Heading>
-                                    <TimePicker isWake={true}
-                                        value={userInfo.rotationPlan.wakeTime}
-                                        setTime={(time) => {
-                                            time && updateTime(time, true)
-                                        }
-                                        }
-                                    />
-                                </Box>
-                                <Box flex={1}>
-                                    <Heading size="sm">When do you go to sleep?</Heading>
-                                    <TimePicker isWake={false}
-                                        value={userInfo.rotationPlan.sleepTime}
-                                        setTime={(time) => {
-                                            time && updateTime(time, false)
-                                        }
-                                        }
-                                    />
-                                </Box>
-                            </HStack>
-                        </View> : ""}
+                    <VStack h="$full" pb={expanded ? 360 : 120} mt="$10" overflow="scroll">
                         {isLoading ? (
                             <Spinner size="small" />
                         ) : (
@@ -412,20 +472,20 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                 {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
                                     <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
                                 }
-                                {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
-        
+                                {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length &&
                                     <FlatList
                                         data={userInfo.rotationPlan.alarms}
                                         renderItem={renderAlarmItem}
                                         keyExtractor={(item, index) => index.toString()}
                                         px="$3"
-                                    /> : ""
+                                        mt="$2"
+                                    />
                                 }
                             </>
                         )}
                     </VStack>
                 ) : (
-                    <Text zIndex={-1}>You do not need to rotate on a schedule while in Maintenance Mode. If you feel a craving, feel free to rotate the spheres as needed.</Text>
+                    <></>
                 )}
             </VStack>
             <Box p="$2">

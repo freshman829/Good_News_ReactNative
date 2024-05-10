@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Heading, VStack, HStack, ButtonGroup, Button, ButtonText, Text, Divider, Pressable, Switch } from "@gluestack-ui/themed";
+import { Heading, VStack, HStack, ButtonGroup, Button, ButtonText, Text, Divider, Pressable, Switch, View } from "@gluestack-ui/themed";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useUserInfoStore } from "../../../../store/UserStore";
 import { PlanConstants } from "../../../../constants";
@@ -11,6 +11,7 @@ const FinalGoals = () => {
     const [picker, setPicker] = useState(false);
     const [appointPicker, setAppointPicker] = useState(false);
     const [showNextAppointment, setShowNextAppointment] = useState(false);
+    const [startDate, setDate] = useState<Date>(new Date(userInfo.rotationPlan.programStartDate));
     
     useEffect(() => {
         setShowNextAppointment(userInfo.nextAppointment ? true : false);
@@ -40,6 +41,7 @@ const FinalGoals = () => {
             setPicker(false);
         } else if (e.type === 'set' && date) {
             setPicker(false);
+            setDate(date);
             setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: date } });
         }
     };
@@ -68,7 +70,18 @@ const FinalGoals = () => {
             <Heading size="sm">Goals & Program Info</Heading>
             <HStack display="flex" justifyContent="space-between" alignItems="center" mt={8}>
                 <VStack>
-                    <Text maxWidth="$4/5">How many days is your program? {userInfo.rotationPlan.programDays} days</Text>
+                    <Text maxWidth="$5/6">When is your program start date?</Text>
+                </VStack>
+                <View>
+                    <Pressable onPress={() => setPicker(true)}>
+                        <Text padding="$2" borderWidth="$1" $dark-borderColor="$backgroundLight200" borderColor="$backgroundDark200" rounded="$lg">{formatDateInYMD(startDate)}</Text>
+                    </Pressable>
+                </View>
+                {picker ? <RNDateTimePicker display="calendar" value={startDate} onChange={SelectStartTime} /> : ""}
+            </HStack>
+            <HStack display="flex" justifyContent="space-between" alignItems="center" mt={8}>
+                <VStack>
+                    <Text maxWidth="$5/6">How many days is your program? {userInfo.rotationPlan.programDays} days</Text>
                 </VStack>
                 <ButtonGroup isAttached>
                     <Button mr="$0" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>

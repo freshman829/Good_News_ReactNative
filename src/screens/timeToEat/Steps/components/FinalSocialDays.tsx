@@ -24,7 +24,7 @@ const FinalSocialDays = () => {
     return (
         <VStack mt={16} gap={6}>
             <Heading size="sm"> Social Days</Heading>
-            <VStack mt={8}>
+            <VStack mt={8} ml={8}>
                 {userInfo.socialDays.length > 0 && userInfo.socialDays.map((item, index) => (
                     <Text key={index}>{convertDateString(item)}</Text>
                 ))}
