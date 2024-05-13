@@ -23,7 +23,6 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     useEffect(() => {
         const getUserInfo = async () => {
             await AsyncStorage.getItem("userInfo").then((value) => {
-                console.log("==============", value);
                 if (value) {
                     setUserInfo(JSON.parse(value));
                 }
@@ -43,7 +42,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     async function onAppleButtonPress(): Promise<Boolean> {
         setIsLoading(true);
         if (Platform.OS === "android") {
-            let res = login("001083.6bedd928a5e74b47a623b8375c0a6b06.0900", "Code Wizard", "sdfsdfsdfsdfsdf");
+            let res = login("001083.6bedd928a5e74b47a623b8375c0a6b06.0900", "Code Wizard", "test");
             return res;
         } else {
             const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -62,7 +61,6 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         <Box p="$3" h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
             <ScrollView flex={1}>
                 <VStack space="md" display="flex" justifyContent="space-between">
-                    {/* {userInfo._id ? <Heading>{`Hello, ${userInfo.fullName}`}</Heading> : ""} */}
                     <GreetingSection />
                     <PostSection />
                     <FeaturesSection onLogin={onAppleButtonPress} navigation={navigation} />

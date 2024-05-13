@@ -6,3 +6,7 @@ export const updateStoreDate = async (dateName: string) => {
 
     await AsyncStorage.setItem(dateName, expiredDate.toString());
 };
+
+export const updateStoreDataFlag = async (dataName: string, flag: string) => {
+    await AsyncStorage.setItem(dataName, flag);
+}

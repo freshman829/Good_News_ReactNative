@@ -13,6 +13,7 @@ import FinalSocialDays from "../timeToEat/Steps/components/FinalSocialDays";
 import FinalWeight from "../timeToEat/Steps/components/FinalWeight";
 import EditNameSection from "./components/EditNameSection";
 import SpinnerButton from "../../components/common/SpinnerButton";
+import { updateStoreDataFlag } from "../../utils/common";
 
 type ProfileScreenProps = NativeStackScreenProps<
     RootStackParamList,
@@ -31,6 +32,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         if (result.success) {
             setUserInfo({ ...result.data });
             setIsLoading(false);
+            
+            // update the food plan flag
+            await updateStoreDataFlag("planFlag", "update");
         } else {
             setIsLoading(false);;
         }

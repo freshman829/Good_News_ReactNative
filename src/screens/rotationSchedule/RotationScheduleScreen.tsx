@@ -472,14 +472,13 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
                                 {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
                                     <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
                                 }
-                                {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length &&
+                                {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
                                     <FlatList
                                         data={userInfo.rotationPlan.alarms}
                                         renderItem={renderAlarmItem}
                                         keyExtractor={(item, index) => index.toString()}
                                         px="$3"
-                                        mt="$2"
-                                    />
+                                    /> : ""
                                 }
                             </>
                         )}
