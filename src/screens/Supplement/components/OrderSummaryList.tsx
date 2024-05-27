@@ -3,6 +3,7 @@ import SupplementRowItem from "../../../components/supplement/ListItem";
 import { useEffect, useState } from "react";
 import { Supplement } from "../../../types/supplement";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { formatNumber } from "../../../utils/common";
 
 interface OrderSummaryListProps {
 
@@ -11,6 +12,7 @@ interface OrderSummaryListProps {
 const OrderSummaryList: React.FC<OrderSummaryListProps> = ({}) => {
     const [basket, setBasket] = useState<Supplement[]>([]);
     const [amounts, setAmounts] = useState<{ [key: string]: number }>({});
+    const [totalPrice, setTotalPrice] = useState<number>(0);
 
     useEffect(() => {
         const getBasket = async () => {
@@ -34,9 +36,19 @@ const OrderSummaryList: React.FC<OrderSummaryListProps> = ({}) => {
             setAmounts(amounts);
         };
         if (basket.length > 0) {
-        getAmounts();
+            getAmounts();
         }
-    }, [basket])
+    }, [basket]);
+
+    useEffect(() => {
+        if (Object.keys(amounts).length > 0) {
+            let total_price = 0;
+            for (const item of basket) {
+                total_price += item.price * amounts[item._id];
+            }
+            setTotalPrice(total_price);
+        }
+    }, [amounts])
 
     return (
         <VStack gap="$3" pb="$6">
@@ -56,6 +68,11 @@ const OrderSummaryList: React.FC<OrderSummaryListProps> = ({}) => {
                     <Divider mt="$2"/>
                 </View>
             ))}
+
+            <HStack justifyContent="space-between" mt="$4" p="$10">
+                <Text fontSize="$lg" fontWeight="bold">Total Cost</Text>
+                <Text fontSize="$md" fontWeight="bold" $dark-color="blue" color="red">{formatNumber(totalPrice, 2, true, false, true, true)}</Text>
+            </HStack>
         </VStack>
     );
 };
