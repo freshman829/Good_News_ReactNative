@@ -1,4 +1,4 @@
-import { Card, HStack, Image, Text, VStack } from "@gluestack-ui/themed";
+import { Card, HStack, Icon, Image, Text, TrashIcon, VStack } from "@gluestack-ui/themed";
 import { TouchableOpacity } from "react-native";
 import { Supplement } from "../../types/supplement";
 import { formatNumber } from "../../utils/common";
@@ -7,9 +7,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 interface SupplementRowItemProps {
     onClick?: () => void;
     supplement: Supplement;
+    isBasketContent?: boolean;
+    handleDelete?: (item: Supplement) => void;
 };
 
-const SupplementRowItem:React.FC<SupplementRowItemProps> = ({ onClick, supplement }) => {
+const SupplementRowItem:React.FC<SupplementRowItemProps> = ({ onClick, supplement, isBasketContent = false, handleDelete }) => {
 
     const handleClick = async (item: Supplement) => {
         await AsyncStorage.setItem("selectedSupplement", JSON.stringify(item));
@@ -30,23 +32,30 @@ const SupplementRowItem:React.FC<SupplementRowItemProps> = ({ onClick, supplemen
                         alt=""
                     />
                     <VStack ml="$6" w="$2/3">
-                        <Text
-                            fontSize="$md"
-                            fontStyle="normal"
-                            fontFamily="$heading"
-                            fontWeight="$bold"
-                            bold={true}
-                            lineHeight="$sm"
-                            mb="$2"
-                            sx={{
-                            color: "$textLight700",
-                            _dark: {
-                                color: "$textDark200",
-                            },
-                            }}
-                        >
-                            {supplement?.name}
-                        </Text>
+                        <HStack justifyContent="space-between" alignItems="center" alignContent="center">
+                            <Text
+                                fontSize="$md"
+                                fontStyle="normal"
+                                fontFamily="$heading"
+                                fontWeight="$bold"
+                                bold={true}
+                                lineHeight="$sm"
+                                mb="$2"
+                                sx={{
+                                color: "$textLight700",
+                                _dark: {
+                                    color: "$textDark200",
+                                },
+                                }}
+                            >
+                                {supplement?.name}
+                            </Text>
+                            {isBasketContent && handleDelete && 
+                                <TouchableOpacity onPress={() => handleDelete(supplement)}>
+                                    <Icon as={TrashIcon}  mb="$3" mr="$4" w="$4" h="$4"/> 
+                                </TouchableOpacity>
+                            }
+                        </HStack>
                         <HStack justifyContent="flex-end" mr="$6">
                             <Text
                                 fontSize="$md"

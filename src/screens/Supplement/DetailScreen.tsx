@@ -51,6 +51,8 @@ const SupplementDetailScreen: React.FC<SupplementDetailScreenProps> = ({ navigat
         let afterAmount = 1;
         if (beforeAmount !== null) {
             afterAmount = parseInt(beforeAmount) + amount;
+        } else {
+            afterAmount = amount;
         }
         await AsyncStorage.setItem(addedSupplementAmountKey, afterAmount.toString());
     };

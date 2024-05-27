@@ -30,7 +30,8 @@ const features = [
         target: ""
     },
     {
-        title: "KID'S CORNER",
+        // title: "KID'S CORNER",
+        title: "SUPPLEMENTS",
         src: require("../../../assets/kids.png"),
         target: "Supplement"
     },

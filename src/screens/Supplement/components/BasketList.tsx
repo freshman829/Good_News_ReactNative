@@ -6,9 +6,11 @@ import { Supplement } from "../../../types/supplement";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-interface BasketListProps {};
+interface BasketListProps {
+    setIsEmptyBasket: (isEmpty: boolean) => void;
+};
 
-const BasketList: React.FC<BasketListProps> = () => {
+const BasketList: React.FC<BasketListProps> = ({setIsEmptyBasket}) => {
     const [basket, setBasket] = useState<Supplement[]>([]);
     const [amounts, setAmounts] = useState<{ [key: string]: number }>({});
 
@@ -34,7 +36,10 @@ const BasketList: React.FC<BasketListProps> = () => {
             setAmounts(amounts);
         };
         if (basket.length > 0) {
-        getAmounts();
+            getAmounts();
+            setIsEmptyBasket(false);
+        } else {
+            setIsEmptyBasket(true);
         }
     }, [basket])
 
@@ -59,13 +64,20 @@ const BasketList: React.FC<BasketListProps> = () => {
             setAmounts({ ...amounts, [id]: amount - 1 });
         }
     };
-    
+
+    const handleDelete = async (item: Supplement) => {
+        const newBasket = basket.filter((i) => i._id !== item._id);
+        await AsyncStorage.setItem("basket", JSON.stringify(newBasket));
+        setBasket(newBasket);
+        await AsyncStorage.removeItem(`${item._id}-amount`);
+    };
+
     return (
         <VStack gap="$4">
             {basket && basket.map((item: Supplement, index: number) => (
                 <View key={index}>
                     <VStack gap="$3" px="$4" key={index}>
-                        <SupplementRowItem supplement={item} />
+                        <SupplementRowItem supplement={item} isBasketContent={true} handleDelete={handleDelete}/>
                         <SupplementIncreaseAmount amount={amounts[item._id] || 1} onIncrease={() => handleIncrease(item._id)} onDecrease={() => handleDecrease(item._id)}/>
                     </VStack>
                     <Divider mt="$2" />

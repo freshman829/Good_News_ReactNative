@@ -4,10 +4,12 @@ import { View, HStack, Icon, ChevronLeftIcon, Text, ScrollView, Fab } from "@glu
 import CenterGoBack from "../../components/common/CenterGoBack";
 import BasketList from "./components/BasketList";
 import FabButton from "../../components/common/FabButton";
+import { useState } from "react";
 
 type BasketScreenProps = NativeStackScreenProps<RootStackParamList, "Basket">;
 
 const BasketScreen: React.FC<BasketScreenProps> = ({ navigation }) => {
+    const [emptyBasket, setEmptyBasket] = useState<boolean>(true);
 
     return (
         <View display="flex" h="$full" backgroundColor="$backgroundDefault">
@@ -16,9 +18,11 @@ const BasketScreen: React.FC<BasketScreenProps> = ({ navigation }) => {
             </View>
         
             <ScrollView h="$full">
-                <BasketList />
+                <BasketList setIsEmptyBasket={setEmptyBasket}/>
             </ScrollView>
-            <FabButton buttonText="Checkout" onPress={() => navigation.navigate("PaymentMethod")} />
+            {!emptyBasket && 
+                <FabButton buttonText="Checkout" onPress={() => navigation.navigate("PaymentMethod")} />
+            }
         </View>
     );
 };

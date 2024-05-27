@@ -52,19 +52,19 @@ const OrderSummaryScreen: React.FC<OrderSummaryScreenProps> = ({ navigation }) =
 
     }
     
+    useEffect(() => {
+        // initializePaymentSheet();
+    }, [])
     const handlePay = async () => {
-        const {error} = await presentPaymentSheet();
+        // const {error} = await presentPaymentSheet();
 
-        if (error) {
-            console.log("presentError::", error);
-        }
+        // if (error) {
+        //     console.log("presentError::", error);
+        // }
 
         navigation.navigate("OrderSuccess");
     }
 
-    useEffect(() => {
-        initializePaymentSheet();
-    }, [])
 
     const handleApplePay = () => {
     }
