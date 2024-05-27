@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HStack, Icon, Text, View, ChevronLeftIcon, VStack, MenuIcon, ScrollView, set } from "@gluestack-ui/themed";
+import { RefreshControl } from 'react-native';
 import { RootStackParamList } from "../../types/data";
 import DropdownGroup from "../../components/common/Dropdown";
 import { Common } from "../../constants";
@@ -17,6 +18,7 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
     const [supplements, setSupplements] = useState<Supplement[]>([]);
     const [sort, setSort] = useState<string>("asc");
     const [order, setOrder] = useState<string>("price");
+    const [refreshing, setRefreshing] = useState<boolean>(false);
 
     const getSupplements = async () => {
         try {
@@ -25,6 +27,8 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
                 setSupplements(result.data);
         } catch (error) {
             console.log("getSupplements error", error);
+        } finally {
+            setRefreshing(false);
         }
     };
 
@@ -70,6 +74,12 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
     const handleGoToDetail = () => {
         navigation.navigate("SupplementDetail");
     };
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        getSupplements();
+    };
+
     return (
         <View display="flex" h="$full" backgroundColor="$backgroundDefault">
             <HStack p="$4" alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
@@ -83,7 +93,10 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
                         onChange={handleSort}
                     />
                 </HStack>
-                <ScrollView h="100%">
+                <ScrollView 
+                    h="100%"
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                >
                     <View px="$4" pb="$16">
                         { showType === SUPPLEMENT_SHOW_TYPE.BLOCK ? <SupplementBlockList supplements={supplements} onItemClick={handleGoToDetail}/> : <SupplementRowList supplements={supplements} onItemClick={handleGoToDetail}/> }
                     </View>

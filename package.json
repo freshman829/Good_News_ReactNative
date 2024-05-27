@@ -21,6 +21,7 @@
     "@react-native-picker/picker": "^2.6.1",
     "@react-navigation/native": "^6.1.14",
     "@react-navigation/native-stack": "^6.9.22",
+    "@stripe/stripe-react-native": "^0.38.0",
     "axios": "^1.6.7",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
