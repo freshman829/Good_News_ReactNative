@@ -8,7 +8,13 @@ export type RootStackParamList = {
     KidsCorner: undefined,
     WhenToEat: undefined,
     FoodPlan: undefined,
-    Profile: undefined
+    Profile: undefined,
+    Supplement: undefined,
+    SupplementDetail: undefined,
+    Basket: undefined,
+    PaymentMethod: undefined,
+    OrderSummary: undefined,
+    OrderSuccess: undefined,
 };
 
 export interface CreateNewTargetProps {

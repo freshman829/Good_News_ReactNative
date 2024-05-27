@@ -32,7 +32,7 @@ const features = [
     {
         title: "KID'S CORNER",
         src: require("../../../assets/kids.png"),
-        target: ""
+        target: "Supplement"
     },
 ]
 const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolean> }> = ({ navigation, onLogin }) => {
@@ -52,7 +52,6 @@ const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolea
                         let res = await onLogin();
                         setTimeout(() => {
                             if (res) {
-                                console.log(feature.title, userInfo);
                                 if (feature.title === "TIME TO EAT" && userInfo.isFinishInterview) {
                                     navigation.navigate("FoodPlan");
                                 } else {
