@@ -7,7 +7,7 @@ const BlockList = styled(View, {
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: "$4",
+    gap: "$3",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",

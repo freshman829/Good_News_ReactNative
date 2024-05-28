@@ -12,7 +12,7 @@ const FabButton: React.FC<FabButtonProps> = ({ onPress, buttonText }) => {
             onPress={onPress}
             position="absolute"
             placement="bottom center"
-            bottom="$12"
+            bottom="$8"
             px="$8"
             py="$3.5"
         >
