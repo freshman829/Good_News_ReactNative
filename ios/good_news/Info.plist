@@ -53,5 +53,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Good News needs permission to use the camera in order to use ARKit.</string>
 </dict>
 </plist>
