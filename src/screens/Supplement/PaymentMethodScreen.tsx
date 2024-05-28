@@ -19,7 +19,7 @@ const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({ navigation })
             <View>
                 <RadioGroup>
                     <VStack p="$5" gap="$4">
-                        <View borderRadius="$lg" w="$full" backgroundColor="$textLight50" borderColor="$textLight200" p="$10">
+                        <View borderRadius="$lg" w="$full" $dark-backgroundColor="$textDark50" backgroundColor="$textLight50" borderColor="$textLight200" p="$10">
                             <Radio value={PAYMENT_METHOD.GOOGLE}>
                                 <RadioIndicator>
                                     <RadioIcon as={CircleIcon} />
@@ -27,7 +27,7 @@ const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({ navigation })
                                 <RadioLabel ml="$5">Google Pay</RadioLabel>
                             </Radio>
                         </View>
-                        <View borderRadius="$lg" w="$full" backgroundColor="$textLight50" borderColor="$textLight200" p="$10">
+                        <View borderRadius="$lg" w="$full" $dark-backgroundColor="$textDark50" backgroundColor="$textLight50" borderColor="$textLight200" p="$10">
                             <Radio value={PAYMENT_METHOD.APPLE}>
                                 <RadioIndicator>
                                     <RadioIcon as={CircleIcon} />
