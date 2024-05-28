@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, useColorScheme } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
 export interface DropdownOption {
@@ -15,11 +15,14 @@ interface DropdownProps {
 
 const DropdownGroup: React.FC<DropdownProps> = ({ data, onChange, isSearch=false }) => {
     const [value, setValue] = useState<string>("");
+    const colorScheme = useColorScheme();
 
     const handleChange = (item: DropdownOption) => {
       setValue(item.value);
       onChange(item.value);
     };
+
+    const styles = getStyles(colorScheme === 'dark');
 
     return (
       <Dropdown
@@ -43,29 +46,35 @@ const DropdownGroup: React.FC<DropdownProps> = ({ data, onChange, isSearch=false
     );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   dropdown: {
     height: 30,
     width: 150,
-    borderBottomColor: 'gray',
+    borderBottomColor: isDarkMode ? 'white' : 'gray',
     borderBottomWidth: 0.5,
+    backgroundColor: isDarkMode ? '#333' : '#fff',
   },
   icon: {
     marginRight: 5,
   },
   placeholderStyle: {
     fontSize: 14,
+    color: isDarkMode ? 'white' : 'black',
   },
   selectedTextStyle: {
     fontSize: 14,
+    color: isDarkMode ? 'white' : 'black',
   },
   iconStyle: {
     width: 20,
     height: 20,
+    tintColor: isDarkMode ? 'white' : 'black',
   },
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+    backgroundColor: isDarkMode ? '#444' : '#f9f9f9',
+    color: isDarkMode ? 'white' : 'black',
   },
 });
 
