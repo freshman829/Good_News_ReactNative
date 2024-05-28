@@ -1,4 +1,9 @@
 {
   "name": "good_news",
-  "displayName": "Good News"
+  "displayName": "Good News",
+  "ios":{
+    "infoPlist": {
+         "NSCameraUsageDescription": "Put your app usage description here."
+    }
+ }
 }
