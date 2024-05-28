@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { HStack, Icon, Text, View, ChevronLeftIcon, VStack, MenuIcon, ScrollView, set } from "@gluestack-ui/themed";
+import { HStack, Icon, Text, View, ChevronLeftIcon, VStack, MenuIcon, ScrollView, set, Fab, Image } from "@gluestack-ui/themed";
 import { RefreshControl } from 'react-native';
 import { RootStackParamList } from "../../types/data";
 import DropdownGroup from "../../components/common/Dropdown";
@@ -10,6 +10,7 @@ import { SUPPLEMENT_SHOW_TYPE } from "../../constants/common";
 import SupplementRowList from "./components/RowList";
 import { getSupplementList } from "../../api/supplementAPI";
 import { Supplement } from "../../types/supplement";
+import { ShopCartIcon } from "../../assets/icon/ShopCartIcon";
 
 type SupplementListScreenProps = NativeStackScreenProps<RootStackParamList, "Supplement">;
 
@@ -102,6 +103,9 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
                     </View>
                 </ScrollView>
             </VStack>
+            <Fab size="lg" placement="bottom right" bottom="$6" height="$12" onPress={() => navigation.navigate("Basket")}>
+                <Icon as={ShopCartIcon} w="$4" h="$4" size="md"/>
+            </Fab>
         </View>
     );
 };
