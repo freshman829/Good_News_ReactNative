@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HStack, Icon, Text, View, ChevronLeftIcon, VStack, MenuIcon, ScrollView, set, Fab, Image } from "@gluestack-ui/themed";
-import { RefreshControl } from 'react-native';
+import { RefreshControl, TouchableOpacity } from 'react-native';
 import { RootStackParamList } from "../../types/data";
 import DropdownGroup from "../../components/common/Dropdown";
 import { Common } from "../../constants";
@@ -86,9 +86,11 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
             <HStack p="$4" alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
             <VStack pb="$8">
                 <HStack justifyContent="space-between" alignItems="center" px="$4" pb="$2">
-                    <Text onPress={() => handleChangeShowType(showType)}>
-                        <Icon as={MenuIcon} m="$1" w="$4" h="$4" size="md"/>
-                    </Text>
+                    <TouchableOpacity onPress={() => handleChangeShowType(showType)}>
+                        <Text>
+                            <Icon as={MenuIcon} m="$1" w="$4" h="$4" size="md"/>
+                        </Text>
+                    </TouchableOpacity>
                     <DropdownGroup 
                         data={Common.SUPPLEMENT_SORT_DATA}
                         onChange={handleSort}
