@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
 import AccountInformation from "./components/AccountInformation";
 import OtherContent from "./components/OtherContent";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, "Profile">;
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
@@ -13,11 +14,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
     return (
         <View display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <HStack p="$4" alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <View p="$4">
+                <CenterGoBack navigation={navigation} title="Profile" />
+            </View>
 
             <View p="$4">
                 <VStack>
-                    <AccountInformation />
+                    <AccountInformation fullName=""/>
 
                     <View mt="$5">
                         <Heading fontSize="$md">Others</Heading>

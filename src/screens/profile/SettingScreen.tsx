@@ -14,6 +14,7 @@ import FinalWeight from "../timeToEat/Steps/components/FinalWeight";
 import EditNameSection from "./components/EditNameSection";
 import SpinnerButton from "../../components/common/SpinnerButton";
 import { updateStoreDataFlag } from "../../utils/common";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type SettingScreenProps = NativeStackScreenProps<
     RootStackParamList,
@@ -42,14 +43,12 @@ const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
 
     return (
         <View p="$4" display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <View p="$4">
+                <CenterGoBack navigation={navigation} title="Setting" />
+            </View>
             
             <ScrollView flex={1} p="$3" mb="$1">
-                <Heading>
-                    Setting
-                </Heading>
                 <VStack mb="$8">
-                    <EditNameSection fullName={userInfo.fullName} />
                     <FinalGoals />
                     <Divider mt={6} />
                     <FinalWeight />

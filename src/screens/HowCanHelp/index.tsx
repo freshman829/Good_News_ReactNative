@@ -7,6 +7,7 @@ import SearchInput from "../../components/common/SearchInput";
 import { getFaqList } from "../../api/faqAPI";
 import { Faq } from "../../types/faq";
 import FaqList from "./components/FaqList";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type HowCanHelpScreenProps = NativeStackScreenProps<RootStackParamList, "HowCanHelp">; 
 
@@ -44,7 +45,9 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
 
     return (
         <View display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <HStack p="$4" alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <View p="$4">
+                <CenterGoBack navigation={navigation} title="How Can We Help" />
+            </View>
             <VStack px="$4">
                 <SearchInput value={search} onChangeText={handleSearch} />
                 <ScrollView
