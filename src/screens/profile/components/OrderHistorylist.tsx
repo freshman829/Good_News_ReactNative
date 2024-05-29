@@ -1,14 +1,14 @@
 import { View } from "@gluestack-ui/themed";
-import { OrderHistory } from "../../../types/data";
+import { Order } from "../../../types/data";
 import OrderHistoryItem from "../../../components/profile/OrderHistoryItem";
 
 interface OrderHistorylistProps {
-    orders: OrderHistory[];
+    orders: Order[];
 };
 const OrderHistorylist: React.FC<OrderHistorylistProps> = ({ orders }) => {
 
     return (
-        <View p="$4">
+        <View px="$4" py="$2">
             {orders.map((order, index) => 
                 <OrderHistoryItem order={order} key={index}/>
             )}

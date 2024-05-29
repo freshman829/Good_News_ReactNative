@@ -1,9 +1,9 @@
 import { Badge, BadgeText, CalendarDaysIcon, Card, Divider, HStack, Icon, Text, View } from "@gluestack-ui/themed"
-import { OrderHistory, OrderItem } from "../../types/data";
+import { Order, OrderItem } from "../../types/data";
 import { formatDate, formatNumber } from "../../utils/common";
 
 interface OrderHistoryItemProps {  
-    order: OrderHistory;
+    order: Order;
 };
 const OrderHistoryItem: React.FC<OrderHistoryItemProps> = ({ order }) => {
 

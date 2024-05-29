@@ -41,10 +41,10 @@ export interface OrderItem {
     price: number
 }
 
-export interface OrderHistory {
-    _id: string,
+export interface Order {
+    _id?: string,
     orderNumber: string,
-    orderDate: string,
+    orderDate?: string,
     status: number,
     total: number,
     items: OrderItem[]

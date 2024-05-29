@@ -1,17 +1,17 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RefreshControl, TouchableOpacity } from 'react-native';
-import { OrderHistory, RootStackParamList } from "../../types/data";
+import { Order, RootStackParamList } from "../../types/data";
 import { ScrollView, View } from "@gluestack-ui/themed";
 import CenterGoBack from "../../components/common/CenterGoBack";
 import { useEffect, useState } from "react";
-import { getOrderHistoryList } from "../../api/orderHistoryAPI";
+import { getOrderHistoryList } from "../../api/orderAPI";
 import OrderHistorylist from "./components/OrderHistorylist";
 
 type OrderHistoryScreen = NativeStackScreenProps<RootStackParamList, "OrderHistory">;
 
 const OrderHistoryScreen: React.FC<OrderHistoryScreen> = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState<boolean>(false);
-    const [orderHistory, setOrderHistory] = useState<OrderHistory[]>([]);
+    const [orderHistory, setOrderHistory] = useState<Order[]>([]);
 
     useEffect(() => {
         getOrderHistory();
@@ -39,14 +39,12 @@ const OrderHistoryScreen: React.FC<OrderHistoryScreen> = ({ navigation }) => {
                 <CenterGoBack navigation={navigation} title="Order History" /> 
             </View>
             
-            <View>
-                <ScrollView
-                    h="100%"
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                >
-                    <OrderHistorylist  orders={orderHistory} />   
-                </ScrollView>
-            </View>
+            <ScrollView
+                h="100%"
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
+                <OrderHistorylist  orders={orderHistory} />   
+            </ScrollView>
         </View>
     )
 };
