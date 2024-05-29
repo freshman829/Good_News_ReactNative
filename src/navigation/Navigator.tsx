@@ -12,6 +12,7 @@ import BasketScreen from "../screens/Supplement/BasketScreen";
 import PaymentMethodScreen from "../screens/Supplement/PaymentMethodScreen";
 import OrderSummaryScreen from "../screens/Supplement/OrderSummaryScreen";
 import OrderSuccessScreen from "../screens/Supplement/OrderSuccessScreen";
+import HowCanHelpScreen from "../screens/HowCanHelp";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -33,6 +34,7 @@ function StackNavigator() {
             <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
             <Stack.Screen name="OrderSummary" component={OrderSummaryScreen} />
             <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} />
+            <Stack.Screen name="HowCanHelp" component={HowCanHelpScreen} />
         </Stack.Navigator>
     )
 }

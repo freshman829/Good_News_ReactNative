@@ -15,6 +15,7 @@ export type RootStackParamList = {
     PaymentMethod: undefined,
     OrderSummary: undefined,
     OrderSuccess: undefined,
+    HowCanHelp: undefined,
 };
 
 export interface CreateNewTargetProps {
