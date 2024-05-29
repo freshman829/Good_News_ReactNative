@@ -69,3 +69,9 @@ export const formatNumber = (
 
     return number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const formatDate = (dateString : any) => {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-GB', options);
+}

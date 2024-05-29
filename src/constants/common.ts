@@ -14,3 +14,10 @@ export const PAYMENT_METHOD = {
     GOOGLE: 'google',
     APPLE: 'apple',
 };
+
+export const ORDER_STATUS = {
+    PENDING: 0,
+    SUCCESS: 1,
+    CANCEL: 2,
+    FAILED: 3,
+};

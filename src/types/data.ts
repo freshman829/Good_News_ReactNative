@@ -9,6 +9,8 @@ export type RootStackParamList = {
     WhenToEat: undefined,
     FoodPlan: undefined,
     Profile: undefined,
+    OrderHistory: undefined,
+    Setting: undefined,
     Supplement: undefined,
     SupplementDetail: undefined,
     Basket: undefined,
@@ -30,4 +32,20 @@ export interface DayPlan {
     date: string,
     dayType: 'SP' | 'FV' | 'SD',
     foods: any[]
+};
+
+export interface OrderItem {
+    itemId: string,
+    name: string,
+    amount: number,
+    price: number
+}
+
+export interface OrderHistory {
+    _id: string,
+    orderNumber: string,
+    orderDate: string,
+    status: number,
+    total: number,
+    items: OrderItem[]
 };

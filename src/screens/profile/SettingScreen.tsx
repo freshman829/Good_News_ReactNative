@@ -15,12 +15,12 @@ import EditNameSection from "./components/EditNameSection";
 import SpinnerButton from "../../components/common/SpinnerButton";
 import { updateStoreDataFlag } from "../../utils/common";
 
-type ProfileScreenProps = NativeStackScreenProps<
+type SettingScreenProps = NativeStackScreenProps<
     RootStackParamList,
-    "Profile"
+    "Setting"
 >;
 
-const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
+const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
     const { userInfo: initialUserInfo, setUserInfo } = useUserInfoStore();
     const toast = useToastr();
     const [userInfo, setLocalUserInfo] = useState(initialUserInfo);
@@ -46,7 +46,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             
             <ScrollView flex={1} p="$3" mb="$1">
                 <Heading>
-                    Profile
+                    Setting
                 </Heading>
                 <VStack mb="$8">
                     <EditNameSection fullName={userInfo.fullName} />
@@ -83,4 +83,4 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     );
 }
 
-export default ProfileScreen;
+export default SettingScreen;

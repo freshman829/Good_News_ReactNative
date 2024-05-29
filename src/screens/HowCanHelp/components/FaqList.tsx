@@ -9,9 +9,9 @@ const FaqList: React.FC<FaqListProps> = ({ faqs }) => {
 
     return (
         <View mt="$4">
-            {faqs.map((faq) => {
+            {faqs.map((faq, index) => {
                 return (
-                    <FaqItem faq={faq} />
+                    <FaqItem faq={faq} key={index}/>
                 )
             })}
         </View>
