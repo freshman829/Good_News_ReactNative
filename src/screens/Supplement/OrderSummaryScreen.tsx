@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchGooglePaymentSheet } from "../../api/googlePayAPI";
 import { ORDER_STATUS } from "../../constants/common";
 import { createOrder } from "../../api/orderAPI";
+import { useUserInfoStore } from "../../store/UserStore";
 
 type OrderSummaryScreenProps = NativeStackScreenProps<RootStackParamList, "OrderSummary">;
 
@@ -21,6 +22,8 @@ const OrderSummaryScreen: React.FC<OrderSummaryScreenProps> = ({ navigation }) =
     const [showButton, setShowButton] = useState(false);
     const [Loading, setLoading] = useState(false);
     const { confirmPayment, initPaymentSheet, presentPaymentSheet } = useStripe();
+
+    const { userInfo, setUserInfo } = useUserInfoStore()
 
     const [basket, setBasket] = useState<Supplement[]>([]);
     const [amounts, setAmounts] = useState<{ [key: string]: number }>({});
@@ -122,6 +125,7 @@ const OrderSummaryScreen: React.FC<OrderSummaryScreenProps> = ({ navigation }) =
             }
         });
         const payload = {
+            userId: userInfo._id,
             orderNumber: orderNumber.toString(),
             status: ORDER_STATUS.SUCCESS,
             total: totalPrice,

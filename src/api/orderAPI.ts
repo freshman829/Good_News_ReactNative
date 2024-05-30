@@ -21,9 +21,12 @@ export async function createOrder(order: Order) {
     }
 };
 
-export async function getOrderHistoryList() {
+export async function getOrderHistoryList(userId: string) {
     try {
-        const result = await Axios.get(`/getOrderHistory`);
+        const params = {
+            userId: userId
+        };
+        const result = await Axios.get(`/getOrderHistory`, { params });
         return {
             success: true,
             data: result.data
