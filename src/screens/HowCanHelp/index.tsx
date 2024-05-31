@@ -57,8 +57,8 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
             <VStack px="$4">
                 <SearchInput value={search} onChangeText={handleSearch} />
                 <ScrollView
-                    h="80%"
-                    mb="$2"
+                    h="75%"
+                    mb="$1"
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 >
                     <FaqList faqs={faqs} />
@@ -68,6 +68,7 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
                     flexDirection="row-reverse" 
                     justifyContent="space-between" 
                     alignItems="center"
+                    mb="$4"
                 >
                     <MessageInput handleSend={handleSendMessage} />
                 </Box>

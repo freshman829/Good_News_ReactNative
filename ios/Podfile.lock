@@ -1057,7 +1057,7 @@ PODS:
     - React-perflogger (= 0.73.5)
   - RNAppleAuthentication (2.3.0):
     - React-Core
-  - RNCAsyncStorage (1.12.1):
+  - RNCAsyncStorage (1.23.1):
     - React-Core
   - RNCPicker (2.6.1):
     - React-Core
@@ -1077,6 +1077,42 @@ PODS:
   - RNSVG (13.4.0):
     - React-Core
   - SocketRocket (0.6.1)
+  - Stripe (23.27.2):
+    - StripeApplePay (= 23.27.2)
+    - StripeCore (= 23.27.2)
+    - StripePayments (= 23.27.2)
+    - StripePaymentsUI (= 23.27.2)
+    - StripeUICore (= 23.27.2)
+  - stripe-react-native (0.38.0):
+    - React-Core
+    - Stripe (~> 23.27.0)
+    - StripeApplePay (~> 23.27.0)
+    - StripeFinancialConnections (~> 23.27.0)
+    - StripePayments (~> 23.27.0)
+    - StripePaymentSheet (~> 23.27.0)
+    - StripePaymentsUI (~> 23.27.0)
+  - StripeApplePay (23.27.2):
+    - StripeCore (= 23.27.2)
+  - StripeCore (23.27.2)
+  - StripeFinancialConnections (23.27.2):
+    - StripeCore (= 23.27.2)
+    - StripeUICore (= 23.27.2)
+  - StripePayments (23.27.2):
+    - StripeCore (= 23.27.2)
+    - StripePayments/Stripe3DS2 (= 23.27.2)
+  - StripePayments/Stripe3DS2 (23.27.2):
+    - StripeCore (= 23.27.2)
+  - StripePaymentSheet (23.27.2):
+    - StripeApplePay (= 23.27.2)
+    - StripeCore (= 23.27.2)
+    - StripePayments (= 23.27.2)
+    - StripePaymentsUI (= 23.27.2)
+  - StripePaymentsUI (23.27.2):
+    - StripeCore (= 23.27.2)
+    - StripePayments (= 23.27.2)
+    - StripeUICore (= 23.27.2)
+  - StripeUICore (23.27.2):
+    - StripeCore (= 23.27.2)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1132,13 +1168,14 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
-  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1146,6 +1183,14 @@ SPEC REPOS:
     - fmt
     - libevent
     - SocketRocket
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeFinancialConnections
+    - StripePayments
+    - StripePaymentSheet
+    - StripePaymentsUI
+    - StripeUICore
 
 EXTERNAL SOURCES:
   boost:
@@ -1248,7 +1293,7 @@ EXTERNAL SOURCES:
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
-    :path: "../node_modules/@react-native-community/async-storage"
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
   RNCPushNotificationIOS:
@@ -1261,6 +1306,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  stripe-react-native:
+    :path: "../node_modules/@stripe/stripe-react-native"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1316,7 +1363,7 @@ SPEC CHECKSUMS:
   React-utils: 987a4526a2fc0acdfaf87888adfe0bf9d0452066
   ReactCommon: 2947b0bffd82ea0e58ca7928881152d4c6dae9af
   RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
-  RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCPicker: b18aaf30df596e9b1738e7c1f9ee55402a229dca
   RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNDateTimePicker: 7b38b71bcd7c4cfa1cb95f2dff9a4f1faed2dced
@@ -1324,6 +1371,15 @@ SPEC CHECKSUMS:
   RNScreens: 17e2f657f1b09a71ec3c821368a04acbb7ebcb46
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  Stripe: ec902be2e477aa8c6cfb758f4ed9a4603c4b5d63
+  stripe-react-native: c89f0b9abbac8a4093695a85ac34cc09f8935d0c
+  StripeApplePay: 55e0fe7095d18bc6d8390cab176692c801d865c6
+  StripeCore: 55c1fb4ec4edd61243c59839cef592b0ac4c469a
+  StripeFinancialConnections: e646628ca798faa26bf794d8dc76c17ddb8405e4
+  StripePayments: 1702ca63bf83c5170330bc4fbf587acb869a7da1
+  StripePaymentSheet: bf96500ca25dadf72079e4f256d827955dd7d1ef
+  StripePaymentsUI: a51fd3468d9944b602f79ddae26d83e6dd2d9048
+  StripeUICore: 436db87a21e3bb45b7a6a90c114a6d21c35b4be0
   Yoga: a716eea57d0d3430219c0a5a233e1e93ee931eb7
 
 PODFILE CHECKSUM: fe91631738674e46d00451c8c871761e442bfd36

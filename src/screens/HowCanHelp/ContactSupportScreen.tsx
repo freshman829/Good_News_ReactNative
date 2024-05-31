@@ -37,7 +37,7 @@ const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation,
             </View>
             <VStack px="$4">
                 <ScrollView
-                    h="85%"
+                    h="80%"
                     mb="$2"
                 >
                     <ChatContainer messages={messages} />
