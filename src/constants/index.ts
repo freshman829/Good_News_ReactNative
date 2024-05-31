@@ -3,8 +3,8 @@ import * as Allergies from "./allergies";
 import * as HealthConstants from "./healthCondition";
 import * as Common from "./common";
 
-// const API_URL = "https://goodnews2023.herokuapp.com/api";
-const API_URL = "http://10.0.2.2:3000/api";
+const API_URL = "https://goodnews2023.herokuapp.com/api";
+//const API_URL = "http://10.0.2.2:3000/api";
 
 const StorageDatesNames = {
     plan: "planStorageDate",
