@@ -15,6 +15,7 @@ import OrderSuccessScreen from "../screens/Supplement/OrderSuccessScreen";
 import HowCanHelpScreen from "../screens/HowCanHelp";
 import ProfileScreen from "../screens/profile";
 import OrderHistoryScreen from "../screens/profile/OrderHistoryScreen";
+import ContactSupportScreen from "../screens/HowCanHelp/ContactSupportScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -39,6 +40,7 @@ function StackNavigator() {
             <Stack.Screen name="OrderSummary" component={OrderSummaryScreen} />
             <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} />
             <Stack.Screen name="HowCanHelp" component={HowCanHelpScreen} />
+            <Stack.Screen name="Contact" component={ContactSupportScreen} />
         </Stack.Navigator>
     )
 }

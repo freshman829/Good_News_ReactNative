@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
-import { CircleIcon, Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel, VStack, View } from "@gluestack-ui/themed";
+import { Card, CircleIcon, Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel, VStack, View } from "@gluestack-ui/themed";
 import CenterGoBack from "../../components/common/CenterGoBack";
 import { useState } from "react";
 import { PAYMENT_METHOD } from "../../constants/common";
@@ -10,6 +10,10 @@ type PaymentMethodScreenProps = NativeStackScreenProps<RootStackParamList, "Paym
 
 const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({ navigation }) => {
     const [values, setValues] = useState<string>(PAYMENT_METHOD.GOOGLE);
+
+    const handleChange = (value: string) => { 
+        setValues(value);
+    };
     return (
         <View display="flex" h="$full" backgroundColor="$backgroundDefault">
             <View p="$4">
@@ -17,24 +21,24 @@ const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({ navigation })
             </View>
 
             <View>
-                <RadioGroup>
+                <RadioGroup value={values} onChange={handleChange}>
                     <VStack p="$5" gap="$4">
-                        <View borderRadius="$lg" w="$full" $dark-backgroundColor="$backgroundDark900" backgroundColor="$textLight50" borderColor="$textLight200" p="$10">
+                        <Card borderRadius="$lg" w="$full" borderColor="$textLight200" p="$10">
                             <Radio value={PAYMENT_METHOD.GOOGLE}>
                                 <RadioIndicator>
                                     <RadioIcon as={CircleIcon} />
                                 </RadioIndicator>
                                 <RadioLabel ml="$5">Google Pay</RadioLabel>
                             </Radio>
-                        </View>
-                        <View borderRadius="$lg" w="$full" $dark-backgroundColor="$backgroundDark900" backgroundColor="$textLight50" borderColor="$textLight200" p="$10">
+                        </Card>
+                        <Card borderRadius="$lg" w="$full" borderColor="$textLight200" p="$10">
                             <Radio value={PAYMENT_METHOD.APPLE}>
                                 <RadioIndicator>
                                     <RadioIcon as={CircleIcon} />
                                 </RadioIndicator>
                                 <RadioLabel ml="$5">Apple Pay</RadioLabel>
                             </Radio>
-                        </View>
+                        </Card>
                     </VStack>
                 </RadioGroup>
             </View>

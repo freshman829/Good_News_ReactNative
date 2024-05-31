@@ -18,6 +18,7 @@ export type RootStackParamList = {
     OrderSummary: undefined,
     OrderSuccess: undefined,
     HowCanHelp: undefined,
+    Contact: { message: string },
 };
 
 export interface CreateNewTargetProps {
