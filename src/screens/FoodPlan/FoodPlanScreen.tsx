@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { DayPlan, RootStackParamList } from "../../types/data";
-import { Box, Divider, HStack, Heading, Text, VStack, ScrollView, Button, Spinner, Modal, Icon, ModalBody, ModalContent, ModalHeader, CloseIcon, ModalCloseButton, ModalBackdrop, ChevronLeftIcon, ButtonText, ModalFooter, Card } from "@gluestack-ui/themed";
+import { Box, Divider, View, HStack, Heading, Text, VStack, ScrollView, Button, Spinner, Modal, Icon, ModalBody, ModalContent, ModalHeader, CloseIcon, ModalCloseButton, ModalBackdrop, ChevronLeftIcon, ButtonText, ModalFooter, Card } from "@gluestack-ui/themed";
 import { useState, useEffect, useRef } from "react";
 import { getFoodSuggestion, getPlanList, updateUserinfo } from "../../api/userAPI";
 import { useUserInfoStore } from "../../store/UserStore";
@@ -8,6 +8,7 @@ import { useToastr } from "../../providers/ToastProvider";
 import GEmotionalStep from "../timeToEat/Steps/GEmotionalStep";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateStoreDataFlag } from "../../utils/common";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type FoodPlanProps = NativeStackScreenProps<
     RootStackParamList,
@@ -167,7 +168,9 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
             </Modal>
             {userInfo.rotationPlan.mode === 0 ? (
                 <>
-                    <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.navigate("Home")}>Back</Text></HStack>
+                    <View mt="$2">
+                        <CenterGoBack navigation={navigation} title="Food Plan" />
+                    </View>
                     <Modal
                         isOpen={init}
                         onClose={() => setInit(false)}
@@ -256,7 +259,9 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                 </>
             ) : (
                 <>
-                    <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.navigate("Home")}>Back</Text></HStack>
+                    <View mt="$2">
+                        <CenterGoBack navigation={navigation} title="Food Plan" />
+                    </View>
                     <VStack>
                         <Heading pt="$4">
                             {userInfo.rotationPlan.mode === 0 ? (

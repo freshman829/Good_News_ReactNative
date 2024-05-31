@@ -9,6 +9,7 @@ import { Dimensions } from "react-native";
 import moment from 'moment';
 import { LineChart } from 'react-native-chart-kit';
 import EmojiInput from '../../components/EmojiInput';
+import CenterGoBack from '../../components/common/CenterGoBack';
 
 type GoalWeightScreenProps = NativeStackScreenProps<
     RootStackParamList,
@@ -131,8 +132,10 @@ const GoalWeightScreen: React.FC<GoalWeightScreenProps> = ({ navigation }) => {
 
     return (
         <Box p="$4" flex={1} bg="$backgroundDefault">
-            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
-            <Heading>
+            <View>
+                <CenterGoBack navigation={navigation} title="My Goal Weight" />
+            </View>
+            <Heading mt="$4">
                 My Goal Weight {userInfo?.weightLogs?.target ? `(${userInfo?.weightLogs?.target} lbs)` : ""}
             </Heading>
             <VStack display='flex' flex={1} flexDirection='column' justifyContent='space-between'>

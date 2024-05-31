@@ -15,6 +15,7 @@ import CustomStepper from "../../components/CustomStepper";
 import { updateUserinfo } from "../../api/userAPI";
 import { useUserInfoStore } from "../../store/UserStore";
 import { useToastr } from "../../providers/ToastProvider";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type TimeToEatProps = NativeStackScreenProps<
     RootStackParamList,
@@ -61,8 +62,10 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
     }
 
     return (
-        <View w="$full" display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+        <View p="$4" w="$full" display="flex" h="$full" backgroundColor="$backgroundDefault">
+            <View>
+                <CenterGoBack navigation={navigation} title="Time To Eat" />
+            </View>
             <CustomStepper
                 currentStep={active}
                 contents={content}
