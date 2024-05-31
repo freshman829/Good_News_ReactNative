@@ -27,7 +27,7 @@ const features = [
     {
         title: "HOW CAN WE HELP?",
         src: require("../../../assets/help.png"),
-        target: ""
+        target: "HowCanHelp"
     },
     {
         // title: "KID'S CORNER",

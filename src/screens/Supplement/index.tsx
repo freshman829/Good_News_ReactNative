@@ -11,6 +11,7 @@ import SupplementRowList from "./components/RowList";
 import { getSupplementList } from "../../api/supplementAPI";
 import { Supplement } from "../../types/supplement";
 import { ShopCartIcon } from "../../assets/icon/ShopCartIcon";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type SupplementListScreenProps = NativeStackScreenProps<RootStackParamList, "Supplement">;
 
@@ -83,7 +84,9 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
 
     return (
         <View display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <HStack p="$4" alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <View p="$4">
+                <CenterGoBack navigation={navigation} title="Supplement" />
+            </View>
             <VStack pb="$8">
                 <HStack justifyContent="space-between" alignItems="center" px="$4" pb="$2">
                     <TouchableOpacity onPress={() => handleChangeShowType(showType)}>

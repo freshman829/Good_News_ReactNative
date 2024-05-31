@@ -14,13 +14,14 @@ import FinalWeight from "../timeToEat/Steps/components/FinalWeight";
 import EditNameSection from "./components/EditNameSection";
 import SpinnerButton from "../../components/common/SpinnerButton";
 import { updateStoreDataFlag } from "../../utils/common";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
-type ProfileScreenProps = NativeStackScreenProps<
+type SettingScreenProps = NativeStackScreenProps<
     RootStackParamList,
-    "Profile"
+    "Setting"
 >;
 
-const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
+const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
     const { userInfo: initialUserInfo, setUserInfo } = useUserInfoStore();
     const toast = useToastr();
     const [userInfo, setLocalUserInfo] = useState(initialUserInfo);
@@ -42,14 +43,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
     return (
         <View p="$4" display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <View p="$4">
+                <CenterGoBack navigation={navigation} title="Setting" />
+            </View>
             
             <ScrollView flex={1} p="$3" mb="$1">
-                <Heading>
-                    Profile
-                </Heading>
                 <VStack mb="$8">
-                    <EditNameSection fullName={userInfo.fullName} />
                     <FinalGoals />
                     <Divider mt={6} />
                     <FinalWeight />
@@ -83,4 +82,4 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     );
 }
 
-export default ProfileScreen;
+export default SettingScreen;

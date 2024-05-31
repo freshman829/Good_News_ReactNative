@@ -7,6 +7,7 @@ import FabButton from "../../components/common/FabButton";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Supplement } from "../../types/supplement";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type SupplementDetailScreenProps = NativeStackScreenProps<RootStackParamList, "SupplementDetail">;
 
@@ -63,7 +64,9 @@ const SupplementDetailScreen: React.FC<SupplementDetailScreenProps> = ({ navigat
     }
     return (
         <View display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <HStack p="$4" alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
+            <View p="$4">
+                <CenterGoBack navigation={navigation} title="Detail" />
+            </View>
             
             <ScrollView h="$full">
                 <SupplementInfo supplement={supplement}/>
