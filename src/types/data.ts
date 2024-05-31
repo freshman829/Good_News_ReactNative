@@ -50,3 +50,11 @@ export interface Order {
     total: number,
     items: OrderItem[]
 };
+
+export interface Message {
+    id: number,
+    message: string,
+    sender: string,
+    createdAt: string,
+    sent: boolean,
+};

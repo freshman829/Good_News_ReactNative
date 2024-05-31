@@ -12,7 +12,7 @@ const features = [
     {
         title: "COME SEE US",
         src: require("../../../assets/come_see.png"),
-        target: ""
+        target: "ComeSeeUs"
     },
     {
         title: "TIME TO EAT",

@@ -1,6 +1,6 @@
 import { Button, Input, InputSlot, InputField, View, ButtonIcon, StarIcon } from "@gluestack-ui/themed"
 import { useState } from "react";
-import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import { NativeSyntheticEvent, TextInputKeyPressEventData } from "react-native";
 
 interface MessageInputProps {
     handleSend: (value: string) => void;
@@ -12,10 +12,14 @@ const MessageInput: React.FC<MessageInputProps> = ({ handleSend }) => {
         handleSend(message);
         setMessage("");
     }
+
+    const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+        if (e.nativeEvent.key === "Enter") handleClick();
+    }
     return (
         <View w="$full">
-            <Input>
-                <InputField placeholder="" onChangeText={setMessage} />
+            <Input onPointerEnter={handleClick}>
+                <InputField placeholder="" onKeyPress={handleKeyPress} onChangeText={setMessage} value={message}/>
                 <InputSlot>
                     <Button onPress={handleClick}>
                         <ButtonIcon as={StarIcon} />

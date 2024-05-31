@@ -14,6 +14,7 @@ import uuid from 'react-native-uuid'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StorageDatesNames } from "../../constants";
 import { updateStoreDate } from "../../utils/common";
+import CenterGoBack from "../../components/common/CenterGoBack";
 
 type RotationScheduleProps = NativeStackScreenProps<
     RootStackParamList,
@@ -371,9 +372,11 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     }
 
     return (
-        <View p="$5" pb="$0" display="flex" justifyContent="space-between" h="$full" backgroundColor="$backgroundDefault">
-            <HStack alignItems="center"><Icon as={ChevronLeftIcon} m="$1" w="$4" h="$4" size="sm" /><Text onPress={() => navigation.goBack()}>Back</Text></HStack>
-            <VStack flex={1} overflow="scroll">
+        <View p="$4" pb="$0" display="flex" justifyContent="space-between" h="$full" backgroundColor="$backgroundDefault">
+            <View>
+                <CenterGoBack navigation={navigation} title="When To Rotate" />
+            </View>
+            <VStack mt="$2" flex={1} overflow="scroll">
                 <Accordion>
                     <AccordionItem
                         value="item-1"

@@ -1,15 +1,18 @@
 import { Box, VStack, View, ScrollView } from "@gluestack-ui/themed";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types/data";
+import { Message, RootStackParamList } from "../../types/data";
 import CenterGoBack from "../../components/common/CenterGoBack";
 import MessageInput from "../../components/howcanhelp/MessageInput";
 import { useEffect, useState } from "react";
 import { sendMessage } from "../../api/contactSupportAPI";
+import ChatContainer from "./components/ChatContainer";
 
 type ContactSupportScreenProps = NativeStackScreenProps<RootStackParamList, "Contact">;
+
 const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation, route }) => {
+    const message = route?.params?.message || "";
     const [refreshing, setRefreshing] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>( route?.params?.message || "");
+    const [messages, setMessages] = useState<Message[]>([]);    
 
     useEffect(() => {
         if (message) {
@@ -18,6 +21,8 @@ const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation,
     }, [message])
 
     const handleSendMessage = async (value: string) => {
+        if (value === "") return;
+        setMessages([...messages, { id: Math.floor(Math.random() * 99999999999999999 + 1), message: value, sender: "user", createdAt: new Date().toISOString(), sent: false }])
         try {
             // const result = await sendMessage(value);
         } catch (error) {
@@ -35,6 +40,7 @@ const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation,
                     h="85%"
                     mb="$2"
                 >
+                    <ChatContainer messages={messages} />
                 </ScrollView>
                 <Box
                     display="flex" 
