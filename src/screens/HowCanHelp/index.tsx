@@ -45,6 +45,7 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
     };
 
     const handleSendMessage = (value: string) => {
+        if (value === "") return;
         navigation.navigate("Contact", { message: value });
     }
 
