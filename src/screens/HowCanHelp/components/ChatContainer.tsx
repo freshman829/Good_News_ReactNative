@@ -13,7 +13,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages }) => {
                 <HStack mt="$3" gap="$4" alignItems="flex-end">
                     <Image source={require("../../../assets/images/user_1.png")} w="$7" h="$7" borderRadius={10} alt="" />
                     <Card borderRadius="$md" p="$2" shadowRadius="$2" w={220} mb="$1">
-                        <Text size="sm" fontWeight="600" color="#555">{item.message}</Text>
+                        <Text size="sm" fontWeight="600" color="$textDark500">{item.message}</Text>
                     </Card>
                 </HStack>
             )
@@ -21,7 +21,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages }) => {
             return (
                 <HStack mt="$3" justifyContent="flex-end" gap="$4" alignItems="flex-end">
                     <Card borderRadius="$md" p="$2" shadowRadius="$2" backgroundColor="#97c163" w={220}>
-                        <Text size="sm" fontWeight="600" color="#555">{item.message}</Text>
+                        <Text size="sm" fontWeight="600" color="$textDark500">{item.message}</Text>
                     </Card>
                     <Image source={require("../../../assets/images/user_1.png")} w="$7" h="$7" borderRadius={10} alt="" />
                 </HStack>
