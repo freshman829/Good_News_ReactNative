@@ -1,0 +1,61 @@
+import { FlatList, View, Box, HStack, Text, Switch } from "@gluestack-ui/themed";
+import { UserInterface } from "../../../store/UserStore";
+import Notification from "../../../utils/Notification";
+
+interface AlamListProps {
+    alarms: any[];
+    userInfo: UserInterface;
+    setUserInfo: (userInfo: UserInterface) => void;
+}
+const AlarmList: React.FC<AlamListProps> = ({ alarms, userInfo, setUserInfo }) => { 
+    const AlarmItem = (item: any) => {
+        return (
+            <Box
+                borderBottomWidth="$1"
+                borderColor="$trueGray300"
+                $dark-borderColor="$trueGray100"
+                $base-pl="$0"
+                $base-pr="$0"
+                $sm-pl="$4"
+                $sm-pr="$4"
+                py="$2"
+            >
+                <HStack justifyContent="space-between">
+                    <Text size="md" bold={item.item.isSpecial}>{item.item.time}</Text>
+                    <Switch value={item.item.isActive} onChange={() => updateAlarm(item.item)} />
+                </HStack>
+            </Box>
+        )
+    };
+
+    const updateAlarm = async () => {
+        const updatedAlarms = userInfo.rotationPlan.alarms.map(alarm => 
+          alarm.id === item.id ? { ...alarm, isActive: !alarm.isActive } : alarm
+        );
+        setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: updatedAlarms } });
+        
+        if (item.isActive) {
+          await Notification.toggleNotification({ id: item.id });
+        } else {
+          await Notification.toggleNotification({
+            id: item.id,
+            reminder: item.isSpecial ? "It's special time to rotate" : "It's time to rotate",
+            date: new Date(item.timeDate)
+          });
+        }
+        await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: updatedAlarms } });
+    };
+
+    return (
+        <View>
+            <FlatList
+                data={alarms}
+                renderItem={AlarmItem}
+                keyExtractor={(item, index) => index.toString()}
+                px="$3"
+            />
+        </View>
+    )
+};
+
+export default AlarmList;

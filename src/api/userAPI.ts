@@ -2,6 +2,7 @@ import axios from "axios";
 import { UserInterface } from "../store/UserStore";
 import { CreateNewTargetProps } from "../types/data";
 import { API_URL } from "../constants";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Axios = axios.create({
     baseURL: `${API_URL}/users`
@@ -107,3 +108,12 @@ export async function getFoodSuggestion(id: string) {
         };
     }
 } 
+
+export const updateInfo = async (userInfo: UserInterface) => {
+    try {
+      await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+      return userInfo;
+    } catch (error) {
+      console.error('Failed to update user info:', error);
+    }
+  };
