@@ -14,15 +14,13 @@ const specialRotations = [
 interface RotationAccordionProps {
   userInfo: any;
   setUserInfo: (userInfo: any) => void;
-  isWakeDropdownOpen: boolean;
-  setIsWakeDropdownOpen: (isOpen: boolean) => void;
-  isSleepDropdownOpen: boolean;
-  setIsSleepDropdownOpen: (isOpen: boolean) => void;
 }
 
-const RotationAccordion: React.FC<RotationAccordionProps> = ({ userInfo, setUserInfo, isWakeDropdownOpen, setIsWakeDropdownOpen, isSleepDropdownOpen, setIsSleepDropdownOpen }) => {
+const RotationAccordion: React.FC<RotationAccordionProps> = ({ userInfo, setUserInfo }) => {
+  const [isWakeDropdownOpen, setIsWakeDropdownOpen] = useState(false);
+  const [isSleepDropdownOpen, setIsSleepDropdownOpen] = useState(false);
   const [openSpecial, setOpenSpecial] = useState(false);
-  const [special, setSpecial] = useState<number>(userInfo.rotationPlan.plan);
+  const [special, setSpecial] = useState<number>(userInfo.rotationPlan.plan || 2);
 
   useEffect(() => {
     const saveUpdate = async () => {

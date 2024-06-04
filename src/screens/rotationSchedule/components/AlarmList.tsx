@@ -1,6 +1,7 @@
 import { FlatList, View, Box, HStack, Text, Switch } from "@gluestack-ui/themed";
 import { UserInterface } from "../../../store/UserStore";
 import Notification from "../../../utils/Notification";
+import { saveRotationSchedule } from "../../../api/userAPI";
 
 interface AlamListProps {
     alarms: any[];
@@ -28,7 +29,7 @@ const AlarmList: React.FC<AlamListProps> = ({ alarms, userInfo, setUserInfo }) =
         )
     };
 
-    const updateAlarm = async () => {
+    const updateAlarm = async (item: any) => {
         const updatedAlarms = userInfo.rotationPlan.alarms.map(alarm => 
           alarm.id === item.id ? { ...alarm, isActive: !alarm.isActive } : alarm
         );
@@ -43,11 +44,11 @@ const AlarmList: React.FC<AlamListProps> = ({ alarms, userInfo, setUserInfo }) =
             date: new Date(item.timeDate)
           });
         }
-        await updateInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: updatedAlarms } });
+        await saveRotationSchedule({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: updatedAlarms } });
     };
 
     return (
-        <View>
+        <View mt="$4">
             <FlatList
                 data={alarms}
                 renderItem={AlarmItem}
