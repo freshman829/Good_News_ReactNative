@@ -1,10 +1,12 @@
 import notifee, {
+    AndroidImportance,
     AuthorizationStatus,
     EventType,
     Notification,
     TimestampTrigger,
     TriggerType,
 } from '@notifee/react-native';
+import { Platform } from 'react-native';
 
 class Notifications {
     constructor() {
@@ -34,7 +36,7 @@ class Notifications {
         });
     }
 
-    // This method deals with what what happens when the user clicks on the notification
+    // This method deals with what happens when the user clicks on the notification
     public handleNotificationOpen(notification: Notification) {
         const { data } = notification;
         console.log('Notification Opened', data);
@@ -83,13 +85,16 @@ class Notifications {
             // Create the notification details
             const notificationDetails = {
                 id: id,
-                title: `🔔 You asked for this reminder -  ${reminder}`,
-                body: 'It\'s time to rotate ',
+                title: `🔔 You asked for this reminder - ${reminder}`,
+                body: "It's time to rotate",
                 android: {
                     channelId: 'reminder',
                     pressAction: {
                         id: 'default',
                     },
+                },
+                ios: {
+                    sound: 'default',
                 },
                 data: {
                     id: id,
@@ -99,7 +104,7 @@ class Notifications {
                         date: date.toString(),
                     },
                 },
-            }
+            };
 
             await notifee.createTriggerNotification(notificationDetails, trigger);
         }
@@ -122,7 +127,7 @@ class Notifications {
             if (alarms.includes(id))
                 await notifee.cancelNotification(id);
             else if (reminder && date)
-                this.scheduleNotification({ id, reminder, date })
+                this.scheduleNotification({ id, reminder, date });
         }
     }
 
@@ -141,6 +146,21 @@ class Notifications {
             await notifee.cancelNotification(id);
         }
     }
+}
+
+// Platform-specific configurations
+if (Platform.OS === 'android') {
+    // Configure Android notification channels
+    notifee.createChannel({
+        id: 'reminder',
+        name: 'Reminder Channel',
+        importance: AndroidImportance.HIGH,
+        sound: 'default',
+    });
+}
+
+if (Platform.OS === 'ios') {
+    // iOS specific settings can be added here if needed
 }
 
 // Exporting an instance of the class

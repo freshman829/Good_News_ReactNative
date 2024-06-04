@@ -153,30 +153,21 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
   const generateAlarms = async (day: Date) => {
     const times = new Set();
     const alarmStatesSet = new Set();
-    const defaultWakeTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 7, 0, 0);
-    const defaultSleepTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 22, 0, 0);
-    let wakeTime = userInfo.rotationPlan.wakeTime ?
-        new Date(defaultWakeTime.getFullYear(),
-            defaultWakeTime.getMonth(),
-            defaultWakeTime.getDate(),
+    let wakeTime = 
+          new Date(day.getFullYear(),
+            day.getMonth(),
+            day.getDate(),
             extractTime(userInfo.rotationPlan.wakeTime).hours,
             extractTime(userInfo.rotationPlan.wakeTime).minutes, 0
-        ) : defaultWakeTime;
-    let sleepTime = userInfo.rotationPlan.sleepTime ?
-        new Date(defaultSleepTime.getFullYear(),
-            defaultSleepTime.getMonth(),
-            defaultSleepTime.getDate(),
+          );
+    let sleepTime =
+        new Date(day.getFullYear(),
+            day.getMonth(),
+            day.getDate(),
             extractTime(userInfo.rotationPlan.sleepTime).hours,
             extractTime(userInfo.rotationPlan.sleepTime).minutes, 0
-        ) : defaultSleepTime;
-    if (wakeTime.getMinutes() !== 0) {
-        wakeTime.setMinutes(0);
-    }
-    if (sleepTime.getMinutes() !== 0) {
-        sleepTime.setMinutes(0);
-    }
-    // times.add(wakeTime);
-    // times.add(sleepTime);
+        );
+
     if (userInfo.rotationPlan.plan === 4) {
         let nextAlarm = new Date(wakeTime);
         while (nextAlarm <= sleepTime) {
@@ -215,7 +206,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
             isSpecial,
             isActive: true
         };
-        
+
         if (new Date() < ((newAlarm.timeDate) as Date)) {
             alarmStatesSet.add(newAlarm);
             try {
