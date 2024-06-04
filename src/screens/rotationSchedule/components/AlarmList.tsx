@@ -1,4 +1,4 @@
-import { FlatList, View, Box, HStack, Text, Switch } from "@gluestack-ui/themed";
+import { FlatList, View, Box, HStack, Text, Switch, ScrollView } from "@gluestack-ui/themed";
 import { UserInterface } from "../../../store/UserStore";
 import Notification from "../../../utils/Notification";
 import { saveRotationSchedule } from "../../../api/userAPI";
@@ -48,13 +48,13 @@ const AlarmList: React.FC<AlamListProps> = ({ alarms, userInfo, setUserInfo }) =
     };
 
     return (
-        <View mt="$4">
-            <FlatList
-                data={alarms}
-                renderItem={AlarmItem}
-                keyExtractor={(item, index) => index.toString()}
-                px="$3"
-            />
+        <View mt="$4" h="$72">
+            <ScrollView>
+                {alarms.length > 0 && alarms.map((alarm, index) => (
+                        <AlarmItem key={index} item={alarm}/>
+                    )
+                )}
+            </ScrollView>
         </View>
     )
 };

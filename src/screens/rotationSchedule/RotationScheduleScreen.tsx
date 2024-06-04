@@ -220,6 +220,26 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
             }
         }
     }
+
+    // console.log("nowDate;;", day);
+    // day.setMinutes(day.getMinutes() + 2);
+    // const newAlarm = {
+    //   id: uuid.v4(),
+    //   time: formatDate(day as Date),
+    //   timeDate: day,
+    //   isSpecial: false,
+    //   isActive: true
+    // };
+    // console.log("day::", day.getMinutes());
+    // try {
+    //     await Notification.scheduleNotification({
+    //         id: (newAlarm.id).toString(),
+    //         reminder: "It's time to rotate",
+    //         date: (newAlarm.timeDate) as Date
+    //     });
+    // } catch (error) {
+    //     console.error(error);
+    // }
     let alrms = Array.from(alarmStatesSet).sort((a: any, b: any) => a.timeDate - b.timeDate);
     return alrms;
   }
@@ -247,21 +267,21 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
 
         {!userInfo.rotationPlan.alarmTurn && (
           <VStack h="$full" mt="$10" overflow="scroll">
-            <Box>
-              {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
-                    <HStack alignItems="center" justifyContent="space-between" px="$4">
-                        <Heading size="sm">Confirmation Alarm</Heading>
-                        <Switch value={isConfirm} onToggle={() => setIsConfirm(!isConfirm)} />
-                    </HStack> : ""
-                }
-                {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ? <Divider my="$3" /> : ""}
+              <Box>
                 {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
-                    <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
-                }
-                {(userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length > 0) &&
-                  <AlarmList alarms={userInfo.rotationPlan.alarms} userInfo={userInfo} setUserInfo={setUserInfo}/>
-                }
-            </Box>
+                      <HStack alignItems="center" justifyContent="space-between" px="$4">
+                          <Heading size="sm">Confirmation Alarm</Heading>
+                          <Switch value={isConfirm} onToggle={() => setIsConfirm(!isConfirm)} />
+                      </HStack> : ""
+                  }
+                  {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ? <Divider my="$3" /> : ""}
+                  {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
+                      <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
+                  }
+                  {(userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length > 0) &&
+                    <AlarmList alarms={userInfo.rotationPlan.alarms} userInfo={userInfo} setUserInfo={setUserInfo}/>
+                  }
+              </Box>
           </VStack>
         )}
       </VStack>
