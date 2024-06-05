@@ -48,7 +48,7 @@ const AlarmList: React.FC<AlamListProps> = ({ alarms, userInfo, setUserInfo }) =
     };
 
     return (
-        <View mt="$4" h="$72">
+        <View mt="$4" flex={1} mb="$11">
             <ScrollView>
                 {alarms.length > 0 && alarms.map((alarm, index) => (
                         <AlarmItem key={index} item={alarm}/>

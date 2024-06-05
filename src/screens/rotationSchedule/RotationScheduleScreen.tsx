@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, VStack, Heading, Spinner, HStack, ScrollView, Switch, FlatList, Divider } from '@gluestack-ui/themed';
+import { Box, VStack, Heading, Spinner, HStack, ScrollView, Switch, FlatList, Divider, View } from '@gluestack-ui/themed';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import uuid from 'react-native-uuid'
 import { RootStackParamList } from '../../types/data';
@@ -257,31 +257,29 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <Box p="$4" h="$full" backgroundColor="$backgroundDefault">
+    <Box display='flex' p="$4" h="$full" backgroundColor="$backgroundDefault">
       <CenterGoBack navigation={navigation} title="Rotation Schedule" />
-      <VStack mt="$6">
+      <VStack mt="$6" display="flex" h="$full">
         <RotationAccordion
           userInfo={userInfo}
           setUserInfo={setUserInfo}
         />
 
         {!userInfo.rotationPlan.alarmTurn && (
-          <VStack h="$full" mt="$10" overflow="scroll">
-              <Box>
-                {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
-                      <HStack alignItems="center" justifyContent="space-between" px="$4">
-                          <Heading size="sm">Confirmation Alarm</Heading>
-                          <Switch value={isConfirm} onToggle={() => setIsConfirm(!isConfirm)} />
-                      </HStack> : ""
-                  }
-                  {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ? <Divider my="$3" /> : ""}
-                  {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
-                      <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
-                  }
-                  {(userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length > 0) &&
-                    <AlarmList alarms={userInfo.rotationPlan.alarms} userInfo={userInfo} setUserInfo={setUserInfo}/>
-                  }
-              </Box>
+          <VStack flex={1} mt="$10">
+            {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
+                  <HStack alignItems="center" justifyContent="space-between" px="$4">
+                      <Heading size="sm">Confirmation Alarm</Heading>
+                      <Switch value={isConfirm} onToggle={() => setIsConfirm(!isConfirm)} />
+                  </HStack> : ""
+              }
+              {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ? <Divider my="$3" /> : ""}
+              {userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length ?
+                  <Heading size="sm" textAlign="center">Your Rotation Schedule & Alarms</Heading> : ""
+              }
+              {(userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length > 0) &&
+                <AlarmList alarms={userInfo.rotationPlan.alarms} userInfo={userInfo} setUserInfo={setUserInfo}/>
+              }
           </VStack>
         )}
       </VStack>
