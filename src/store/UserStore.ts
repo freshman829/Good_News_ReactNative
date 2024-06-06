@@ -32,7 +32,8 @@ const initUserInfo: UserInterface = {
         plan: 0,
         programStartDate: new Date(),
         programDays: 14,
-        alarmTurn: false
+        alarmTurn: false,
+        isTeaTime: false
     },
     healthCondition: [],
     socialDays: [],
@@ -134,6 +135,7 @@ export interface UserInterface {
         programStartDate: Date;
         programDays: number;
         alarmTurn: boolean;
+        isTeaTime: boolean;
     },
     healthCondition: healthCondition[],
     socialDays: any[],
