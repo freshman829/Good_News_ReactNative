@@ -179,7 +179,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
     // } catch (error) {
     //     console.error(error);
     // }
-    let alrms = Array.from(alarmStatesSet).sort((a: any, b: any) => a.timeDate - b.timeDate);
+    let alrms = Array.from(alarmStatesSet).sort((a: any, b: any) => new Date(a.timeDate) - new Date(b.timeDate));
     return alrms;
   }
   // Confirm Alarm generation
@@ -218,14 +218,14 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
               append.push(confirmationAlarm);
           }
       }
-      setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: true, alarms: newAlarms.concat(append).sort((a: any, b: any) => a.timeDate - b.timeDate) } });
+      setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: true, alarms: newAlarms.concat(append).sort((a: any, b: any) => new Date(a.timeDate) - new Date(b.timeDate)) } });
       await saveRotationSchedule({
         ...userInfo,
         rotationPlan: {
           ...userInfo.rotationPlan,
           alarms: alarms
             .concat(append)
-            .sort((a: any, b: any) => a.timeDate - b.timeDate)
+            .sort((a: any, b: any) => new Date(a.timeDate) - new Date(b.timeDate))
         }
       });
     } else {
@@ -259,7 +259,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
       const generatedTeaTimeAlarms = [];
       const programStartDate = new Date();
       const programEndDate = new Date(programStartDate.getTime() + userInfo.rotationPlan.programDays * 24 * 60 * 60 * 1000); // Adding program days to start date
-      for (let date = new Date(programStartDate); date <= programEndDate; date.setDate(date.getDate() + 1)) {
+      for (let date = new Date(programStartDate); date < programEndDate; date.setDate(date.getDate() + 1)) {
         let wakeTime = 
           new Date(date.getFullYear(),
           date.getMonth(),
@@ -307,7 +307,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
 
       // console.log("generated::", generatedTeaTimeAlarms);
       // Update state with new tea time alarms
-      const updatedAlarms = newAlarms.concat(generatedTeaTimeAlarms).sort((a, b) => a.timeDate - b.timeDate);
+      const updatedAlarms = newAlarms.concat(generatedTeaTimeAlarms).sort((a, b) => new Date(a.timeDate) - new Date(b.timeDate));
       await saveRotationSchedule({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isTeaTime: true, alarms: updatedAlarms } });
       setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isTeaTime: true, alarms: updatedAlarms } });
     } else {
