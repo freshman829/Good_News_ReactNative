@@ -13,6 +13,7 @@ import AlarmList from './components/AlarmList';
 import { StorageDatesNames } from '../../constants';
 import { updateStoreDate } from '../../utils/common';
 import { extractTime } from "../../utils/numberUtil";
+import { getSettingInfo } from '../../api/settingAPI';
 type Props = NativeStackScreenProps<RootStackParamList, 'RotationSchedule'>;
 const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
   const init = useRef(true);
@@ -21,6 +22,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [isConfirm, setIsConfirm] = useState(userInfo.rotationPlan.isConfirm || false);
   const [isTeaTime, setIsTeaTime] = useState(userInfo.rotationPlan.isTeaTime || false);
+  const [teaTimeAlarmText, setTeaTimeAlarmText] = useState("It's tea time");
 
   useEffect(() => {
     const checkRefreshAlarm = async () => {
@@ -37,7 +39,15 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
       });
     };
     checkRefreshAlarm();
+    getSetting();
   }, [])
+
+  const getSetting = async () => {
+    const result = await getSettingInfo("TeaTime Alarm");
+    if (result.success)
+      setTeaTimeAlarmText(result.data);
+  };
+
   useEffect(() => {
     if (isRefresh) {
       refreshAlarms();
@@ -208,7 +218,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
               append.push(confirmationAlarm);
           }
       }
-      setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: true, alarms: newAlarms.concat(append).sort((a: any, b: any) => new Date(a.timeDate) - new Date(b.timeDate)) } });
+      setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, isConfirm: true, alarms: newAlarms.concat(append).sort((a: any, b: any) => a.timeDate - b.timeDate) } });
       await saveRotationSchedule({
         ...userInfo,
         rotationPlan: {
@@ -285,7 +295,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
             try {
               await Notification.scheduleNotification({
                 id: (teaTimeAlarm.id).toString(),
-                reminder: "It's tea time",
+                reminder: teaTimeAlarmText,
                 date: teaTime as Date
               });
             } catch (error) {
