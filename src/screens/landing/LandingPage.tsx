@@ -63,7 +63,16 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
             });
             const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
             if (credentialState === appleAuth.State.AUTHORIZED) {
-                let res = login(appleAuthRequestResponse.user, `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}`, appleAuthRequestResponse.identityToken)
+                const { identityToken } = appleAuthRequestResponse;
+                if (identityToken) {
+                    const jwt = jwtDecode(identityToken);
+                    console.log("-------------", jwt);
+                }
+                let fullName = "";
+                if (appleAuthRequestResponse.fullName?.givenName && appleAuthRequestResponse.fullName?.familyName) {
+                    fullName = `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}`;
+                }
+                let res = login(appleAuthRequestResponse.user, fullName, appleAuthRequestResponse.identityToken)
                 return res;
             }
             return false;
