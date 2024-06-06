@@ -22,9 +22,20 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     
     useEffect(() => {
         const getUserInfo = async () => {
-            await AsyncStorage.getItem("userInfo").then((value) => {
+            await AsyncStorage.getItem("userInfo").then(async (value) => {
                 if (value) {
-                    setUserInfo(JSON.parse(value));
+                    await AsyncStorage.getItem("UserStoreDate").then((storeDate) => {
+                        if (storeDate) {
+                            const date = new Date(storeDate);
+                            const now = new Date();
+                            const diff = now.getTime() - date.getTime();
+                            if (diff > 1000 * 60 * 60 * 24) {
+                                setUserInfo({ ...userInfo, _id: "" })
+                            } else {
+                                setUserInfo(JSON.parse(value));
+                            }
+                        }
+                    });
                 }
             });
         };
@@ -35,6 +46,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     const login = async (userId: string, userName: string, identityToken: any) => {
         const result = await loginUserWithApple({ userId, userName, identityToken });
         setUserInfo({ ...result, isLoggedIn: true });
+        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
         setIsLoading(false);
         return true;
     }
