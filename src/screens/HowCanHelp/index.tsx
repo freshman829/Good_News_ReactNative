@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
-import { RefreshControl, TouchableOpacity } from 'react-native';
-import { View, HStack, Text, ChevronLeftIcon, Icon, VStack, ScrollView, Fab, Box } from "@gluestack-ui/themed";
+import { RefreshControl, TouchableOpacity, Platform } from 'react-native';
+import { View, HStack, Text, ChevronLeftIcon, Icon, VStack, ScrollView, Fab, Box, KeyboardAvoidingView } from "@gluestack-ui/themed";
 import { useEffect, useState } from "react";
 import SearchInput from "../../components/common/SearchInput";
 import { getFaqList } from "../../api/faqAPI";
@@ -50,15 +50,16 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
     }
 
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <View p="$4">
-                <CenterGoBack navigation={navigation} title="How Can We Help" />
-            </View>
-            <VStack px="$4">
-                <SearchInput value={search} onChangeText={handleSearch} />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+            <View display="flex" gap="$4" h="$full" backgroundColor="$backgroundDefault">
+                <View p="$4">
+                    <CenterGoBack navigation={navigation} title="How Can We Help" />
+                </View>
+                <View px="$4">
+                    <SearchInput value={search} onChangeText={handleSearch} />
+                </View>
                 <ScrollView
                     h="75%"
-                    mb="$1"
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 >
                     <FaqList faqs={faqs} />
@@ -68,12 +69,13 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
                     flexDirection="row-reverse" 
                     justifyContent="space-between" 
                     alignItems="center"
+                    px="$4"
                     mb="$4"
                 >
                     <MessageInput handleSend={handleSendMessage} />
                 </Box>
-            </VStack>
-        </View>
+            </View>
+        </KeyboardAvoidingView>
     );
 };
 

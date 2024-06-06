@@ -1,4 +1,5 @@
-import { Box, VStack, View, ScrollView } from "@gluestack-ui/themed";
+import { Box, VStack, View, ScrollView, KeyboardAvoidingView } from "@gluestack-ui/themed";
+import { RefreshControl, TouchableOpacity, Platform } from 'react-native';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Message, RootStackParamList } from "../../types/data";
 import CenterGoBack from "../../components/common/CenterGoBack";
@@ -31,27 +32,29 @@ const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation,
     };
 
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
-            <View p="$4">
-                <CenterGoBack navigation={navigation} title="Contact Support" />
-            </View>
-            <VStack px="$4">
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+            <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+                <View p="$4">
+                    <CenterGoBack navigation={navigation} title="Contact Support" />
+                </View>
                 <ScrollView
                     h="80%"
                     mb="$2"
                 >
                     <ChatContainer messages={messages} />
                 </ScrollView>
-                <Box
+                <Box 
                     display="flex" 
                     flexDirection="row-reverse" 
                     justifyContent="space-between" 
                     alignItems="center"
+                    px="$4"
+                    mb="$4"
                 >
                     <MessageInput handleSend={handleSendMessage} />
                 </Box>
-            </VStack>
-        </View>
+            </View>
+        </KeyboardAvoidingView>
     )
 };
 

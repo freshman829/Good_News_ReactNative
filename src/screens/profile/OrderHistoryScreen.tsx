@@ -8,9 +8,9 @@ import { getOrderHistoryList } from "../../api/orderAPI";
 import OrderHistorylist from "./components/OrderHistorylist";
 import { useUserInfoStore } from "../../store/UserStore";
 
-type OrderHistoryScreen = NativeStackScreenProps<RootStackParamList, "OrderHistory">;
+type OrderHistoryScreenProps = NativeStackScreenProps<RootStackParamList, "OrderHistory">;
 
-const OrderHistoryScreen: React.FC<OrderHistoryScreen> = ({ navigation }) => {
+const OrderHistoryScreen: React.FC<OrderHistoryScreenProps> = ({ navigation }) => {
     const { userInfo } = useUserInfoStore();
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [orderHistory, setOrderHistory] = useState<Order[]>([]);

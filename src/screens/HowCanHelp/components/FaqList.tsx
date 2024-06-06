@@ -8,7 +8,7 @@ interface FaqListProps {
 const FaqList: React.FC<FaqListProps> = ({ faqs }) => {
 
     return (
-        <View mt="$4">
+        <View px="$4">
             {faqs.map((faq, index) => {
                 return (
                     <FaqItem faq={faq} key={index}/>

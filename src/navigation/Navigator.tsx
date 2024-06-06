@@ -17,6 +17,8 @@ import ProfileScreen from "../screens/profile";
 import OrderHistoryScreen from "../screens/profile/OrderHistoryScreen";
 import ContactSupportScreen from "../screens/HowCanHelp/ContactSupportScreen";
 import ComeSeeUsScreen from "../screens/ComeSeeUs";
+import RewardsScreen from "../screens/profile/RewardsScreen";
+import ReferScreen from "../screens/profile/ReferScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -35,6 +37,8 @@ function StackNavigator() {
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Setting" component={SettingScreen} />
             <Stack.Screen name="OrderHistory" component={OrderHistoryScreen} />
+            <Stack.Screen name="Rewards" component={RewardsScreen} />
+            <Stack.Screen name="Refer" component={ReferScreen} />
             <Stack.Screen name="Supplement" component={SupplementListScreen} />
             <Stack.Screen name="SupplementDetail" component={SupplementDetailScreen} />
             <Stack.Screen name="Basket" component={BasketScreen} />

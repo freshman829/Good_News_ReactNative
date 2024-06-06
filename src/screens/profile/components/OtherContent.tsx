@@ -17,7 +17,7 @@ const OtherContent: React.FC<OtherContentProps> = ({ onClick }) => {
                     <HStack justifyContent="space-between" alignItems="center">
                         <HStack gap="$4" alignItems="center">
                             <Image source={require("../../../assets/icon/settings_icon.png")} w="$5" h="$5" borderRadius={10} alt=""/> 
-                            <Text>Settings</Text>
+                            <Text>Program Info</Text>
                         </HStack>
                         <Icon as={ChevronRightIcon} />
                     </HStack>
@@ -38,6 +38,26 @@ const OtherContent: React.FC<OtherContentProps> = ({ onClick }) => {
                         <HStack gap="$4" alignItems="center">
                             <Image source={require("../../../assets/icon/account_icon.png")} w="$5" h="$5" borderRadius={10} alt=""/> 
                             <Text>Membership</Text>
+                        </HStack>
+                        <Icon as={ChevronRightIcon} />
+                    </HStack>
+                </TouchableOpacity>
+                <Divider />
+                <TouchableOpacity onPress={() => onClick("Rewards")}>
+                    <HStack justifyContent="space-between" alignItems="center">
+                        <HStack gap="$4" alignItems="center">
+                            <Image source={require("../../../assets/icon/account_icon.png")} w="$5" h="$5" borderRadius={10} alt=""/> 
+                            <Text>Rewards</Text>
+                        </HStack>
+                        <Icon as={ChevronRightIcon} />
+                    </HStack>
+                </TouchableOpacity>
+                <Divider />
+                <TouchableOpacity onPress={() => onClick("Refer")}>
+                    <HStack justifyContent="space-between" alignItems="center">
+                        <HStack gap="$4" alignItems="center">
+                            <Image source={require("../../../assets/icon/account_icon.png")} w="$5" h="$5" borderRadius={10} alt=""/> 
+                            <Text>Refer Friend</Text>
                         </HStack>
                         <Icon as={ChevronRightIcon} />
                     </HStack>

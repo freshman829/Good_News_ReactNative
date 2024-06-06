@@ -42,12 +42,12 @@ const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
     }
 
     return (
-        <View p="$4" display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" pb="$4" h="$full" backgroundColor="$backgroundDefault">
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Setting" />
             </View>
             
-            <ScrollView flex={1} p="$3" mb="$1">
+            <ScrollView flex={1} mb="$1" px="$6">
                 <VStack mb="$8">
                     <FinalGoals />
                     <Divider mt={6} />
@@ -67,6 +67,7 @@ const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
                 flexDirection="row-reverse" 
                 justifyContent="space-between" 
                 alignItems="center"
+                px="$4"
             >
                 <SpinnerButton
                     isLoading={isLoading}

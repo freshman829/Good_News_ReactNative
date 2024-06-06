@@ -29,8 +29,8 @@ const AccountInformation: React.FC<AccountInformationProps> = ({ fullName }) => 
     return (
         <View borderRadius="$lg" w="$full" $dark-backgroundColor="$backgroundDark900" backgroundColor="$textLight50" borderColor="$textLight200" p="$4">
             <HStack justifyContent="space-between" w="$full" alignItems="center">
-                <Image source={require("../../../assets/images/user_1.png")} w="$16" h="$16" borderRadius={10} alt="" />
-                <View>
+                <Image source={require("../../../assets/images/user_1.png")} w="$16" h="$16" borderRadius={10} alt=""/>
+                <View flex={1} ml="$2">
                     <Text fontWeight="bold">{ userInfo.fullName || "CodeWizard" }</Text>
                     <Text>{ userInfo.email }</Text>
                 </View>

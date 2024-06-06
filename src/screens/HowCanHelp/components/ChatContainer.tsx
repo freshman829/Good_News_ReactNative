@@ -29,7 +29,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages }) => {
         }
     };
     return (
-        <View>
+        <View px="$4">
             <FlatList
                 mb="$2"
                 data={messages}
