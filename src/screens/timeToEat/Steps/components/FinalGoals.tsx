@@ -78,7 +78,7 @@ const FinalGoals = () => {
                 {picker ? <RNDateTimePicker display="calendar" value={startDate} onChange={SelectStartTime} /> : ""}
             </HStack>
             <HStack justifyContent="space-between" alignItems="center" mt={8} gap="$4">
-                <Text maxWidth="$5/6">How many days is your program? {userInfo.rotationPlan.programDays} days</Text>
+                <Text maxWidth="$4/6">How many days is your program? {userInfo.rotationPlan.programDays} days</Text>
                 <ButtonGroup isAttached>
                     <Button mr="$0" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>
                         <ButtonText>-</ButtonText>
