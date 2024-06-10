@@ -2,6 +2,7 @@ import { VStack, Image, Text, HStack, Accordion, AccordionItem, AccordionHeader,
 
 import { formatNumber } from "../../../utils/common";
 import { Supplement } from "../../../types/supplement";
+import Thumbs from "../../../components/supplement/Thumbs";
 
 interface SupplementInfo {
     supplement: Supplement | null;
@@ -12,7 +13,7 @@ const SupplementInfo: React.FC<SupplementInfo> = ({ supplement }) => {
         <View>
             {supplement &&
                 <VStack>
-                    <Image
+                    {/* <Image
                         mb="$2"
                         h={290}
                         w="$full"
@@ -21,7 +22,8 @@ const SupplementInfo: React.FC<SupplementInfo> = ({ supplement }) => {
                             uri: supplement?.image || "",
                         }}
                         alt=""
-                    />
+                    /> */}
+                    <Thumbs thumbs={supplement?.thumbs}/>
                     <HStack
                         justifyContent="space-between"
                         px="$12"
