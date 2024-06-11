@@ -8,7 +8,7 @@ interface ChatContainerProps {
 const ChatContainer: React.FC<ChatContainerProps> = ({ messages }) => {
 
     const renderItem = ({ item }: { item: Message }) => {
-        if (item.sent === false) {
+        if (item.sent === true) {
             return (
                 <HStack mt="$3" gap="$4" alignItems="flex-end">
                     <Image source={require("../../../assets/images/user_1.png")} w="$7" h="$7" borderRadius={10} alt="" />

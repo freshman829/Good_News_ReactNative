@@ -54,9 +54,10 @@ export interface Order {
 };
 
 export interface Message {
+    _id?: string,
     id: number,
     message: string,
-    sender: string,
-    createdAt: string,
     sent: boolean,
+    repliedAt?: string
+    createdAt: string,
 };

@@ -5,15 +5,35 @@ import { Message, RootStackParamList } from "../../types/data";
 import CenterGoBack from "../../components/common/CenterGoBack";
 import MessageInput from "../../components/howcanhelp/MessageInput";
 import { useEffect, useState } from "react";
-import { sendMessage } from "../../api/contactSupportAPI";
 import ChatContainer from "./components/ChatContainer";
+import { useUserInfoStore } from "../../store/UserStore";
+import { fetchMessages, sendMessage } from "../../api/contactSupportAPI";
 
 type ContactSupportScreenProps = NativeStackScreenProps<RootStackParamList, "Contact">;
 
 const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation, route }) => {
+    const { userInfo } = useUserInfoStore();
     const message = route?.params?.message || "";
     const [refreshing, setRefreshing] = useState<boolean>(false);
-    const [messages, setMessages] = useState<Message[]>([]);    
+    const [messages, setMessages] = useState<Message[]>([]);   
+    
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            fetchMessagesHandler();
+        }, 10000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const fetchMessagesHandler = async () => {
+        try {
+            const result = await fetchMessages(userInfo._id);
+            if (result.success)
+                setMessages(result.data);
+        } catch (error) {
+            
+        }
+    };
 
     useEffect(() => {
         if (message) {
@@ -23,9 +43,9 @@ const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation,
 
     const handleSendMessage = async (value: string) => {
         if (value === "") return;
-        setMessages([...messages, { id: Math.floor(Math.random() * 99999999999999999 + 1), message: value, sender: "user", createdAt: new Date().toISOString(), sent: false }])
         try {
-            // const result = await sendMessage(value);
+            const result = await sendMessage(userInfo._id, value);
+            setMessages([...messages, { id: Math.floor(Math.random() * 99999999999999999 + 1), message: value, createdAt: new Date().toISOString(), sent: true }])
         } catch (error) {
             
         }
