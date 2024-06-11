@@ -71,7 +71,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
     await Notification.cancelAllNotifications();
     const today = new Date();
     let programEndDate = new Date(userInfo.rotationPlan.programStartDate || today);
-    programEndDate.setDate(today.getDate() + (userInfo.rotationPlan.programDays || 14));
+    programEndDate.setDate(programEndDate.getDate() + (userInfo.rotationPlan.programDays || 14));
     if (today > programEndDate) {
       // No alarms to generate if the end date is in the past
       const updatedData = await saveRotationSchedule({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, alarms: [] } });
@@ -182,6 +182,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
     let alrms = Array.from(alarmStatesSet).sort((a: any, b: any) => new Date(a.timeDate) - new Date(b.timeDate));
     return alrms;
   }
+  
   // Confirm Alarm generation
   useEffect(() => {
     if (userInfo.rotationPlan.alarms && userInfo.rotationPlan.alarms.length > 0)
@@ -190,11 +191,11 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
 
   const refreshConfirmAlarm = async () => {
     const alarms = [...userInfo.rotationPlan.alarms];
-    const newAlarms = alarms.filter((alarm) => !alarm.isTeaTime);
+    const newAlarms = alarms.filter((alarm) => !alarm.isConfirm);
     if (isConfirm) {
       let append = [];
-      for (let i = 0; i < alarms.length; i++) {
-          let alarm = { ...alarms[i] };
+      for (let i = 0; i < newAlarms.length; i++) {
+          let alarm = { ...newAlarms[i] };
           let confirmationTime = new Date(alarm.timeDate);
           confirmationTime.setMinutes(confirmationTime.getMinutes() + 5);
           if (confirmationTime > new Date()) {
