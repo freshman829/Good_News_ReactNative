@@ -31,7 +31,7 @@ const AccountInformation: React.FC<AccountInformationProps> = ({ fullName }) => 
             <HStack justifyContent="space-between" w="$full" alignItems="center">
                 <Image source={require("../../../assets/images/user_1.png")} w="$16" h="$16" borderRadius={10} alt=""/>
                 <View flex={1} ml="$2">
-                    <Text fontWeight="bold">{ userInfo.fullName || "CodeWizard" }</Text>
+                    <Text fontWeight="bold">{ userInfo.fullName }</Text>
                     <Text>{ userInfo.email }</Text>
                 </View>
                 <Button

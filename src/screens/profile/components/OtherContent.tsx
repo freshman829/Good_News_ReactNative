@@ -2,6 +2,7 @@ import { HStack, VStack, View, Image, Text, ChevronRightIcon, Icon, Divider } fr
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../types/data";
 import { TouchableOpacity } from "react-native";
+import { useUserInfoStore } from "../../../store/UserStore";
 
 
 interface OtherContentProps {
@@ -9,6 +10,11 @@ interface OtherContentProps {
 };
 
 const OtherContent: React.FC<OtherContentProps> = ({ onClick }) => {
+    const { userInfo, setUserInfo } = useUserInfoStore();
+    const handleLogout = () => {
+        setUserInfo({});
+        onClick("Home");
+    };
 
     return (
         <View borderRadius="$lg" mt="$4" w="$full" $dark-backgroundColor="$backgroundDark900" backgroundColor="$textLight50" borderColor="$textLight200" p="$4">
@@ -58,6 +64,16 @@ const OtherContent: React.FC<OtherContentProps> = ({ onClick }) => {
                         <HStack gap="$4" alignItems="center">
                             <Image source={require("../../../assets/icon/account_icon.png")} w="$5" h="$5" borderRadius={10} alt=""/> 
                             <Text>Refer Friend</Text>
+                        </HStack>
+                        <Icon as={ChevronRightIcon} />
+                    </HStack>
+                </TouchableOpacity>
+                <Divider />
+                <TouchableOpacity onPress={() => handleLogout()}>
+                    <HStack justifyContent="space-between" alignItems="center">
+                        <HStack gap="$4" alignItems="center">
+                            <Image source={require("../../../assets/icon/account_icon.png")} w="$5" h="$5" borderRadius={10} alt=""/> 
+                            <Text>Logout</Text>
                         </HStack>
                         <Icon as={ChevronRightIcon} />
                     </HStack>

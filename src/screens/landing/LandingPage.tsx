@@ -1,4 +1,5 @@
 import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
+import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
@@ -7,7 +8,7 @@ import LoginButtonSection from "./components/LoginButtonSection";
 import { useUserInfoStore } from "../../store/UserStore";
 
 import { loginUserWithApple } from "../../api/userAPI";
-import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication';
 import { Platform } from "react-native";
 import { jwtDecode } from 'jwt-decode';
 import ProgramDateSelect from "./components/ProgramDateSelect";
@@ -54,30 +55,69 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     async function onAppleButtonPress(): Promise<Boolean> {
         setIsLoading(true);
         if (Platform.OS === "android") {
-            let res = login("001083.6bedd928a5e74b47a623b8375c0a6b06.0900", "Code Wizard", "test");
+            const res = handleAndroidAppleLogin();
             return res;
         } else {
-            const appleAuthRequestResponse = await appleAuth.performRequest({
-                requestedOperation: appleAuth.Operation.LOGIN,
-                requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-            });
-            const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
-            if (credentialState === appleAuth.State.AUTHORIZED) {
-                // const { identityToken } = appleAuthRequestResponse;
-                // if (identityToken) {
-                //     const jwt = jwtDecode(identityToken);
-                //     console.log("-------------", jwt);
-                // }
-                let fullName = "";
-                if (appleAuthRequestResponse.fullName?.givenName && appleAuthRequestResponse.fullName?.familyName) {
-                    fullName = `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}`;
-                }
-                let res = login(appleAuthRequestResponse.user, fullName, appleAuthRequestResponse.identityToken)
-                return res;
-            }
-            return false;
+            const res = await handleIOSAppleLogin();
+            return res;
         }
     }
+    
+    const handleAndroidAppleLogin = async () => {
+        const rawNonce = uuid.v4().toString();
+        const state = uuid.v4().toString();
+        // Configure the request
+        appleAuthAndroid.configure({
+            //The Service ID you registered with Apple
+            //clientId: 'com.vocco.client-android',
+            clientId: 'com.voiceden.client-android',
+
+            // Return URL added to your Apple dev console. We intercept this redirect, but it must still match
+            // the URL you provided to Apple. It can be an empty route on your backend as it's never called.
+            redirectUri: 'https://vocco.ai',
+
+            // The type of response requested - code, id_token, or both.
+            responseType: appleAuthAndroid.ResponseType.ALL,
+
+            // The amount of user information requested from Apple.
+            scope: appleAuthAndroid.Scope.ALL,
+
+            // Random nonce value that will be SHA256 hashed before sending to Apple.
+            nonce: rawNonce,
+
+            // Unique state value used to prevent CSRF attacks. A UUID will be generated if nothing is provided.
+            state,
+        });
+        // Open the browser window for user sign in
+        const response = await appleAuthAndroid.signIn();
+
+        const { id_token, user, code } = response;
+        
+        let fullName = "";
+        if (user?.name?.firstName && user?.name?.lastName) {
+            fullName = `${user?.name?.firstName} ${user?.name?.lastName}`;
+        }
+        let res = login(code, fullName, id_token);
+        return res;
+    };
+    
+    const handleIOSAppleLogin = async () => {
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+            requestedOperation: appleAuth.Operation.LOGIN,
+            requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+        });
+        const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+        if (credentialState === appleAuth.State.AUTHORIZED) {
+            let fullName = "";
+            if (appleAuthRequestResponse.fullName?.givenName && appleAuthRequestResponse.fullName?.familyName) {
+                fullName = `${appleAuthRequestResponse.fullName?.givenName} ${appleAuthRequestResponse.fullName?.familyName}`;
+            }
+            let res = login(appleAuthRequestResponse.user, fullName, appleAuthRequestResponse.identityToken)
+            return res;
+        }
+        return false;
+    };
+
     return (
         <Box p="$3" h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
             <ScrollView flex={1}>

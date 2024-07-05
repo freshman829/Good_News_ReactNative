@@ -55,6 +55,9 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
       if (init.current) {
         init.current = false;
         setLoading(false);
+        if (!userInfo.rotationPlan.alarms || userInfo.rotationPlan.alarms.length == 0) {
+          refreshAlarms();
+        }
       } else {
         if (!userInfo.rotationPlan.alarmTurn
           && userInfo.rotationPlan.plan >= 2
@@ -258,7 +261,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
     if (isTeaTime) {
       // Generate tea time alarms
       const generatedTeaTimeAlarms = [];
-      const programStartDate = new Date();
+      const programStartDate = new Date(userInfo.rotationPlan.programStartDate || new Date());
       const programEndDate = new Date(programStartDate.getTime() + userInfo.rotationPlan.programDays * 24 * 60 * 60 * 1000); // Adding program days to start date
       for (let date = new Date(programStartDate); date < programEndDate; date.setDate(date.getDate() + 1)) {
         let wakeTime = 

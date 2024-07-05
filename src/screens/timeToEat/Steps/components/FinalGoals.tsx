@@ -4,7 +4,7 @@ import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/d
 import { useUserInfoStore } from "../../../../store/UserStore";
 import { PlanConstants } from "../../../../constants";
 import { formatDateInYMD } from "../../../../utils/numberUtil";
-
+import { Platform, TouchableOpacity } from "react-native";
 
 const FinalGoals = () => {
     const { userInfo, setUserInfo } = useUserInfoStore();
@@ -68,16 +68,21 @@ const FinalGoals = () => {
     return (
         <VStack gap={4} mt={16}>
             <Heading size="sm">Goals & Program Info</Heading>
-            <HStack justifyContent="space-between" alignItems="center" mt={8} gap="$4">
+            <HStack justifyContent="space-between" alignItems="center" mt={8}>
                 <Text maxWidth="$4/6">When is your program start date?</Text>
-                <View>
-                    <Pressable onPress={() => setPicker(true)}>
-                        <Text padding="$2" borderWidth="$1" $dark-borderColor="$backgroundLight200" borderColor="$backgroundDark200" rounded="$lg">{formatDateInYMD(startDate)}</Text>
-                    </Pressable>
-                </View>
-                {picker ? <RNDateTimePicker display="calendar" value={startDate} onChange={SelectStartTime} /> : ""}
+                {Platform.OS === "android" ? 
+                    <>
+                        <TouchableOpacity onPress={() => setPicker(true)}>
+                            <Text padding="$2" borderWidth="$1" $dark-borderColor="$backgroundLight200" borderColor="$backgroundDark200" rounded="$lg">{formatDateInYMD(startDate)}</Text>
+                        </TouchableOpacity>
+                        {picker ? <RNDateTimePicker display="calendar" value={startDate} onChange={SelectStartTime} /> : ""}
+                    </>
+                    :
+                    <RNDateTimePicker display="calendar" value={startDate} onChange={SelectStartTime} />
+                }
+                
             </HStack>
-            <HStack justifyContent="space-between" alignItems="center" mt={8} gap="$4">
+            <HStack justifyContent="space-between" alignItems="center" mt={8}>
                 <Text maxWidth="$4/6">How many days is your program? {userInfo.rotationPlan.programDays} days</Text>
                 <ButtonGroup isAttached>
                     <Button mr="$0" variant="outline" borderColor="$backgroundLight300" $dark-borderColor="$backgroundDark700" $dark-backgroundColor="$backgroundLight200" backgroundColor="$backgroundDark200" size="xs" borderRightWidth='$0' onPress={() => changeNumber(false)}>
