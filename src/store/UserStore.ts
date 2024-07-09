@@ -106,8 +106,100 @@ const initUserInfo: UserInterface = {
             status: false,
         },
     },
-    isFinishInterview: false
+    isFinishInterview: false,
+    preferedOffice: ""
 };
+
+export const initUserSettingInfo = {
+    _id: "",
+    appointmentHistory: [],
+    nextAppointment: undefined,
+    rotationPlan: {
+        mode: 0,
+        wakeTime: "07:00 AM",
+        sleepTime: "11:00 PM",
+        isConfirm: false,
+        alarms: [],
+        plan: 0,
+        programStartDate: new Date(),
+        programDays: 14,
+        alarmTurn: false,
+        isTeaTime: false
+    },
+    healthCondition: [],
+    socialDays: [],
+    weightLogs: {
+        target: 0,
+        logs: []
+    },
+    dietToday: {
+        eatSomthing: false,
+        alternatives: false
+    },
+    female: false,
+    dietaryRestrictions: {
+        kosher: false,
+        vegan: false,
+        halal: false
+    },
+    prefer: "SN",
+    allergies: {
+        protein: [],
+        fv: []
+    },
+    emotions: {
+        depression: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        anxiety: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        stress: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        fatigue: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        insomnia: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        libido: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        bulimic: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        sugar: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        fatty: {
+            status: false,
+            severity: 0,
+            updated: undefined
+        },
+        meno: {
+            status: false,
+        },
+    },
+    isFinishInterview: false,
+    preferedOffice: ""
+}
 
 type healthCondition = {
     id: number,
@@ -209,7 +301,8 @@ export interface UserInterface {
         },
 
     },
-    isFinishInterview: boolean
+    isFinishInterview: boolean,
+    preferedOffice: string
 }
 
 interface UserState {

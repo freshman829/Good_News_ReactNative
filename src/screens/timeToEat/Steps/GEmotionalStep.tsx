@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Divider, HStack, Heading, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Switch, Text, VStack } from "@gluestack-ui/themed";
 import { useUserInfoStore } from "../../../store/UserStore";
+import { capitalizeFirstLetter } from "../../../utils/common";
 
 interface GEmotionalStepProps {
     finalStep?: boolean;
@@ -49,7 +50,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false, onMo
     
     return (
         <Box mt="$3">
-            <VStack>
+            <VStack pb="$4">
                 {!onModal && (!finalStep ? (
                     <Heading>
                         Set Emotional & Health Conditions and Goals For Today?
@@ -82,7 +83,7 @@ const GEmotionalStep: React.FC<GEmotionalStepProps> = ({ finalStep = false, onMo
                                     </SliderTrack>
                                     <SliderThumb />
                                 </Slider>
-                                <Text mt="$4">Depression Severity: {userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.severity}</Text>
+                                <Text mt="$4">{capitalizeFirstLetter(item)} Severity: {userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.severity}</Text>
                                 {
                                     userInfo.emotions?.[item as keyof typeof userInfo.emotions]?.updated
                                         ? <Text mt="$2">Last Updated: {new Date(userInfo.emotions[item as keyof typeof userInfo.emotions].updated).toLocaleDateString()}</Text>

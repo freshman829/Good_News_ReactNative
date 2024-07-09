@@ -265,9 +265,9 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
                     <VStack>
                         <Heading pt="$4">
                             {userInfo.rotationPlan.mode === 0 ? (
-                                "Congradulations on reaching the last step of the sadkhinTherapy Weight Loss Program!"
+                                "Congratulations on reaching the last step of the sadkhinTherapy Weight Loss Program!"
                             ) : (
-                                "Congradulations! You have fully completed SadkhinTherapy Weight Loss Program."
+                                "Congratulations! You have fully completed SadkhinTherapy Weight Loss Program."
                             )}
                         </Heading>
                         <Button onPress={() => setShowDepression(true)} mb="$2">

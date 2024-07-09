@@ -11,6 +11,8 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
+  [GIDSignIn sharedInstance].clientID = @"384184289674-it96tc41nvnpdsrhgeg0prvpfisi8hfq.apps.googleusercontent.com";
+
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
