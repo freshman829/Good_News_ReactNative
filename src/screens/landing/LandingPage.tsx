@@ -1,6 +1,6 @@
 import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
 import uuid from 'react-native-uuid';
-import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+import { GoogleSignin } from 'react-native-google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
