@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "384184289674-2u9us7pbv0bl13aqq9sgvksqstrc0o93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.good_news",
+            "certificate_hash": "5dfffa0ec225006236adf4fde4e2cae4a8c82bb5"
+          }
+        },
+        {
           "client_id": "384184289674-o95iagrl0ubklfhjbd8j5fhrc2q8im0j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
