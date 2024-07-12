@@ -61,3 +61,9 @@ export interface Message {
     repliedAt?: string
     createdAt: string,
 };
+
+export interface Office {
+    _id: string,
+    state: string,
+    city: string
+}

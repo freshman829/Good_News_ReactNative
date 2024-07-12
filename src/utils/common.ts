@@ -75,3 +75,10 @@ export const formatDate = (dateString : any) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return date.toLocaleDateString('en-GB', options);
 }
+
+export function capitalizeFirstLetter(string: string) {
+    if (string.length === 0) {
+      return string;
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

@@ -3,7 +3,7 @@ import { Box, ButtonText, ChevronLeftIcon, Divider, HStack, Heading, Icon, Scrol
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
 import { updateUserinfo } from "../../api/userAPI";
-import { useUserInfoStore } from "../../store/UserStore";
+import { initUserInfo, initUserSettingInfo, useUserInfoStore } from "../../store/UserStore";
 import { useToastr } from "../../providers/ToastProvider";
 import GEmotionalStep from "../timeToEat/Steps/GEmotionalStep";
 import FinalPersonalPreference from "../timeToEat/Steps/components/FinalPersonalPreference";
@@ -22,24 +22,36 @@ type SettingScreenProps = NativeStackScreenProps<
 >;
 
 const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
-    const { userInfo: initialUserInfo, setUserInfo } = useUserInfoStore();
+    const { userInfo, setUserInfo } = useUserInfoStore();
     const toast = useToastr();
-    const [userInfo, setLocalUserInfo] = useState(initialUserInfo);
     const [isLoading, setIsLoading] = useState(false);
+    const [isFinishLoading, setIsFinishLoading] = useState(false);
 
     const clickFinish = async () => {
-        setIsLoading(true);
-        const result = await updateUserinfo({ ...initialUserInfo, isFinishInterview: true });
+        setIsFinishLoading(true);
+        const result = await updateUserinfo({ ...userInfo, isFinishInterview: true });
         if (result.success) {
             setUserInfo({ ...result.data });
-            setIsLoading(false);
+            setIsFinishLoading(false);
             
             // update the food plan flag
             await updateStoreDataFlag("planFlag", "update");
         } else {
-            setIsLoading(false);;
+            setIsFinishLoading(false);;
         }
     }
+
+    const handleReset = async () => {
+        setIsLoading(true);
+        const result = await updateUserinfo({ ...initUserSettingInfo, _id: userInfo._id });
+        console.log("initUserSettingInfo", result)
+        if (result.success) {
+            setUserInfo({ ...result.data });
+            setIsLoading(false);
+        } else {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <View display="flex" pb="$4" h="$full" backgroundColor="$backgroundDefault">
@@ -52,7 +64,7 @@ const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
                     <FinalGoals />
                     <Divider mt={6} />
                     <FinalWeight />
-                    <Divider mt={6} />
+                    <Divider mt={11} />
                     <FinalSocialDays />
                     <Divider mt={6} />
                     <GEmotionalStep finalStep={true} />
@@ -62,23 +74,36 @@ const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
                     <FinalAllergies />
                 </VStack>
             </ScrollView>
-            <Box 
-                display="flex" 
-                flexDirection="row-reverse" 
-                justifyContent="space-between" 
-                alignItems="center"
-                px="$4"
-            >
-                <SpinnerButton
-                    isLoading={isLoading}
-                    size="sm" 
-                    onPress={clickFinish}
+            <HStack justifyContent="space-between">
+                <Box 
+                    alignItems="center"
+                    px="$4"
                 >
-                    <ButtonText>
-                        {isLoading ? "Loading..." : "Save"}
-                    </ButtonText>
-                </SpinnerButton>
-            </Box>
+                    <SpinnerButton
+                        isLoading={isLoading}
+                        size="sm" 
+                        onPress={handleReset}
+                    >
+                        <ButtonText>
+                            {isLoading ? "Loading..." : "Reset"}
+                        </ButtonText>
+                    </SpinnerButton>
+                </Box>
+                <Box 
+                    alignItems="center"
+                    px="$4"
+                >
+                    <SpinnerButton
+                        isLoading={isFinishLoading}
+                        size="sm" 
+                        onPress={clickFinish}
+                    >
+                        <ButtonText>
+                            {isLoading ? "Loading..." : "Save"}
+                        </ButtonText>
+                    </SpinnerButton>
+                </Box>
+            </HStack>
         </View>
     );
 }

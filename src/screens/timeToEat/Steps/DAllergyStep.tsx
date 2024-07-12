@@ -117,7 +117,7 @@ const DAllergyStep: React.FC<DAllergyStepProps> = ({ finalStep = false }) => {
                     <Heading my="$4" textAlign="center" size="sm">
                         Protein Allergies
                     </Heading>
-                    <ScrollView px="$4" h="$48" overflow="scroll">
+                    <ScrollView px="$4" pb="$4" h="$48" overflow="scroll">
                         {proteins.map((protein, index) => renderProtein(protein, index))}
                     </ScrollView>
                 </Box>

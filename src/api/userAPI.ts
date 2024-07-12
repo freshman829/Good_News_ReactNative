@@ -18,6 +18,16 @@ export async function loginUserWithApple(user: { userId: string, userName: strin
     }
 }
 
+export async function loginUserWithGoogle(user: { userId: string, userName: string, userEmail: string }) {
+    try {
+        const result = await Axios.post(`/loginWithGoogle`, user);
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 export async function saveRotationSchedule(data: UserInterface) {
     try {
         const result = await Axios.post(`/${data._id}/updateSchedule`, data.rotationPlan);

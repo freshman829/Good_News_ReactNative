@@ -7,6 +7,7 @@ import { formatDateInYMD } from "../../../utils/numberUtil";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 // import { MAINTAINENCE_MODE } from '../../../constants/plans';
 import { PlanConstants } from '../../../constants';
+import { Platform, TouchableOpacity } from 'react-native';
 const AWelcomeStep = () => {
     const {
         userInfo,
@@ -15,6 +16,8 @@ const AWelcomeStep = () => {
     const [picker, setPicker] = useState(false);
     const [appointPicker, setAppointPicker] = useState(false);
     const [showNextAppointment, setShowNextAppointment] = useState(false);
+    const [startDate, setDate] = useState<Date>(new Date(userInfo.rotationPlan.programStartDate));
+    const [appointDate, setAppointDate] = useState<Date>(new Date(userInfo.nextAppointment || new Date()));
 
     useEffect(() => {
         setShowNextAppointment(userInfo.nextAppointment ? true : false);
@@ -45,6 +48,7 @@ const AWelcomeStep = () => {
         }
         else if (e.type === 'set' && date) {
             setPicker(false);
+            setDate(date);
             setUserInfo({ ...userInfo, rotationPlan: { ...userInfo.rotationPlan, programStartDate: date } });
         }
     };
@@ -55,6 +59,7 @@ const AWelcomeStep = () => {
         }
         else if (e.type === 'set' && date) {
             setAppointPicker(false);
+            setAppointDate(date)
             setUserInfo({ ...userInfo, nextAppointment: date });
         }
     };
@@ -91,7 +96,16 @@ const AWelcomeStep = () => {
                     <VStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$2">
                             <Text maxWidth="$1/2">When is your program start date?</Text>
-                            <RNDateTimePicker display="calendar" value={new Date(userInfo.rotationPlan.programStartDate)} onChange={selectStartTime} />
+                            {Platform.OS === "android" ? 
+                                <>
+                                    <TouchableOpacity onPress={() => setPicker(true)}>
+                                        <Text padding="$2" borderWidth="$1" $dark-borderColor="$backgroundLight200" borderColor="$backgroundDark200" rounded="$lg">{formatDateInYMD(startDate)}</Text>
+                                    </TouchableOpacity>
+                                    {picker ? <RNDateTimePicker display="calendar" value={startDate} onChange={selectStartTime} /> : ""}
+                                </>
+                            :
+                            <RNDateTimePicker display="calendar" value={startDate} onChange={selectStartTime} />
+                            }
                         </HStack>
                         <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$8">
                             <VStack>
@@ -153,12 +167,20 @@ const AWelcomeStep = () => {
                         </ButtonGroup>
                     </HStack>}
                 <Text textAlign="center" my="$8">When is your next appointment?</Text>
-                {showNextAppointment ?
+                {showNextAppointment && 
                     <HStack display="flex" justifyContent="space-between" alignItems="center">
                         <Text maxWidth="$1/2">Select a Date</Text>
-                        <RNDateTimePicker display="calendar" value={userInfo.nextAppointment || new Date()} onChange={selectNextAppointment} />
+                        {Platform.OS === "android" ? 
+                            <>
+                                <TouchableOpacity onPress={() => setAppointPicker(true)}>
+                                    <Text padding="$2" borderWidth="$1" $dark-borderColor="$backgroundLight200" borderColor="$backgroundDark200" rounded="$lg">{formatDateInYMD(appointDate)}</Text>
+                                </TouchableOpacity>
+                                {appointPicker ? <RNDateTimePicker display="calendar" value={appointDate} onChange={selectNextAppointment} /> : ""}
+                            </>
+                        :
+                        <RNDateTimePicker display="calendar" value={appointDate} onChange={selectNextAppointment} />
+                        }
                     </HStack>
-                    : ""
                 }
                 <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$4">
                     <Text maxWidth="$2/3">I don't have an appointment</Text>

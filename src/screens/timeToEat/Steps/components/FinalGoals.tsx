@@ -5,6 +5,7 @@ import { useUserInfoStore } from "../../../../store/UserStore";
 import { PlanConstants } from "../../../../constants";
 import { formatDateInYMD } from "../../../../utils/numberUtil";
 import { Platform, TouchableOpacity } from "react-native";
+import PreferedOffice from "./PreferedOffice";
 
 const FinalGoals = () => {
     const { userInfo, setUserInfo } = useUserInfoStore();
@@ -12,10 +13,16 @@ const FinalGoals = () => {
     const [appointPicker, setAppointPicker] = useState(false);
     const [showNextAppointment, setShowNextAppointment] = useState(false);
     const [startDate, setDate] = useState<Date>(new Date(userInfo.rotationPlan.programStartDate));
+    const [appointDate, setAppointDate] = useState<Date>(new Date(userInfo.nextAppointment || new Date()));
     
     useEffect(() => {
         setShowNextAppointment(userInfo.nextAppointment ? true : false);
     }, [userInfo.nextAppointment]);
+
+    useEffect(() => {
+        setDate(new Date(userInfo.rotationPlan.programStartDate));
+        setAppointDate(new Date(userInfo.nextAppointment || new Date()));
+    }, [userInfo])
 
     const toggleNextAppoint = () => {
         if (showNextAppointment) {
@@ -52,6 +59,7 @@ const FinalGoals = () => {
         }
         else if (e.type === 'set' && date) {
             setAppointPicker(false);
+            setAppointDate(date)
             setUserInfo({ ...userInfo, nextAppointment: date });
         }
     };
@@ -94,14 +102,26 @@ const FinalGoals = () => {
                 </ButtonGroup>
             </HStack>
             <Divider mt={6} />
+            <VStack mt={6}>
+                <PreferedOffice />
+            </VStack>
+            <Divider mt={6} />
             <VStack gap={8} mt={8}>
                 <Text textAlign="center">When is your next appointment?</Text>
-                {showNextAppointment ?
-                    <HStack display="flex" justifyContent="space-between" alignItems="center">
+                {showNextAppointment && 
+                    <HStack justifyContent="space-between" alignItems="center">
                         <Text maxWidth="$1/2">Select a Date</Text>
-                        <RNDateTimePicker display="calendar" value={userInfo.nextAppointment || new Date()} onChange={selectNextAppointment} />
+                        {Platform.OS === "android" ? 
+                            <>
+                                <TouchableOpacity onPress={() => setAppointPicker(true)}>
+                                    <Text padding="$2" borderWidth="$1" $dark-borderColor="$backgroundLight200" borderColor="$backgroundDark200" rounded="$lg">{formatDateInYMD(appointDate)}</Text>
+                                </TouchableOpacity>
+                                {appointPicker ? <RNDateTimePicker display="calendar" value={appointDate} onChange={selectNextAppointment} /> : ""}
+                            </>
+                        :
+                        <RNDateTimePicker display="calendar" value={appointDate} onChange={selectNextAppointment} />
+                        }
                     </HStack>
-                    : ""
                 }
                 <HStack display="flex" justifyContent="space-between" alignItems="center" mt="$4">
                     <Text maxWidth="$2/3">I don't have an appointment</Text>

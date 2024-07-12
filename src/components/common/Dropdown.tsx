@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, useColorScheme } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -10,17 +10,22 @@ export interface DropdownOption {
 interface DropdownProps {
   data: DropdownOption[],
   onChange: (value: string) => void
-  isSearch?: boolean
+  isSearch?: boolean,
+  defaultValue?: string
 }
 
-const DropdownGroup: React.FC<DropdownProps> = ({ data, onChange, isSearch=false }) => {
-    const [value, setValue] = useState<string>("");
+const DropdownGroup: React.FC<DropdownProps> = ({ data, onChange, isSearch=false, defaultValue }) => {
+    const [value, setValue] = useState<string>(defaultValue || '');
     const colorScheme = useColorScheme();
 
     const handleChange = (item: DropdownOption) => {
       setValue(item.value);
       onChange(item.value);
     };
+
+    useEffect(() => {
+      setValue(defaultValue || '');
+    }, [defaultValue]);
 
     const styles = getStyles(colorScheme === 'dark');
 
@@ -48,8 +53,8 @@ const DropdownGroup: React.FC<DropdownProps> = ({ data, onChange, isSearch=false
 
 const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   dropdown: {
-    height: 30,
-    width: 150,
+    height: 50,
+    width: 160,
     borderBottomColor: isDarkMode ? 'white' : 'gray',
     borderBottomWidth: 0.5,
     backgroundColor: isDarkMode ? '#333' : '#fff',
@@ -79,3 +84,4 @@ const getStyles = (isDarkMode: boolean) => StyleSheet.create({
 });
 
 export default DropdownGroup;
+

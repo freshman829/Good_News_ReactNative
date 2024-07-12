@@ -84,7 +84,7 @@ const FWeightStep: React.FC<FWeightStepProps> = ({ finalStep = false }) => {
                         <Divider mt="$4" mb="$2"/>
                     </>
                 )}
-                <VStack flex={1} justifyContent="space-between" gap={8}>
+                <VStack flex={1} justifyContent="space-between" gap={8} px="$3">
                     {!finalStep && (
                         <>
                             <VStack gap={5}>

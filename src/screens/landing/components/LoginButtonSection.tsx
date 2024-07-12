@@ -1,11 +1,13 @@
-import { Box, Button, ButtonText, CloseIcon, FormControl, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Spinner } from "@gluestack-ui/themed";
+import { Box, Button, ButtonText, CloseIcon, FormControl, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Spinner, VStack } from "@gluestack-ui/themed";
 import { AppleButton } from '@invertase/react-native-apple-authentication';
 import { Dimensions, Platform, TouchableOpacity } from "react-native";
+//import { GoogleSigninButton } from 'react-native-google-signin';
 interface LoginButtonSectionProps {
     isLoading: boolean,
-    onLogin: () => void;
+    onAppleLogin: () => void;
+    onGoogleLogin: () => void;
 }
-const LoginButtonSection: React.FC<LoginButtonSectionProps> = ({ isLoading, onLogin }) => {
+const LoginButtonSection: React.FC<LoginButtonSectionProps> = ({ isLoading, onAppleLogin, onGoogleLogin }) => {
     return (
         <Box>
             {isLoading ? (
@@ -13,7 +15,7 @@ const LoginButtonSection: React.FC<LoginButtonSectionProps> = ({ isLoading, onLo
                     variant="outline"
                     style={{
                         alignSelf: 'center',
-                        width: Dimensions.get('window').width / 1.2,
+                        width: Dimensions.get('window').width / 1.5,
                         height: 45
                     }}>
                     <ButtonText>
@@ -21,31 +23,32 @@ const LoginButtonSection: React.FC<LoginButtonSectionProps> = ({ isLoading, onLo
                     </ButtonText>
                 </Button>
             ) : (
-                Platform.OS === 'ios' ? (
-                    <AppleButton
-                        buttonStyle={AppleButton.Style.WHITE}
-                        buttonType={AppleButton.Type.SIGN_IN}
-                        style={{
-                            alignSelf: 'center',
-                            width: Dimensions.get('window').width / 1.2,
-                            height: 45,
-                        }}
-                        onPress={() => onLogin()}
-                    />
-                ) : (
+                <VStack gap={2}>
                     <TouchableOpacity>
                         <Button
                             variant="outline"
                             style={{
                                 alignSelf: 'center',
-                                width: Dimensions.get('window').width / 1.2,
+                                width: Dimensions.get('window').width / 1.5,
                                 height: 45
                             }}
-                            onPress={() => onLogin()}>
+                            onPress={() => onAppleLogin()}>
                             <ButtonText>Sign in with Apple</ButtonText>
                         </Button>
                     </TouchableOpacity>
-                )
+                    <TouchableOpacity>
+                        <Button
+                            variant="outline"
+                            style={{
+                                alignSelf: 'center',
+                                width: Dimensions.get('window').width / 1.5,
+                                height: 45
+                            }}
+                            onPress={() => onGoogleLogin()}>
+                            <ButtonText>Sign in with Google</ButtonText>
+                        </Button>
+                    </TouchableOpacity>
+                </VStack>
             )}
         </Box>
     )

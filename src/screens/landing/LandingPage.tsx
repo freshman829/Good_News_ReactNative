@@ -1,5 +1,6 @@
 import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
 import uuid from 'react-native-uuid';
+//import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
@@ -7,7 +8,7 @@ import FeaturesSection from "./components/FeaturesSection";
 import LoginButtonSection from "./components/LoginButtonSection";
 import { useUserInfoStore } from "../../store/UserStore";
 
-import { loginUserWithApple } from "../../api/userAPI";
+import { loginUserWithApple, loginUserWithGoogle } from "../../api/userAPI";
 import { appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication';
 import { Platform } from "react-native";
 import { jwtDecode } from 'jwt-decode';
@@ -22,6 +23,12 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     
     useEffect(() => {
+        /*GoogleSignin.configure({
+            webClientId: '384184289674-9u5tfbot2cf4eli2dfcjg4j58kohg2p8.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+            //webClientId: '1072354006907-3e714aeo627nna8bt3cfru4htmub0u6p.apps.googleusercontent.com',
+            iosClientId: '384184289674-it96tc41nvnpdsrhgeg0prvpfisi8hfq.apps.googleusercontent.com',
+            offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+        });*/
         const getUserInfo = async () => {
             await AsyncStorage.getItem("userInfo").then(async (value) => {
                 if (value) {
@@ -51,6 +58,14 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         setIsLoading(false);
         return true;
     }
+
+    const loginWithGoogle = async (userId: string, userName: string, userEmail: string) => {
+        const result = await loginUserWithGoogle({ userId, userName, userEmail });
+        setUserInfo({ ...result, isLoggedIn: true });
+        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
+        setIsLoading(false);
+        return true;
+    };
 
     async function onAppleButtonPress(): Promise<Boolean> {
         setIsLoading(true);
@@ -118,6 +133,34 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         return false;
     };
 
+    const handleGoogleLogin = async () => {
+        setIsLoading(true);
+        try {
+            /*await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            console.log("userInfo::", userInfo);
+            const tokens = await GoogleSignin.getTokens();
+            let fullName = "";
+            if (userInfo?.user?.givenName && userInfo?.user?.familyName) {
+                fullName = `${userInfo?.user?.givenName} ${userInfo?.user?.familyName}`;
+            }
+            const res = loginWithGoogle(userInfo.user.id, fullName, userInfo.user.email);
+            return res;*/
+        } catch (error) {
+            console.log("error::", error)
+            // if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            //     // user cancelled the login flow
+            // } else if (error.code === statusCodes.IN_PROGRESS) {
+            //     // operation (e.g. sign in) is in progress already
+            // } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            //     // play services not available or outdated
+            // } else {
+            //     // some other error happened
+            // }
+            return false;
+        }
+    };
+
     return (
         <Box p="$3" h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
             <ScrollView flex={1}>
@@ -125,7 +168,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <GreetingSection />
                     <PostSection />
                     <FeaturesSection onLogin={onAppleButtonPress} navigation={navigation} />
-                    {!userInfo._id ? <LoginButtonSection isLoading={isLoading} onLogin={onAppleButtonPress} /> : ""}
+                    {!userInfo._id ? <LoginButtonSection isLoading={isLoading} onAppleLogin={onAppleButtonPress} onGoogleLogin={handleGoogleLogin} /> : ""}
                     {userInfo._id && !userInfo.rotationPlan.programStartDate && <ProgramDateSelect />}
                 </VStack>
                 {userInfo._id && 
