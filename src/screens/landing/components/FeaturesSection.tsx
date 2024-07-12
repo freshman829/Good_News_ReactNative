@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import { Box, Card, Heading, Image, useToast } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
@@ -35,7 +36,11 @@ const features = [
         src: require("../../../assets/kids.png"),
         target: "Supplement"
     },
-]
+];
+
+const screenWidth = Dimensions.get('window').width;
+const cardWidth = screenWidth / 2 - 16;
+
 const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolean | undefined> }> = ({ navigation, onLogin }) => {
     const { userInfo } = useUserInfoStore();
 
@@ -64,7 +69,7 @@ const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolea
                 }}>
                     <Card
                         size="sm" variant="elevated"
-                        w="$40" p="$2" h="$40"
+                        w={cardWidth} p="$2" h="$40"
                         display="flex" flexDirection="column"
                         alignItems="center" justifyContent="space-around"
                     >
