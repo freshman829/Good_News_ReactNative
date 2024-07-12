@@ -162,7 +162,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     };
 
     return (
-        <Box p="$3" h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
+        <Box h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
             <ScrollView flex={1}>
                 <VStack space="md" display="flex" justifyContent="space-between">
                     <GreetingSection />

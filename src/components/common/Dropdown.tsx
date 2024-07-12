@@ -54,7 +54,7 @@ const DropdownGroup: React.FC<DropdownProps> = ({ data, onChange, isSearch=false
 const getStyles = (isDarkMode: boolean) => StyleSheet.create({
   dropdown: {
     height: 50,
-    width: 160,
+    width: 140,
     borderBottomColor: isDarkMode ? 'white' : 'gray',
     borderBottomWidth: 0.5,
     backgroundColor: isDarkMode ? '#333' : '#fff',

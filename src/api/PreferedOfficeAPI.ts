@@ -5,7 +5,7 @@ const Axios = axios.create({
     baseURL: `${API_URL}/office`
 });
 
-export const getOfficeList = async () => {
+export async function getOfficeList() {
     try {
         const result = await Axios.get(`/`);
         return {
@@ -18,4 +18,4 @@ export const getOfficeList = async () => {
             msg: (error as any).message
         }
     }
-};
+}
