@@ -1,6 +1,6 @@
 import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
 import uuid from 'react-native-uuid';
-//import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
@@ -23,12 +23,12 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
 
     
     useEffect(() => {
-        /*GoogleSignin.configure({
+        GoogleSignin.configure({
             webClientId: '384184289674-9u5tfbot2cf4eli2dfcjg4j58kohg2p8.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
             //webClientId: '1072354006907-3e714aeo627nna8bt3cfru4htmub0u6p.apps.googleusercontent.com',
             iosClientId: '384184289674-it96tc41nvnpdsrhgeg0prvpfisi8hfq.apps.googleusercontent.com',
             offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-        });*/
+        });
         const getUserInfo = async () => {
             await AsyncStorage.getItem("userInfo").then(async (value) => {
                 if (value) {
@@ -136,7 +136,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     const handleGoogleLogin = async () => {
         setIsLoading(true);
         try {
-            /*await GoogleSignin.hasPlayServices();
+            await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             console.log("userInfo::", userInfo);
             const tokens = await GoogleSignin.getTokens();
@@ -145,7 +145,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                 fullName = `${userInfo?.user?.givenName} ${userInfo?.user?.familyName}`;
             }
             const res = loginWithGoogle(userInfo.user.id, fullName, userInfo.user.email);
-            return res;*/
+            return res;
         } catch (error) {
             console.log("error::", error)
             // if (error.code === statusCodes.SIGN_IN_CANCELLED) {

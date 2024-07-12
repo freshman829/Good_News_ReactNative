@@ -1,7 +1,6 @@
 import { Box, Button, ButtonText, CloseIcon, FormControl, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Spinner, VStack } from "@gluestack-ui/themed";
 import { AppleButton } from '@invertase/react-native-apple-authentication';
 import { Dimensions, Platform, TouchableOpacity } from "react-native";
-//import { GoogleSigninButton } from 'react-native-google-signin';
 interface LoginButtonSectionProps {
     isLoading: boolean,
     onAppleLogin: () => void;

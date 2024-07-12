@@ -73,7 +73,7 @@ export async function saveProgramDuration(data: { id: string, program: { start: 
     }
 }
 
-export async function updateUserinfo(data: UserInterface) {
+export async function updateUserinfo(data: any) {
     try {
         const result = await Axios.put(`/${data._id}`, data);
         return {

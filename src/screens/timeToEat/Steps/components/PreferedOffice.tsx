@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Heading, VStack, HStack, ButtonGroup, Button, ButtonText, Text, Divider, Pressable, Switch, View } from "@gluestack-ui/themed";
+import { Heading, VStack, HStack, ButtonGroup, Button, ButtonText, Text, Divider, Pressable, Switch, View, Box } from "@gluestack-ui/themed";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useUserInfoStore } from "../../../../store/UserStore";
 import { PlanConstants } from "../../../../constants";
@@ -9,7 +9,9 @@ import { getOfficeList } from "../../../../api/preferedOfficeAPI";
 import { Office } from "../../../../types/data";
 import DropdownGroup from "../../../../components/common/Dropdown";
 
-const PreferedOffice = () => {
+interface PreferedOfficeProps {};
+
+const PreferedOffice: React.FC<PreferedOfficeProps> = () => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [officeList, setOfficeList] = useState<Office[]>([]);
     const [states, setStates] = useState<{ label: string, value: string }[]>([]);
@@ -79,7 +81,7 @@ const PreferedOffice = () => {
     };
 
     return (
-        <VStack gap={4} mt="$2">
+        <Box display="flex" gap={4} mt="$2">
             <Text textAlign="center">Prefered Office</Text>
             <HStack justifyContent="space-between">
                 <DropdownGroup 
@@ -93,7 +95,7 @@ const PreferedOffice = () => {
                     defaultValue={defaultCity}
                 />
             </HStack>
-        </VStack>
+        </Box>
     )
 }
 
