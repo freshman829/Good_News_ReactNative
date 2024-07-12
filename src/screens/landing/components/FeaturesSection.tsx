@@ -36,7 +36,7 @@ const features = [
         target: "Supplement"
     },
 ]
-const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolean> }> = ({ navigation, onLogin }) => {
+const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolean | undefined> }> = ({ navigation, onLogin }) => {
     const { userInfo } = useUserInfoStore();
 
     return (

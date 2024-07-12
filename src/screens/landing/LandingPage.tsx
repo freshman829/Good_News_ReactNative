@@ -51,22 +51,32 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
 
 
     const login = async (userId: string, userName: string, identityToken: any) => {
-        const result = await loginUserWithApple({ userId, userName, identityToken });
-        setUserInfo({ ...result, isLoggedIn: true });
-        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
-        setIsLoading(false);
-        return true;
+        try {
+            const result = await loginUserWithApple({ userId, userName, identityToken });
+            setUserInfo({ ...result, isLoggedIn: true });
+            await AsyncStorage.setItem("UserStoreDate", new Date().toString());
+            return true;
+        } catch (error) {
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     const loginWithGoogle = async (userId: string, userName: string, userEmail: string) => {
-        const result = await loginUserWithGoogle({ userId, userName, userEmail });
-        setUserInfo({ ...result, isLoggedIn: true });
-        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
-        setIsLoading(false);
-        return true;
+        try {
+            const result = await loginUserWithGoogle({ userId, userName, userEmail });
+            setUserInfo({ ...result, isLoggedIn: true });
+            await AsyncStorage.setItem("UserStoreDate", new Date().toString());
+            return true;
+        } catch (error) {
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    async function onAppleButtonPress(): Promise<Boolean> {
+    async function onAppleButtonPress(): Promise<boolean | undefined> {
         setIsLoading(true);
         if (Platform.OS === "android") {
             const res = handleAndroidAppleLogin();
