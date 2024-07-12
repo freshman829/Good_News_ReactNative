@@ -11,7 +11,6 @@ import { useUserInfoStore } from "../../store/UserStore";
 import { loginUserWithApple, loginUserWithGoogle } from "../../api/userAPI";
 import { appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication';
 import { Platform } from "react-native";
-import { jwtDecode } from 'jwt-decode';
 import ProgramDateSelect from "./components/ProgramDateSelect";
 import { useEffect, useState } from "react";
 import { UserIcon } from "../../assets/icon/UserIcon";
