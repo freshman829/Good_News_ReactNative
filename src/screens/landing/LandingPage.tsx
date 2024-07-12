@@ -147,7 +147,6 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            console.log("userInfo::", userInfo);
             const tokens = await GoogleSignin.getTokens();
             let fullName = "";
             if (userInfo?.user?.givenName && userInfo?.user?.familyName) {
