@@ -1,13 +1,9 @@
-import { useState, useEffect } from "react";
-import { Heading, VStack, HStack, ButtonGroup, Button, ButtonText, Text, Divider, Pressable, Switch, View } from "@gluestack-ui/themed";
-import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { useUserInfoStore } from "../../../../store/UserStore";
-import { PlanConstants } from "../../../../constants";
-import { formatDateInYMD } from "../../../../utils/numberUtil";
-import { Platform, TouchableOpacity } from "react-native";
-import { getOfficeList } from "../../../../api/preferedOfficeAPI";
-import { Office } from "../../../../types/data";
+import React, { useState, useEffect } from "react";
+import { Text, VStack, HStack } from "@gluestack-ui/themed";
 import DropdownGroup from "../../../../components/common/Dropdown";
+import { useUserInfoStore } from "../../../../store/UserStore";
+import { Office } from "../../../../types/data";
+import { getOfficeList } from "../../../../api/PreferedOfficeAPI";
 
 const PreferedOffice = () => {
     const { userInfo, setUserInfo } = useUserInfoStore();
@@ -48,7 +44,7 @@ const PreferedOffice = () => {
                 setDefaultState(officeList[0].state);
             }
         }
-    }, [officeList])
+    }, [officeList]);
 
     const fetchPreferedOffice = async () => {
         try {
@@ -79,10 +75,10 @@ const PreferedOffice = () => {
     };
 
     return (
-        <VStack gap={4} mt="$2">
+        <VStack>
             <Text textAlign="center">Prefered Office</Text>
             <HStack justifyContent="space-between">
-                <DropdownGroup 
+                <DropdownGroup
                     data={states}
                     onChange={handleChangeState}
                     defaultValue={defaultState}
@@ -94,7 +90,7 @@ const PreferedOffice = () => {
                 />
             </HStack>
         </VStack>
-    )
-}
+    );
+};
 
 export default PreferedOffice;

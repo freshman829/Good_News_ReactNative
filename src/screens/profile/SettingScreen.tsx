@@ -3,7 +3,7 @@ import { Box, ButtonText, ChevronLeftIcon, Divider, HStack, Heading, Icon, Scrol
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
 import { updateUserinfo } from "../../api/userAPI";
-import { initUserInfo, initUserSettingInfo, useUserInfoStore } from "../../store/UserStore";
+import { initUserSettingInfo, useUserInfoStore } from "../../store/UserStore";
 import { useToastr } from "../../providers/ToastProvider";
 import GEmotionalStep from "../timeToEat/Steps/GEmotionalStep";
 import FinalPersonalPreference from "../timeToEat/Steps/components/FinalPersonalPreference";
