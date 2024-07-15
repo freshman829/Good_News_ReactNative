@@ -2508,6 +2508,11 @@
   dependencies:
     invariant "^2.2.4"
 
+"@react-native-google-signin/google-signin@^12.2.1":
+  version "12.2.1"
+  resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-12.2.1.tgz#242247ab18ea7bb3a1dcabb50df7ad236f104294"
+  integrity sha512-qt2Cb+bN2NS8BBT06M3UbLVS1gaSYTenNh4uZtPNmyJC23xZAynLkuhvsC6gmeEnxcj0wLVUn1Es+LSHw0OhVQ==
+
 "@react-native-picker/picker@^2.6.1":
   version "2.6.1"
   resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.6.1.tgz"
@@ -7117,11 +7122,6 @@ react-native-fs@^2.20.0:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
-react-native-google-signin@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-2.1.1.tgz#4281940eee88602b0181dd49affdf8c92980c85c"
-  integrity sha512-6l3fiLdX/bfhh0BoxGq+jGkagFsO+mrE/eRV4+3/0k8+FDxO90vdPpQdDiwlM5vWXRxWthTzMM09/jHw+4cvNw==
-
 react-native-push-notification@8.1.1, react-native-push-notification@^8.1.1:
   version "8.1.1"
   resolved "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-8.1.1.tgz"
@@ -7178,9 +7178,9 @@ react-native-uuid@^2.0.2:
   integrity sha512-5ypj/hV58P+6VREdjkW0EudSibsH3WdqDERoHKnD9syFWjF+NfRWWrJb2sa3LIwI5zpzMvUiabs+DX40WHpEMw==
 
 react-native-video@^6.2.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.3.0.tgz#c195ef4c0a6d9ad19bfca40700f1f72dccf26cf3"
-  integrity sha512-lyLjWOdw/jgVpMSrprgKVwhT0KUlGzQRBVTDGyQSYDJ0I5ZkZKcmDE32rWCOyAtWhel+GtJjIyFqgT6xIXuxgg==
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.4.0.tgz#d8a441f34f183aaf26e24cffddc51bb8cb3941f2"
+  integrity sha512-P7qIB/HLyJ0SgMbBdpkMyjk78dN3tBrn8lL0mx6ix7r8gQ/8+faaEAYLXFe0P7ogoJc8lW++Zl5zXH1hJLjkuw==
 
 react-native@^0.73.5:
   version "0.73.5"

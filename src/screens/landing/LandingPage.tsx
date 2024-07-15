@@ -1,6 +1,6 @@
 import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
 import uuid from 'react-native-uuid';
-import { GoogleSignin } from 'react-native-google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
@@ -64,19 +64,14 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
 
     const loginWithGoogle = async (userId: string, userName: string, userEmail: string) => {
-        try {
-            const result = await loginUserWithGoogle({ userId, userName, userEmail });
-            setUserInfo({ ...result, isLoggedIn: true });
-            await AsyncStorage.setItem("UserStoreDate", new Date().toString());
-            return true;
-        } catch (error) {
-            return false;
-        } finally {
-            setIsLoading(false);
-        }
+        const result = await loginUserWithGoogle({ userId, userName, userEmail });
+        setUserInfo({ ...result, isLoggedIn: true });
+        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
+        setIsLoading(false);
+        return true;
     };
 
-    async function onAppleButtonPress(): Promise<boolean | undefined> {
+    async function onAppleButtonPress(): Promise<Boolean> {
         setIsLoading(true);
         if (Platform.OS === "android") {
             const res = handleAndroidAppleLogin();
@@ -170,7 +165,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     };
 
     return (
-        <Box p="$3" h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
+        <Box h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
             <ScrollView flex={1}>
                 <VStack space="md" display="flex" justifyContent="space-between">
                     <GreetingSection />

@@ -32,6 +32,8 @@ end
 target 'good_news' do
   config = use_native_modules!
 
+  pod 'GoogleSignIn', '~> 7.1'
+
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.
