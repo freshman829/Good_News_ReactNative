@@ -4,7 +4,7 @@ import * as HealthConstants from "./healthCondition";
 import * as Common from "./common";
 
 const API_URL = "https://goodnews2023.herokuapp.com/api";
-//const API_URL = "http://10.0.2.2:3000/api";
+// const API_URL = "http://10.0.2.2:3000/api";
 
 // OpenPhone API Setting
 const OPANPHONE_API_URL = "https://api.openphone.co/vl"; 

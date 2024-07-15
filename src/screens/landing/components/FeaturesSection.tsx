@@ -41,7 +41,7 @@ const features = [
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = screenWidth / 2 - 16;
 
-const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolean> }> = ({ navigation, onLogin }) => {
+const FeaturesSection: React.FC<{ navigation: any, onLogin: () => Promise<Boolean | undefined> }> = ({ navigation, onLogin }) => {
     const { userInfo } = useUserInfoStore();
 
     return (

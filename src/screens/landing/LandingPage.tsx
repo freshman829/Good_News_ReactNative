@@ -11,7 +11,6 @@ import { useUserInfoStore } from "../../store/UserStore";
 import { loginUserWithApple, loginUserWithGoogle } from "../../api/userAPI";
 import { appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication';
 import { Platform } from "react-native";
-import { jwtDecode } from 'jwt-decode';
 import ProgramDateSelect from "./components/ProgramDateSelect";
 import { useEffect, useState } from "react";
 import { UserIcon } from "../../assets/icon/UserIcon";
@@ -52,11 +51,16 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
 
 
     const login = async (userId: string, userName: string, identityToken: any) => {
-        const result = await loginUserWithApple({ userId, userName, identityToken });
-        setUserInfo({ ...result, isLoggedIn: true });
-        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
-        setIsLoading(false);
-        return true;
+        try {
+            const result = await loginUserWithApple({ userId, userName, identityToken });
+            setUserInfo({ ...result, isLoggedIn: true });
+            await AsyncStorage.setItem("UserStoreDate", new Date().toString());
+            return true;
+        } catch (error) {
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     const loginWithGoogle = async (userId: string, userName: string, userEmail: string) => {
@@ -138,7 +142,6 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            console.log("userInfo::", userInfo);
             const tokens = await GoogleSignin.getTokens();
             let fullName = "";
             if (userInfo?.user?.givenName && userInfo?.user?.familyName) {
