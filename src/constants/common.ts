@@ -13,6 +13,7 @@ export const SUPPLEMENT_SHOW_TYPE = {
 export const PAYMENT_METHOD = {
     GOOGLE: 'google',
     APPLE: 'apple',
+    REWARD: 'reward',
 };
 
 export const ORDER_STATUS = {
@@ -21,3 +22,8 @@ export const ORDER_STATUS = {
     CANCEL: 2,
     FAILED: 3,
 };
+
+export const PARSE_REWARD_TYPE = [
+    'New User Referral',
+    'Redemption for supplement',
+];
