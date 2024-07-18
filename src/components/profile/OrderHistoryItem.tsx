@@ -40,7 +40,7 @@ const OrderHistoryItem: React.FC<OrderHistoryItemProps> = ({ order }) => {
         >
             <HStack justifyContent="space-between">
                 <Text size="sm">ID: {order.orderNumber}</Text>
-                <Text color="">Total: {formatNumber(order.total, 2, true, false, true, true)}</Text>
+                <Text>Total: {formatNumber(order.total, 2, true, false, true, true)}</Text>
             </HStack>
             <HStack gap="$3">
                 {order?.items.map((item: OrderItem, index) =>

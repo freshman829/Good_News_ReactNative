@@ -39,6 +39,14 @@ const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({ navigation })
                                 <RadioLabel ml="$5">Apple Pay</RadioLabel>
                             </Radio>
                         </Card>
+                        <Card borderRadius="$lg" w="$full" borderColor="$textLight200" p="$10">
+                            <Radio value={PAYMENT_METHOD.REWARD}>
+                                <RadioIndicator>
+                                    <RadioIcon as={CircleIcon} />
+                                </RadioIndicator>
+                                <RadioLabel ml="$5">Rewarded Point</RadioLabel>
+                            </Radio>
+                        </Card>
                     </VStack>
                 </RadioGroup>
             </View>
