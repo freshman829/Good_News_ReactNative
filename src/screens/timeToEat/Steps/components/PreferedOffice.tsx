@@ -3,7 +3,7 @@ import { Text, VStack, HStack } from "@gluestack-ui/themed";
 import DropdownGroup from "../../../../components/common/Dropdown";
 import { useUserInfoStore } from "../../../../store/UserStore";
 import { Office } from "../../../../types/data";
-import { getOfficeList } from "../../../../api/PreferedOfficeAPI";
+import { getOfficeList } from "../../../../api/preferedOfficeAPI";
 
 const PreferedOffice = () => {
     const { userInfo, setUserInfo } = useUserInfoStore();
@@ -61,7 +61,7 @@ const PreferedOffice = () => {
                 }
             }
         } catch (error) {
-            console.log("Error in fetchPreferedOffice", error);
+            
         }
     };
 
