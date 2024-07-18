@@ -2,7 +2,7 @@ import { Box, ChevronLeftIcon, Divider, FlatList, HStack, Heading, Icon, Switch,
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
 import SelectDropdown from "react-native-select-dropdown";
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, useColorScheme } from "react-native";
 import TimePicker from "../../components/TimePicker";
 import { useEffect, useRef, useState } from "react";
 import { UserInterface, useUserInfoStore } from "../../store/UserStore";
@@ -48,6 +48,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
     const [expanded, setIsExpanded] = useState(false);
     const [isWakeDropdownOpen, setIsWakeDropdownOpen] = useState(false);
     const [isSleepDropdownOpen, setIsSleepDropdownOpen] = useState(false);
+    const isDarkMode = useColorScheme() === 'dark';
     useEffect(() => {
         setSpecial(userInfo.rotationPlan.plan);
     }, []);
@@ -337,7 +338,7 @@ const RotationScheduleScreen: React.FC<RotationScheduleProps> = ({ navigation })
         setUserInfo(updatedData);
     }
     return (
-        <View p="$4" pb="$0" display="flex" justifyContent="space-between" h="$full" backgroundColor="$backgroundDefault">
+        <View p="$4" pb="$0" display="flex" justifyContent="space-between" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View>
                 <CenterGoBack navigation={navigation} title="When To Rotate" />
             </View>
