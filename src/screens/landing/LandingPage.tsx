@@ -64,11 +64,18 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
 
     const loginWithGoogle = async (userId: string, userName: string, userEmail: string) => {
-        const result = await loginUserWithGoogle({ userId, userName, userEmail });
-        setUserInfo({ ...result, isLoggedIn: true });
-        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
-        setIsLoading(false);
-        return true;
+        try {
+            const result = await loginUserWithGoogle({ userId, userName, userEmail });
+            setUserInfo({ ...result, isLoggedIn: true });
+            await AsyncStorage.setItem("UserStoreDate", new Date().toString());
+            setIsLoading(false);
+            return true;
+        } catch (error) {
+            console.log("error::", error);
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     async function onAppleButtonPress(): Promise<Boolean> {
