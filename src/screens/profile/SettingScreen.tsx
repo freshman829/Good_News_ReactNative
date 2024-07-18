@@ -15,6 +15,7 @@ import EditNameSection from "./components/EditNameSection";
 import SpinnerButton from "../../components/common/SpinnerButton";
 import { updateStoreDataFlag } from "../../utils/common";
 import CenterGoBack from "../../components/common/CenterGoBack";
+import { useColorScheme } from "react-native";
 
 type SettingScreenProps = NativeStackScreenProps<
     RootStackParamList,
@@ -26,6 +27,7 @@ const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
     const toast = useToastr();
     const [isLoading, setIsLoading] = useState(false);
     const [isFinishLoading, setIsFinishLoading] = useState(false);
+    const isDarkMode = useColorScheme() === 'dark';
 
     const clickFinish = async () => {
         setIsFinishLoading(true);
@@ -54,7 +56,7 @@ const SettingScreen: React.FC<SettingScreenProps> = ({ navigation }) => {
     };
 
     return (
-        <View display="flex" pb="$4" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" pb="$4" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Setting" />
             </View>

@@ -13,6 +13,7 @@ import { fetchGooglePaymentSheet } from "../../api/googlePayAPI";
 import { ORDER_STATUS } from "../../constants/common";
 import { createOrder } from "../../api/orderAPI";
 import { useUserInfoStore } from "../../store/UserStore";
+import { useColorScheme } from "react-native";
 
 type OrderSummaryScreenProps = NativeStackScreenProps<RootStackParamList, "OrderSummary">;
 
@@ -24,6 +25,7 @@ const OrderSummaryScreen: React.FC<OrderSummaryScreenProps> = ({ navigation }) =
     const { confirmPayment, initPaymentSheet, presentPaymentSheet } = useStripe();
 
     const { userInfo, setUserInfo } = useUserInfoStore()
+    const isDarkMode = useColorScheme() === 'dark';
 
     const [basket, setBasket] = useState<Supplement[]>([]);
     const [amounts, setAmounts] = useState<{ [key: string]: number }>({});
@@ -157,7 +159,7 @@ const OrderSummaryScreen: React.FC<OrderSummaryScreenProps> = ({ navigation }) =
             urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
             merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
         >
-            <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+            <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
                 <View p="$4">
                     <CenterGoBack navigation={navigation} title="Order Summary" />
                 </View>

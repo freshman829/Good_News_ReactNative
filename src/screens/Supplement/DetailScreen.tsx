@@ -8,12 +8,14 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Supplement } from "../../types/supplement";
 import CenterGoBack from "../../components/common/CenterGoBack";
+import { useColorScheme } from "react-native";
 
 type SupplementDetailScreenProps = NativeStackScreenProps<RootStackParamList, "SupplementDetail">;
 
 const SupplementDetailScreen: React.FC<SupplementDetailScreenProps> = ({ navigation }) => {
     const [supplement, setSupplement] = useState<Supplement | null>(null);
     const [amount, setAmount] = useState<number>(1);
+    const isDarkMode = useColorScheme() === 'dark';
 
     useEffect(() => {
         const getSupplement = async () => {
@@ -63,7 +65,7 @@ const SupplementDetailScreen: React.FC<SupplementDetailScreenProps> = ({ navigat
         navigation.navigate("Basket");
     }
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Detail" />
             </View>

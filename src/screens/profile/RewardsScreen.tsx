@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import RewardsHistoryList from "./components/RewardsHistoryList";
 import { getRewardsHistoryList } from "../../api/rewardAPI";
 import { useUserInfoStore } from "../../store/UserStore";
+import { useColorScheme } from "react-native";
 
 type RewardsScreenProps = NativeStackScreenProps<RootStackParamList, "Rewards">;
 
@@ -13,6 +14,7 @@ const RewardsScreen: React.FC<RewardsScreenProps> = ({ navigation }) => {
     const { userInfo } = useUserInfoStore();
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [rewardsHistory, setRewardsHistory] = useState<Rewards[]>([]);
+    const isDarkMode = useColorScheme() === 'dark';
 
     useEffect(() => {
         getRewardsHistory();
@@ -36,7 +38,7 @@ const RewardsScreen: React.FC<RewardsScreenProps> = ({ navigation }) => {
         getRewardsHistory();
     }
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Rewards" /> 
             </View>

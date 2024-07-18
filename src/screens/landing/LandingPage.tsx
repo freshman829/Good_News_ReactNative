@@ -10,7 +10,7 @@ import { useUserInfoStore } from "../../store/UserStore";
 
 import { loginUserWithApple, loginUserWithGoogle } from "../../api/userAPI";
 import { appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication';
-import { Platform } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 import ProgramDateSelect from "./components/ProgramDateSelect";
 import { useEffect, useState } from "react";
 import { UserIcon } from "../../assets/icon/UserIcon";
@@ -19,7 +19,7 @@ import { UserIcon } from "../../assets/icon/UserIcon";
 const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [isLoading, setIsLoading] = useState(false);
-
+    const isDarkMode = useColorScheme() === 'dark';
     
     useEffect(() => {
         GoogleSignin.configure({
@@ -172,7 +172,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     };
 
     return (
-        <Box h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
+        <Box h="$full" display="flex" w="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <ScrollView flex={1}>
                 <VStack space="md" display="flex" justifyContent="space-between">
                     <GreetingSection />

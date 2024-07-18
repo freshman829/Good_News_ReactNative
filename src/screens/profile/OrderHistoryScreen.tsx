@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RefreshControl, TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity, useColorScheme } from 'react-native';
 import { Order, RootStackParamList } from "../../types/data";
 import { ScrollView, View } from "@gluestack-ui/themed";
 import CenterGoBack from "../../components/common/CenterGoBack";
@@ -14,6 +14,7 @@ const OrderHistoryScreen: React.FC<OrderHistoryScreenProps> = ({ navigation }) =
     const { userInfo } = useUserInfoStore();
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [orderHistory, setOrderHistory] = useState<Order[]>([]);
+    const isDarkMode = useColorScheme() === 'dark';
 
     useEffect(() => {
         getOrderHistory();
@@ -36,7 +37,7 @@ const OrderHistoryScreen: React.FC<OrderHistoryScreenProps> = ({ navigation }) =
         getOrderHistory();
     }
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Order History" /> 
             </View>

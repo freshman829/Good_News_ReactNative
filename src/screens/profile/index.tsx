@@ -10,6 +10,7 @@ import { useUserInfoStore } from "../../store/UserStore";
 // import { Share } from "react-native";
 import Share from 'react-native-share';
 import { useToastr } from "../../providers/ToastProvider";
+import { useColorScheme } from "react-native";
 
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, "Profile">;
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
@@ -17,6 +18,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     const toast = useToastr();
     const [referEmail, setReferEmail] = useState<string>("");
     const [referCode, setReferCode] = useState<string>("");
+    const isDarkMode = useColorScheme() === 'dark';
 
     const goToSection = (url: string) => {
         if (url == "Refer") {
@@ -51,7 +53,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     };
 
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Profile" />
             </View>
