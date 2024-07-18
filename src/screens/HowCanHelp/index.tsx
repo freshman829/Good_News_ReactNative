@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/data";
-import { RefreshControl, TouchableOpacity, Platform } from 'react-native';
+import { RefreshControl, TouchableOpacity, Platform, useColorScheme } from 'react-native';
 import { View, HStack, Text, ChevronLeftIcon, Icon, VStack, ScrollView, Fab, Box, KeyboardAvoidingView } from "@gluestack-ui/themed";
 import { useEffect, useState } from "react";
 import SearchInput from "../../components/common/SearchInput";
@@ -16,6 +16,7 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [search, setSearch] = useState<string>("");
     const [faqs, setFaqs] = useState<Faq[]>([]);
+    const isDarkMode = useColorScheme() === 'dark';
 
     useEffect(() => {
         getFaqs();
@@ -51,7 +52,7 @@ const HowCanHelpScreen: React.FC<HowCanHelpScreenProps> = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-            <View display="flex" gap="$4" h="$full" backgroundColor="$backgroundDefault">
+            <View display="flex" gap="$4" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
                 <View p="$4">
                     <CenterGoBack navigation={navigation} title="How Can We Help" />
                 </View>

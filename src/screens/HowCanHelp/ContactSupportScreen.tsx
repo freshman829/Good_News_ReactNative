@@ -1,5 +1,5 @@
 import { Box, VStack, View, ScrollView, KeyboardAvoidingView } from "@gluestack-ui/themed";
-import { RefreshControl, TouchableOpacity, Platform } from 'react-native';
+import { RefreshControl, TouchableOpacity, Platform, useColorScheme } from 'react-native';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Message, RootStackParamList } from "../../types/data";
 import CenterGoBack from "../../components/common/CenterGoBack";
@@ -16,6 +16,7 @@ const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation,
     const message = route?.params?.message || "";
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[]>([]);   
+    const isDarkMode = useColorScheme() === 'dark';
     
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -53,7 +54,7 @@ const ContactSupportScreen: React.FC<ContactSupportScreenProps> = ({ navigation,
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-            <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+            <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
                 <View p="$4">
                     <CenterGoBack navigation={navigation} title="Contact Support" />
                 </View>

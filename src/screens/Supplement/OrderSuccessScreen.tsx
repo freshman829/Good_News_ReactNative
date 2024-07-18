@@ -5,13 +5,15 @@ import { View, ScrollView, VStack, Image, Text } from "@gluestack-ui/themed";
 import CenterGoBack from "../../components/common/CenterGoBack";
 import FabButton from "../../components/common/FabButton";
 import OrderSummaryList from "./components/OrderSummaryList";
+import { useColorScheme } from "react-native";
 
 type OrderSuccessScreenProps = NativeStackScreenProps<RootStackParamList, "OrderSuccess">;
 
 const OrderSuccessScreen: React.FC<OrderSuccessScreenProps> = ({ navigation }) => {
+    const isDarkMode = useColorScheme() === 'dark';
 
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <VStack p="$20">
                 <View px="$8" py="$4">
                     <Image 

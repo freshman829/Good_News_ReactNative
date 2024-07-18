@@ -14,9 +14,11 @@ import { StorageDatesNames } from '../../constants';
 import { updateStoreDate } from '../../utils/common';
 import { extractTime } from "../../utils/numberUtil";
 import { getSettingInfo } from '../../api/settingAPI';
+import { useColorScheme } from 'react-native';
 type Props = NativeStackScreenProps<RootStackParamList, 'RotationSchedule'>;
 const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
   const init = useRef(true);
+  const isDarkMode = useColorScheme() === 'dark';
   const { userInfo, setUserInfo } = useUserInfoStore();
   const [loading, setLoading] = useState(true);
   const [isRefresh, setIsRefresh] = useState(false);
@@ -343,7 +345,7 @@ const RotationScheduleScreen: React.FC<Props> = ({ navigation }) => {
   }
   
   return (
-    <Box display='flex' p="$4" h="$full" backgroundColor="$backgroundDefault">
+    <Box display='flex' p="$4" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
       <CenterGoBack navigation={navigation} title="Rotation Schedule" />
       <VStack mt="$6" display="flex" h="$full">
         <RotationAccordion

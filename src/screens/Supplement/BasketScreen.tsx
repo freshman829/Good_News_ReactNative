@@ -5,14 +5,16 @@ import CenterGoBack from "../../components/common/CenterGoBack";
 import BasketList from "./components/BasketList";
 import FabButton from "../../components/common/FabButton";
 import { useState } from "react";
+import { useColorScheme } from "react-native";
 
 type BasketScreenProps = NativeStackScreenProps<RootStackParamList, "Basket">;
 
 const BasketScreen: React.FC<BasketScreenProps> = ({ navigation }) => {
     const [emptyBasket, setEmptyBasket] = useState<boolean>(true);
+    const isDarkMode = useColorScheme() === 'dark';
 
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Basket" />
             </View>

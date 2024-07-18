@@ -67,3 +67,10 @@ export interface Office {
     state: string,
     city: string
 }
+
+export interface Rewards {
+    _id: string,
+    amount: number,
+    reason: number,
+    createdAt: string
+}

@@ -1,6 +1,6 @@
 import { Box, Fab, StarIcon, VStack, FabIcon, GlobeIcon, ScrollView } from "@gluestack-ui/themed";
 import uuid from 'react-native-uuid';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GreetingSection from "./components/GreetingSection";
 import PostSection from "./components/PostSection";
@@ -10,7 +10,7 @@ import { useUserInfoStore } from "../../store/UserStore";
 
 import { loginUserWithApple, loginUserWithGoogle } from "../../api/userAPI";
 import { appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication';
-import { Platform } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 import ProgramDateSelect from "./components/ProgramDateSelect";
 import { useEffect, useState } from "react";
 import { UserIcon } from "../../assets/icon/UserIcon";
@@ -19,7 +19,7 @@ import { UserIcon } from "../../assets/icon/UserIcon";
 const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [isLoading, setIsLoading] = useState(false);
-
+    const isDarkMode = useColorScheme() === 'dark';
     
     useEffect(() => {
         GoogleSignin.configure({
@@ -64,11 +64,18 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
 
     const loginWithGoogle = async (userId: string, userName: string, userEmail: string) => {
-        const result = await loginUserWithGoogle({ userId, userName, userEmail });
-        setUserInfo({ ...result, isLoggedIn: true });
-        await AsyncStorage.setItem("UserStoreDate", new Date().toString());
-        setIsLoading(false);
-        return true;
+        try {
+            const result = await loginUserWithGoogle({ userId, userName, userEmail });
+            setUserInfo({ ...result, isLoggedIn: true });
+            await AsyncStorage.setItem("UserStoreDate", new Date().toString());
+            setIsLoading(false);
+            return true;
+        } catch (error) {
+            console.log("error::", error);
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     async function onAppleButtonPress(): Promise<Boolean> {
@@ -165,7 +172,7 @@ const LandingPage: React.FC<{ navigation: any }> = ({ navigation }) => {
     };
 
     return (
-        <Box h="$full" display="flex" w="$full" backgroundColor="$backgroundDefault">
+        <Box h="$full" display="flex" w="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <ScrollView flex={1}>
                 <VStack space="md" display="flex" justifyContent="space-between">
                     <GreetingSection />

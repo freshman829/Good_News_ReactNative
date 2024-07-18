@@ -9,6 +9,7 @@ import GEmotionalStep from "../timeToEat/Steps/GEmotionalStep";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateStoreDataFlag } from "../../utils/common";
 import CenterGoBack from "../../components/common/CenterGoBack";
+import { useColorScheme } from "react-native";
 
 type FoodPlanProps = NativeStackScreenProps<
     RootStackParamList,
@@ -23,6 +24,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
     const [showDepression, setShowDepression] = useState(false);
     const initRef = useRef(true);
     const toast = useToastr();
+    const isDarkMode = useColorScheme() === 'dark';
 
     const getPlan = async () => {
         const result = await getPlanList(userInfo._id);
@@ -142,7 +144,7 @@ const FoodPlanScreen: React.FC<FoodPlanProps> = ({ navigation }) => {
     }
 
     return (
-        <Box p="$2" h="$full" backgroundColor="$backgroundDefault">
+        <Box p="$2" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <Modal isOpen={showDepression} onClose={() => setShowDepression(false)}>
                 <ModalBackdrop />
                 <ModalContent>

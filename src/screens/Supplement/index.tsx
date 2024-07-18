@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HStack, Icon, Text, View, ChevronLeftIcon, VStack, MenuIcon, ScrollView, set, Fab, Image } from "@gluestack-ui/themed";
-import { RefreshControl, TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity, useColorScheme } from 'react-native';
 import { RootStackParamList } from "../../types/data";
 import DropdownGroup from "../../components/common/Dropdown";
 import { Common } from "../../constants";
@@ -21,6 +21,7 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
     const [sort, setSort] = useState<string>("asc");
     const [order, setOrder] = useState<string>("price");
     const [refreshing, setRefreshing] = useState<boolean>(false);
+    const isDarkMode = useColorScheme() === 'dark';
 
     const getSupplements = async () => {
         try {
@@ -83,7 +84,7 @@ const SupplementListScreen: React.FC<SupplementListScreenProps> = ({ navigation 
     };
 
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Supplement" />
             </View>

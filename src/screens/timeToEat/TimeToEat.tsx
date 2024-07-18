@@ -16,6 +16,7 @@ import { updateUserinfo } from "../../api/userAPI";
 import { useUserInfoStore } from "../../store/UserStore";
 import { useToastr } from "../../providers/ToastProvider";
 import CenterGoBack from "../../components/common/CenterGoBack";
+import { useColorScheme } from "react-native";
 
 type TimeToEatProps = NativeStackScreenProps<
     RootStackParamList,
@@ -37,6 +38,7 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
     const { userInfo, setUserInfo } = useUserInfoStore();
     const [active, setActive] = useState(0);
     const toast = useToastr();
+    const isDarkMode = useColorScheme() === 'dark';
 
     useEffect(() => {
         if (userInfo.isFinishInterview) {
@@ -62,7 +64,7 @@ const TimeToEat: React.FC<TimeToEatProps> = ({ navigation }) => {
     }
 
     return (
-        <View p="$4" w="$full" display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View p="$4" w="$full" display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View>
                 <CenterGoBack navigation={navigation} title="Time To Eat" />
             </View>

@@ -5,17 +5,18 @@ import CenterGoBack from "../../components/common/CenterGoBack";
 import { useState } from "react";
 import { PAYMENT_METHOD } from "../../constants/common";
 import FabButton from "../../components/common/FabButton";
+import { useColorScheme } from "react-native";
 
 type PaymentMethodScreenProps = NativeStackScreenProps<RootStackParamList, "PaymentMethod">;
 
 const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({ navigation }) => {
     const [values, setValues] = useState<string>(PAYMENT_METHOD.GOOGLE);
-
+    const isDarkMode = useColorScheme() === 'dark';
     const handleChange = (value: string) => { 
         setValues(value);
     };
     return (
-        <View display="flex" h="$full" backgroundColor="$backgroundDefault">
+        <View display="flex" h="$full" backgroundColor={isDarkMode ? "#1C1C1E" : "#FFFFFF"}>
             <View p="$4">
                 <CenterGoBack navigation={navigation} title="Payment Method" /> 
             </View>
@@ -37,6 +38,14 @@ const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({ navigation })
                                     <RadioIcon as={CircleIcon} />
                                 </RadioIndicator>
                                 <RadioLabel ml="$5">Apple Pay</RadioLabel>
+                            </Radio>
+                        </Card>
+                        <Card borderRadius="$lg" w="$full" borderColor="$textLight200" p="$10">
+                            <Radio value={PAYMENT_METHOD.REWARD}>
+                                <RadioIndicator>
+                                    <RadioIcon as={CircleIcon} />
+                                </RadioIndicator>
+                                <RadioLabel ml="$5">Rewarded Point</RadioLabel>
                             </Radio>
                         </Card>
                     </VStack>

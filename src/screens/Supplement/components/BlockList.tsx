@@ -2,6 +2,7 @@ import { HStack, ScrollView, View, Text } from "@gluestack-ui/themed";
 import { styled } from '@gluestack-ui/themed';
 import SupplementBlockItem from "../../../components/supplement/BlockItem";
 import { Supplement } from "../../../types/supplement";
+import { useColorScheme } from "react-native";
 
 const BlockList = styled(View, {
     display: "flex",
@@ -11,7 +12,6 @@ const BlockList = styled(View, {
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    backgroundColor: "$backgroundDefault",
     borderRadius: "$xs",
     py: "$4",
 });
